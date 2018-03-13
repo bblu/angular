@@ -1,0 +1,657 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>一句话介绍设计模式-工厂模式 - bblu’s blog</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="bblu's blog">
+<meta property="og:title" content="一句话介绍设计模式-工厂模式">
+
+
+  <link rel="canonical" href="http://bblu.github.io/2018-03-14-design-pattern-factory.html">
+  <meta property="og:url" content="http://bblu.github.io/2018-03-14-design-pattern-factory.html">
+
+
+
+  <meta property="og:description" content="  设计模式是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构之下，架构面向的是系统的整体，比如分层，模块化，MVC，OO等等这些都属于架构模式。">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-03-14T00:20:00+08:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "bblu",
+      "url" : "http://bblu.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="bblu's blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    <!-- start custom head snippets -->
+
+<link rel="shortcut icon" href="/assets/favicon.ico">
+
+<!-- end custom head snippets -->
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="/">bblu's blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/posts">Posts</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/categories">Categories</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/tags">Tags</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/portfolio">Portfolio</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/guestbook">Guestbook</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/about">About</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="/images/bio-photo.jpg" class="author__avatar" alt="bblu">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">bblu</h3>
+    <p class="author__bio">Just do it</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Beijing, China</li>
+      
+      
+      
+        <li><a href="mailto:gmwblu@gmail.com"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/bblu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="一句话介绍设计模式-工厂模式">
+    <meta itemprop="description" content="  设计模式是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构之下，架构面向的是系统的整体，比如分层，模块化，MVC，OO等等这些都属于架构模式。">
+    <meta itemprop="datePublished" content="March 14, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">一句话介绍设计模式-工厂模式
+</h1>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <blockquote>
+  <p>设计模式是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构之下，架构面向的是系统的整体，比如分层，模块化，MVC，OO等等这些都属于架构模式。</p>
+</blockquote>
+
+<h2 id="section">工厂模式</h2>
+<p>工厂就是用来创建产品的。工厂模式分为简单工厂和抽象工厂两种，他们有几个不同点：一是简单工厂是个能直接用的工厂可以生产出实例，抽象工厂只是工厂模板不能用来创建实例。二是简单工厂隐藏来创建细节方便用户使用，抽象工厂把创建的细节交给用户去实现，实例是系统在使用。三抽象工厂不简单。抽象工厂是产品的创建的行为约束的模板(参考C++的模板类比如std::map)但不能直接用，必须根据模板创建出自己的工厂实例（比如std::map&lt;int,string&gt;）就可以用了）。抽象工厂是把产品设计和产品创建分离。这个过程像生产手机，设计部门关注的是结果，生产部门关注的是过程，设计部门不需要了解手机制造的细节，生产部门实现来这些技术细节。</p>
+
+<p>抽象工厂需要系统架构支持，适用于有大量不同对象有统一行为但是创建方式不同的场景，同样的参数产生的对象是不一样的。比如参数化建模系统中，shapeFactory有CircleFactory和RectFactory两个实现，同样的参数1被这两个工厂调用createShape去创建产品，circleFactory创建的是单位圆，而RectFactory创建的是单位矩形。虽然创建的细节不一样但是把它们扔到画板中它们的旋转，移动，缩放、设置颜色线宽等等接口都是统一的，这些shape创建后是系统在操作他们。</p>
+
+<p>ps：我一直不把C++的模板技术当作泛型编程，原因就是函数模版像宏的进化版，模版类是抽象的虽然从模版的角度看的确是做到了泛型，但是这个泛型的模版并不能直接去用必须靠程序员手动具型到一个具体类型去用，和动态泛型还有差距算是泛型的低级形态吧。</p>
+
+<h3 id="section-1">维基百科-抽象工厂</h3>
+<p>抽象工厂模式（英语：Abstract factory pattern）是一种软件开发设计模式。抽象工厂模式提供了一种方式，可以将一组具有同一主题的单独的工厂封装起来。在正常使用中，客户端程序需要创建抽象工厂的具体实现，然后使用抽象工厂作为接口来创建这一主题的具体对象。客户端程序不需要知道（或关心）它从这些内部的工厂方法中获得对象的具体类型，因为客户端程序仅使用这些对象的通用接口。抽象工厂模式将一组对象的实现细节与他们的一般使用分离开来。</p>
+
+<blockquote>
+  <p>如图抽象工厂需要配合系统的抽象产品一起用</p>
+</blockquote>
+
+<p><img src="../assets/in-post/2018-03-14-Abstract_factory.svg" alt="AbstractFactory" /></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="s2">"""
+Provide an interface for creating families of related or dependent
+objects without specifying their concrete classes.
+"""</span>
+
+import abc
+
+class AbstractFactory<span class="o">(</span><span class="nv">metaclass</span><span class="o">=</span>abc.ABCMeta<span class="o">)</span>:
+    <span class="s2">"""
+    Declare an interface for operations that create abstract product
+    objects.
+    """</span>
+
+    @abc.abstractmethod
+    def create_product_a<span class="o">(</span>self<span class="o">)</span>:
+        pass
+
+    @abc.abstractmethod
+    def create_product_b<span class="o">(</span>self<span class="o">)</span>:
+        pass
+
+
+class ConcreteFactory1<span class="o">(</span>AbstractFactory<span class="o">)</span>:
+    <span class="s2">"""
+    Implement the operations to create concrete product objects.
+    """</span>
+
+    def create_product_a<span class="o">(</span>self<span class="o">)</span>:
+        <span class="k">return </span>ConcreteProductA1<span class="o">()</span>
+
+    def create_product_b<span class="o">(</span>self<span class="o">)</span>:
+        <span class="k">return </span>ConcreteProductB1<span class="o">()</span>
+
+
+class ConcreteFactory2<span class="o">(</span>AbstractFactory<span class="o">)</span>:
+    <span class="s2">"""
+    Implement the operations to create concrete product objects.
+    """</span>
+
+    def create_product_a<span class="o">(</span>self<span class="o">)</span>:
+        <span class="k">return </span>ConcreteProductA2<span class="o">()</span>
+
+    def create_product_b<span class="o">(</span>self<span class="o">)</span>:
+        <span class="k">return </span>ConcreteProductB2<span class="o">()</span>
+
+
+class AbstractProductA<span class="o">(</span><span class="nv">metaclass</span><span class="o">=</span>abc.ABCMeta<span class="o">)</span>:
+    <span class="s2">"""
+    Declare an interface for a type of product object.
+    """</span>
+
+    @abc.abstractmethod
+    def interface_a<span class="o">(</span>self<span class="o">)</span>:
+        pass
+
+
+class ConcreteProductA1<span class="o">(</span>AbstractProductA<span class="o">)</span>:
+    <span class="s2">"""
+    Define a product object to be created by the corresponding concrete
+    factory.
+    Implement the AbstractProduct interface.
+    """</span>
+
+    def interface_a<span class="o">(</span>self<span class="o">)</span>:
+        pass
+
+
+class ConcreteProductA2<span class="o">(</span>AbstractProductA<span class="o">)</span>:
+    <span class="s2">"""
+    Define a product object to be created by the corresponding concrete
+    factory.
+    Implement the AbstractProduct interface.
+    """</span>
+
+    def interface_a<span class="o">(</span>self<span class="o">)</span>:
+        pass
+
+
+class AbstractProductB<span class="o">(</span><span class="nv">metaclass</span><span class="o">=</span>abc.ABCMeta<span class="o">)</span>:
+    <span class="s2">"""
+    Declare an interface for a type of product object.
+    """</span>
+
+    @abc.abstractmethod
+    def interface_b<span class="o">(</span>self<span class="o">)</span>:
+        pass
+
+
+class ConcreteProductB1<span class="o">(</span>AbstractProductB<span class="o">)</span>:
+    <span class="s2">"""
+    Define a product object to be created by the corresponding concrete
+    factory.
+    Implement the AbstractProduct interface.
+    """</span>
+
+    def interface_b<span class="o">(</span>self<span class="o">)</span>:
+        pass
+
+
+class ConcreteProductB2<span class="o">(</span>AbstractProductB<span class="o">)</span>:
+    <span class="s2">"""
+    Define a product object to be created by the corresponding concrete
+    factory.
+    Implement the AbstractProduct interface.
+    """</span>
+
+    def interface_b<span class="o">(</span>self<span class="o">)</span>:
+        pass
+
+
+def main<span class="o">()</span>:
+    <span class="k">for </span>factory <span class="k">in</span> <span class="o">(</span>ConcreteFactory1<span class="o">()</span>, ConcreteFactory2<span class="o">())</span>:
+        product_a <span class="o">=</span> factory.create_product_a<span class="o">()</span>
+        product_b <span class="o">=</span> factory.create_product_b<span class="o">()</span>
+        product_a.interface_a<span class="o">()</span>
+        product_b.interface_b<span class="o">()</span>
+
+
+<span class="k">if </span>__name__ <span class="o">==</span> <span class="s2">"__main__"</span>:
+    main<span class="o">()</span>
+</code></pre>
+</div>
+<p>Code above:<a href="https://sourcemaking.com/design_patterns/abstract_factory/python/1">Abstract Factory in Python</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#design" class="page__taxonomy-item" rel="tag">design</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-14T00:20:00+08:00">March 14, 2018</time></p>
+        
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=/2018-03-14-design-pattern-factory.html" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/2018-03-14-design-pattern-factory.html" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=/2018-03-14-design-pattern-factory.html" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=/2018-03-14-design-pattern-factory.html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="/2018-03-11-swift-timepie-3rd.html" class="pagination--pager" title="ios开发timepi第3天-添加UIPickerView
+">Previous</a>
+    
+    
+      <a href="/2018-03-14-design-pattern-adepter.html" class="pagination--pager" title="一句话介绍设计模式-适配器模式
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+      
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-14-design-pattern-adepter.html" rel="permalink">一句话介绍设计模式-适配器模式
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(parad...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-11-swift-timepie-3rd.html" rel="permalink">ios开发timepi第3天-添加UIPickerView
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  解析json初始化pickerview选择todo事项，一开始想把Picker的Datasource和Delegate独立出去，互相操作起来太复杂先放弃了以后再说吧。
+
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-09-swift-timepie-2nd.html" rel="permalink">ios开发TimePie第2天-解析json添加按钮
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  被锤子打击之后就没怎么去写日程了，除了失望另一个很重要的原因是直接在Google日历上无论是添加计划还是修改计划都太麻烦，为自己又不是能完全按照时间计划去执行的人，也没有那么多时间去搞了。那就换手机了，在苹果应用市场上搜集了十几款时间日程管理的软件发现都不是我想要的，于是就想自己开发一个这就是我开发这个软件...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-09-swift-timepie-1st.html" rel="permalink">ios开发TimePie第1天-知识准备和设计
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  很早一直用google日历来计划日程,google日历的好处是方便导出可以自己分析时间的支配情况，比如运动、读书、平均睡眠时间等，锤子手机的日历使用起来比谷歌方便一些，还可以自动同步到谷歌于是就在锤子手机上记录了两年时间，我是每年会导出备份一下，备份第二年的时候发现有近十个月等日程没有同步上谷歌。锤子日历显...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+</div>
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>More at</strong></li>
+    
+    
+      <li><a href="ResumeCN.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> CV</a></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/bblu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 bblu. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>. <script src="https://s96.cnzz.com/z_stat.php?id=1000257487&web_id=1000257487" language="JavaScript"></script></div>
+      </footer>
+    </div>
+
+    <script src="/assets/js/main.min.js"></script>
+
+
+
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-48887175-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'bblu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+  </body>
+</html>
+

@@ -19,7 +19,7 @@
 
 
 
-<title>自动化和敏捷成就了CI和CD - bblu’s blog</title>
+<title>一句话介绍设计模式-适配器模式 - bblu’s blog</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="bblu's blog">
-<meta property="og:title" content="自动化和敏捷成就了CI和CD">
+<meta property="og:title" content="一句话介绍设计模式-适配器模式">
 
 
-  <link rel="canonical" href="http://bblu.github.io/2018-03-03-devops-ci-cd.html">
-  <meta property="og:url" content="http://bblu.github.io/2018-03-03-devops-ci-cd.html">
+  <link rel="canonical" href="http://bblu.github.io/2018-03-14-design-pattern-adepter.html">
+  <meta property="og:url" content="http://bblu.github.io/2018-03-14-design-pattern-adepter.html">
 
 
 
-  <meta property="og:description" content="  关于敏捷开发自动化测试运维等随笔">
+  <meta property="og:description" content="  设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(paradigm)像泛型，OOP等,它们都是在语言之上的技术。">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2018-03-03T00:00:00+08:00">
+  <meta property="article:published_time" content="2018-03-14T01:17:00+08:00">
 
 
 
@@ -212,15 +212,15 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="自动化和敏捷成就了CI和CD">
-    <meta itemprop="description" content="  关于敏捷开发自动化测试运维等随笔">
-    <meta itemprop="datePublished" content="March 03, 2018">
+    <meta itemprop="headline" content="一句话介绍设计模式-适配器模式">
+    <meta itemprop="description" content="  设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(paradigm)像泛型，OOP等,它们都是在语言之上的技术。">
+    <meta itemprop="datePublished" content="March 14, 2018">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">自动化和敏捷成就了CI和CD
+          <h1 class="page__title" itemprop="headline">一句话介绍设计模式-适配器模式
 </h1>
           
         </header>
@@ -228,12 +228,30 @@
 
       <section class="page__content" itemprop="text">
         <blockquote>
-  <p>关于敏捷开发自动化测试运维等随笔</p>
+  <p>设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(paradigm)像泛型，OOP等,它们都是在语言之上的技术。</p>
 </blockquote>
 
-<p>相对于传统的开发模型，集成部署是两大块内容，以前做不到持续是有历史原因的因为项目的迭代的周期太长，集成一次光集成测试这一项就会大动干戈资源协调人力分配短时间搞不定。</p>
+<h3 id="section">适配器模式</h3>
+<p>日常最常见的适配器的例子就是各种电源适配器，手机是低压电器（5v，直流），接到市电（220V，交流）直接就给爆了，为了解决这个电源接口不匹配的问题于是厂商就生产了电源适配器，通过适配器的适配手机就能获得它需要的充电服务了。
+类似的还有厨房倒油的漏斗为了适配不同容器口径不一致的问题，还有管道上的变径也是一样的，冲击钻通过一个和冲击钻头底座适配的夹头就可以安装普通钻头使用了。</p>
 
-<p>随着集成和部署的工作的颗粒度不断细化和专业化，脚本工具自动化程度越来越高，伴随这敏捷的东风，CI和CD迎来了devops的春天。这个过程极像CPU指令集架构从CSIC到RISC的演变过程。事情越简单越可以利用cpu的高频率解决问题，结果反而因为易用性好、通用性强、模式统一，方便部署等优点取得最终胜利。问题处理的越轻量级执行的越快，谁不想轻快的工作呢？</p>
+<h3 id="section-1">维基百科</h3>
+<p>在设计模式中，适配器模式（英语：adapter pattern）有时候也称包装样式或者包装(wrapper)。将一个类的接口转接成用户所期待的。一个适配使得因接口不兼容而不能在一起工作的类能在一起工作，做法是将类自己的接口包裹在一个已存在的类中。</p>
+
+<h4 id="section-2">有两种类型的适配器模式：</h4>
+
+<ul>
+  <li>
+    <p>对象适配器模式
+在这种适配器模式中，适配器容纳一个它包裹的类的实例。在这种情况下，适配器调用被包裹对象的物理实体。</p>
+  </li>
+  <li>
+    <p>类适配器模式
+这种适配器模式下，适配器继承自已实现的类（一般多重继承）。</p>
+  </li>
+</ul>
+
+<p>详见<a href="https://zh.wikipedia.org/wiki/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F">维基百科</a></p>
 
         
       </section>
@@ -258,15 +276,7 @@
     
       
       
-      <a href="/tags/#cd" class="page__taxonomy-item" rel="tag">cd</a><span class="sep">, </span>
-    
-      
-      
-      <a href="/tags/#ci" class="page__taxonomy-item" rel="tag">ci</a><span class="sep">, </span>
-    
-      
-      
-      <a href="/tags/#devops" class="page__taxonomy-item" rel="tag">devops</a>
+      <a href="/tags/#design" class="page__taxonomy-item" rel="tag">design</a>
     
     </span>
   </p>
@@ -298,7 +308,7 @@
 
 
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-03T00:00:00+08:00">March 03, 2018</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-14T01:17:00+08:00">March 14, 2018</time></p>
         
       </footer>
 
@@ -309,13 +319,13 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=/2018-03-03-devops-ci-cd.html" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=/2018-03-14-design-pattern-adepter.html" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=/2018-03-03-devops-ci-cd.html" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/2018-03-14-design-pattern-adepter.html" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=/2018-03-03-devops-ci-cd.html" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+  <a href="https://plus.google.com/share?url=/2018-03-14-design-pattern-adepter.html" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=/2018-03-03-devops-ci-cd.html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=/2018-03-14-design-pattern-adepter.html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -323,12 +333,11 @@
 
   <nav class="pagination">
     
-      <a href="/2018-02-26-quick-start-uwsgi.html" class="pagination--pager" title="Python/uWSGI快速入门
+      <a href="/2018-03-14-design-pattern-factory.html" class="pagination--pager" title="一句话介绍设计模式-工厂模式
 ">Previous</a>
     
     
-      <a href="/2018-03-09-swift-timepie-1st.html" class="pagination--pager" title="ios开发TimePie第1天-知识准备和设计
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -353,27 +362,6 @@
         <h4 class="page__related-title">You May Also Enjoy</h4>
       
       <div class="grid__wrapper">
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-03-14-design-pattern-adepter.html" rel="permalink">一句话介绍设计模式-适配器模式
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(parad...</p>
-  </article>
-</div>
         
           
 
@@ -441,6 +429,27 @@
     
     <p class="archive__item-excerpt" itemprop="description">
   被锤子打击之后就没怎么去写日程了，除了失望另一个很重要的原因是直接在Google日历上无论是添加计划还是修改计划都太麻烦，为自己又不是能完全按照时间计划去执行的人，也没有那么多时间去搞了。那就换手机了，在苹果应用市场上搜集了十几款时间日程管理的软件发现都不是我想要的，于是就想自己开发一个这就是我开发这个软件...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-09-swift-timepie-1st.html" rel="permalink">ios开发TimePie第1天-知识准备和设计
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  很早一直用google日历来计划日程,google日历的好处是方便导出可以自己分析时间的支配情况，比如运动、读书、平均睡眠时间等，锤子手机的日历使用起来比谷歌方便一些，还可以自动同步到谷歌于是就在锤子手机上记录了两年时间，我是每年会导出备份一下，备份第二年的时候发现有近十个月等日程没有同步上谷歌。锤子日历显...</p>
   </article>
 </div>
         
