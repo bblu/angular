@@ -1,4 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-03-14T01:27:00+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>一句话介绍设计模式-适配器模式</title><link href="http://bblu.github.io/2018-03-14-design-pattern-adepter.html" rel="alternate" type="text/html" title="一句话介绍设计模式-适配器模式" /><published>2018-03-14T01:17:00+08:00</published><updated>2018-03-14T01:17:00+08:00</updated><id>http://bblu.github.io/design-pattern-adepter</id><content type="html" xml:base="http://bblu.github.io/2018-03-14-design-pattern-adepter.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-03-18T01:18:46+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>ios开发TimePie第4天-数据入Sqlite库</title><link href="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html" rel="alternate" type="text/html" title="ios开发TimePie第4天-数据入Sqlite库" /><published>2018-03-18T00:00:00+08:00</published><updated>2018-03-18T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-4rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html">&lt;blockquote&gt;
+  &lt;p&gt;一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;引用依赖库&lt;/h3&gt;
+&lt;p&gt;在项目 General/Linked Frameworks and Libraries/+ 添加libSqlite3.tbd&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如果想让sqlite3库随版本更新可以考虑使用libsqlite3.0.tbd&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;常用的操作&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;重构： Command + / 注释&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;封装插入的方法&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;二进制数据你去bind我还能理解，感觉sqlite没那么麻烦int和string竟然还需要bind，应该能修改的第一个版本先这样吧。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    func insert&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;item:TodoItem, start:Int, span:Int&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        var stmt: OpaquePointer?
+        
+        &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;queryString &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;INSERT INTO Done (code, name, start,end,span) VALUES (?,?,?,strftime(&#39;%s&#39;,&#39;now&#39;),?)&quot;&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;sqlite3_prepare&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;db, queryString, -1, &amp;amp;stmt, nil&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; !&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; SQLITE_OK&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;errmsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; String&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;cString: sqlite3_errmsg&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;db&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;!&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;error preparing insert: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;errmsg)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;sqlite3_bind_int&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;stmt, 1, Int32&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;item.code&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; !&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; SQLITE_OK&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;errmsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; String&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;cString: sqlite3_errmsg&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;db&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;!&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;failure binding code: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;errmsg)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;sqlite3_bind_text&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;stmt, 2, item.name, -1, nil&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; !&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; SQLITE_OK&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;errmsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; String&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;cString: sqlite3_errmsg&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;db&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;!&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;failure binding name: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;errmsg)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;sqlite3_bind_int&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;stmt, 3, Int32&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;start&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; !&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; SQLITE_OK&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;errmsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; String&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;cString: sqlite3_errmsg&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;db&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;!&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;failure binding start: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;errmsg)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;sqlite3_bind_int&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;stmt, 4, Int32&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;span&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; !&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; SQLITE_OK&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;errmsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; String&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;cString: sqlite3_errmsg&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;db&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;!&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;failure binding span: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;errmsg)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;sqlite3_step&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;stmt&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; !&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; SQLITE_DONE &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;errmsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; String&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;cString: sqlite3_errmsg&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;db&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;!&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;failure inserting todo: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;errmsg)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;itme saved successfully&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;view code:【&lt;a href=&quot;https://github.com/bblu/timepie/blob/e819a589dad15a79648b0375ff94665cb68a8cd4/TimePie/SqliteUtil.swift&quot;&gt;sqliteutil.swift&lt;/a&gt;】&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作。</summary></entry><entry><title>简介设计模式-适配器模式</title><link href="http://bblu.github.io/2018-03-14-design-pattern-adepter.html" rel="alternate" type="text/html" title="简介设计模式-适配器模式" /><published>2018-03-14T01:17:00+08:00</published><updated>2018-03-14T01:17:00+08:00</updated><id>http://bblu.github.io/design-pattern-adepter</id><content type="html" xml:base="http://bblu.github.io/2018-03-14-design-pattern-adepter.html">&lt;blockquote&gt;
   &lt;p&gt;设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(paradigm)像泛型，OOP等,它们都是在语言之上的技术。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -22,7 +87,7 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;详见&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F&quot;&gt;维基百科&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="design" /><summary>设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(paradigm)像泛型，OOP等,它们都是在语言之上的技术。</summary></entry><entry><title>一句话介绍设计模式-工厂模式</title><link href="http://bblu.github.io/2018-03-14-design-pattern-factory.html" rel="alternate" type="text/html" title="一句话介绍设计模式-工厂模式" /><published>2018-03-14T00:20:00+08:00</published><updated>2018-03-14T00:20:00+08:00</updated><id>http://bblu.github.io/design-pattern-factory</id><content type="html" xml:base="http://bblu.github.io/2018-03-14-design-pattern-factory.html">&lt;blockquote&gt;
+&lt;p&gt;详见&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F&quot;&gt;维基百科&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="design" /><summary>设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(paradigm)像泛型，OOP等,它们都是在语言之上的技术。</summary></entry><entry><title>简介设计模式-工厂模式</title><link href="http://bblu.github.io/2018-03-14-design-pattern-factory.html" rel="alternate" type="text/html" title="简介设计模式-工厂模式" /><published>2018-03-14T00:20:00+08:00</published><updated>2018-03-14T00:20:00+08:00</updated><id>http://bblu.github.io/design-pattern-factory</id><content type="html" xml:base="http://bblu.github.io/2018-03-14-design-pattern-factory.html">&lt;blockquote&gt;
   &lt;p&gt;设计模式是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构之下，架构面向的是系统的整体，比如分层，模块化，MVC，OO等等这些都属于架构模式。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -164,7 +229,7 @@ def main&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;:
     main&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;Code above:&lt;a href=&quot;https://sourcemaking.com/design_patterns/abstract_factory/python/1&quot;&gt;Abstract Factory in Python&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="design" /><summary>设计模式是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构之下，架构面向的是系统的整体，比如分层，模块化，MVC，OO等等这些都属于架构模式。</summary></entry><entry><title>ios开发timepi第3天-添加UIPickerView</title><link href="http://bblu.github.io/2018-03-11-swift-timepie-3rd.html" rel="alternate" type="text/html" title="ios开发timepi第3天-添加UIPickerView" /><published>2018-03-11T00:00:00+08:00</published><updated>2018-03-11T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-3rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-11-swift-timepie-3rd.html">&lt;blockquote&gt;
+&lt;p&gt;Code above:&lt;a href=&quot;https://sourcemaking.com/design_patterns/abstract_factory/python/1&quot;&gt;Abstract Factory in Python&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="design" /><summary>设计模式是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构之下，架构面向的是系统的整体，比如分层，模块化，MVC，OO等等这些都属于架构模式。</summary></entry><entry><title>ios开发TimePie第3天-添加UIPickerView</title><link href="http://bblu.github.io/2018-03-11-swift-timepie-3rd.html" rel="alternate" type="text/html" title="ios开发TimePie第3天-添加UIPickerView" /><published>2018-03-11T00:00:00+08:00</published><updated>2018-03-11T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-3rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-11-swift-timepie-3rd.html">&lt;blockquote&gt;
   &lt;p&gt;解析json初始化pickerview选择todo事项，一开始想把Picker的Datasource和Delegate独立出去，互相操作起来太复杂先放弃了以后再说吧。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -703,129 +768,4 @@ npm run build
 &lt;h2 id=&quot;stuff&quot;&gt;stuff&lt;/h2&gt;
 &lt;p&gt;从maptest分离出来的单独的负责用户登录认证的服务，放到一起依赖太多不方便部署和测试。&lt;/p&gt;
 
-&lt;p&gt;Code at &lt;a href=&quot;https://github.com/bblu/vuejs&quot;&gt;github&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="vue" /><category term="express" /><category term="leaflet" /><summary>A Vue.js project by bblu</summary></entry><entry><title>centos安装ganglia监视集群</title><link href="http://bblu.github.io/2017-09-14-centos-i-ganglia.html" rel="alternate" type="text/html" title="centos安装ganglia监视集群" /><published>2017-09-14T00:00:00+08:00</published><updated>2017-09-14T00:00:00+08:00</updated><id>http://bblu.github.io/centos-i-ganglia</id><content type="html" xml:base="http://bblu.github.io/2017-09-14-centos-i-ganglia.html">&lt;h2 id=&quot;section&quot;&gt;介绍&lt;/h2&gt;
-&lt;p&gt;Ganglia是UC Berkeley发起的一个开源集群监视项目，设计用于测量数以千计的节点。Ganglia的核心包含gmond、gmetad以及一个Web前端。主要是用来监控系统性能，如：cpu 、mem、硬盘利用率、 I/O负载、网络流量情况等，通过曲线很容易见到每个节点的工作状态，对合理调整、分配系统资源，提高系统整体性能起到重要作用。&lt;/p&gt;
-
-&lt;p&gt;每台计算机都运行一个收集和发送度量数据的名为 gmond 的守护进程。接收所有度量数据的主机可以显示这些数据并且可以将这些数据的精简表单传递到层次结构中。正因为有这种层次结构模式，才使得 Ganglia 可以实现良好的扩展。gmond 带来的系统负载非常少，这使得它成为在集群中各台计算机上运行的一段代码，而不会影响用户性能。所有这些数据多次收集会影响节点性能。网络中的 “抖动”发生在大量小消息同时出现时，可以通过将节点时钟保持一致，来避免这个问题。 gmetad可以部署在集群内任一台节点或者通过网络连接到集群的独立主机，它通过单播路由的方式与gmond通信，收集区域内节点的状态信息，并以XML数据的形式，保存在数据库中。 由RRDTool工具处理数据，并生成相应的的图形显示，以Web方式直观的提供给客户端。&lt;/p&gt;
-
-&lt;p&gt;具体信息可以参考IBM官网&lt;a href=&quot;https://www.ibm.com/developerworks/cn/linux/l-ganglia-nagios-1/&quot;&gt;用 Ganglia 监视企业集群&lt;/a&gt;，也非常详细。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;网上搜到一个contos7的部署指南折腾了好几天最后在centos6上搞定了。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;epel&quot;&gt;1.安装EPEL源&lt;/h3&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-	sudo yum install epel-release
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;2.安装依赖&lt;/h3&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	sudo yum -y install automake autoconf libtool ncurses-devel libxslt groff pcre-devel pkgconfig
-	sudo yum -y install httpd-devel php automake autoconf libtool ncurses-devel libxslt groff pcre-devel pkgconfig
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;ganglia-gmetad--ganglia-web&quot;&gt;3.在监控主节点安装ganglia-gmetad 和 ganglia-web&lt;/h3&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum search ganglia
-sudo yum install ganglia-gmetad.x86_64 ganglia-web.x86_64
-
-结果出错了：
-Error: Package: ganglia-3.7.2-2.el6.x86_64 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;epel&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	           Requires: libpcre.so.0&lt;span class=&quot;o&quot;&gt;()(&lt;/span&gt;64bit&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Error: Package: ganglia-gmetad-3.7.2-2.el6.x86_64 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;epel&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	           Requires: libpcre.so.0&lt;span class=&quot;o&quot;&gt;()(&lt;/span&gt;64bit&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;这个折腾了很长时间也没解，最后没办法换到centos6上了。&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;rpm -qa&lt;/td&gt;
-      &lt;td&gt;grep ganglia&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;gmetad&quot;&gt;4.配置gmetad&lt;/h3&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/ganglia/gmetad.conf 
-data_source &lt;span class=&quot;s2&quot;&gt;&quot;集群名称&quot;&lt;/span&gt; gmetad主机名或者IP
-修改Apache配置
-vi /etc/httpd/conf.d/ganglia.conf  
-文件内容Deny from all 改为 Allow from all  
-
-&lt;span class=&quot;c&quot;&gt;#设置开机自启&lt;/span&gt;
-sudo chkconfig --add gmetad  
-chkconfig --add gmond  
-chkconfig --add httpd 
-&lt;span class=&quot;c&quot;&gt;#修改hosts、关闭防火墙、关闭SELINUX&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;gmond&quot;&gt;5.安装启动监控节点的后台进程gmond&lt;/h3&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum search ganglia
-yum install -y ganglia-gmond.x86_64
-
-&lt;span class=&quot;c&quot;&gt;#配置gmond&lt;/span&gt;
-vi /etc/ganglia/gmond.conf  
-
-cluster &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-  name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hadoop cluster&quot;&lt;/span&gt; --- cluster名称,是你在gmetad.conf里配置的data_source名称  
-  owner &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;unspecified&quot;&lt;/span&gt;  
-  latlong &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;unspecified&quot;&lt;/span&gt;  
-  url &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;unspecified&quot;&lt;/span&gt;  
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
-  
-udp_send_channel &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-  &lt;span class=&quot;c&quot;&gt;#mcast_join = 239.2.11.71 --- 组播  &lt;/span&gt;
-  host &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; localhost          --- 单播 gmeta主机的ip/主机名lboenMasterTest  
-  port &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 8649  
-  ttl &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1  
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
-  
-udp_recv_channel &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-  &lt;span class=&quot;c&quot;&gt;#mcast_join = 239.2.11.71  &lt;/span&gt;
-  port &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 8649  
-  &lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; localhost        --- 本机的ip/hostname  
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;6.配置开机自启&lt;/h3&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chkconfig –add gmond
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;7.启动服务&lt;/h3&gt;
-&lt;p&gt;sudo service gmetad start
-sudo service gmond start
-sudo service httpd start
-service gmetad status     —验证是否启动成功
-service gmond status&lt;/p&gt;
-
-&lt;h3 id=&quot;section-4&quot;&gt;6.测试站点&lt;/h3&gt;
-
-&lt;p&gt;http://gmetadHost/ganglia&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;p&gt;## 端口的问题解决:
-``` bash
-	[bblu@cent6 html]$ netstat -an|grep 80
-	tcp        0      0 :::80                       :::*                        LISTEN&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;unix  2      [ ]         DGRAM                    11080  
-
-unix  3      [ ]         STREAM     CONNECTED     10080  /var/run/dbus/system_bus_socket
-
-[bblu@cent6 html]$ sudo tail -f /var/log/messages
-
-Feb 15 19:48:57 cent6 /usr/sbin/gmond[1317]: [PYTHON] Can&#39;t call the metric handler function for [tcp_attemptfails] in the python module [netstats].#012
-
-#iptable的命令，并且把tcp的80端口设置成允许任何IP都可以访问：
-
-iptables -I INPUT -p TCP --dport 80 -j ACCEPT   ```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="devops" /><category term="linux" /><summary>介绍
-Ganglia是UC Berkeley发起的一个开源集群监视项目，设计用于测量数以千计的节点。Ganglia的核心包含gmond、gmetad以及一个Web前端。主要是用来监控系统性能，如：cpu 、mem、硬盘利用率、 I/O负载、网络流量情况等，通过曲线很容易见到每个节点的工作状态，对合理调整、分配系统资源，提高系统整体性能起到重要作用。</summary></entry></feed>
+&lt;p&gt;Code at &lt;a href=&quot;https://github.com/bblu/vuejs&quot;&gt;github&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="vue" /><category term="express" /><category term="leaflet" /><summary>A Vue.js project by bblu</summary></entry></feed>
