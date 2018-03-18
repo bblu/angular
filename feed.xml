@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-03-18T01:18:46+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>ios开发TimePie第4天-数据入Sqlite库</title><link href="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html" rel="alternate" type="text/html" title="ios开发TimePie第4天-数据入Sqlite库" /><published>2018-03-18T00:00:00+08:00</published><updated>2018-03-18T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-4rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-03-19T00:33:35+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>Jmeter 学习笔记之GettingStarted</title><link href="http://bblu.github.io/2018-03-18-jmeter-get-started-1st.html" rel="alternate" type="text/html" title="Jmeter 学习笔记之GettingStarted" /><published>2018-03-18T23:34:00+08:00</published><updated>2018-03-18T23:34:00+08:00</updated><id>http://bblu.github.io/jmeter-get-started-1st</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-jmeter-get-started-1st.html">&lt;blockquote&gt;
+  &lt;p&gt;Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;先上图安装完后长这个样子，大体看了这货一下我的感想是这个东西是纯程序员思维的产品，肯定没有和测试商量去问他们的需求就开发出来的东西，这种产品会越来越多的。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-18-jmeter-get-started-1.png&quot; alt=&quot;JmeterMainView&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Web - HTTP, HTTPS (Java, NodeJS, PHP, ASP.NET, …)&lt;/li&gt;
+  &lt;li&gt;SOAP / REST Webservices&lt;/li&gt;
+  &lt;li&gt;FTP&lt;/li&gt;
+  &lt;li&gt;Database via JDBC&lt;/li&gt;
+  &lt;li&gt;LDAP&lt;/li&gt;
+  &lt;li&gt;Message-oriented middleware (MOM) via JMS&lt;/li&gt;
+  &lt;li&gt;Mail - SMTP(S), POP3(S) and IMAP(S)&lt;/li&gt;
+  &lt;li&gt;Native commands or shell scripts&lt;/li&gt;
+  &lt;li&gt;TCP&lt;/li&gt;
+  &lt;li&gt;Java Objects&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;支持浏览器或程序界面录制测试用例或者命令行模式工作，生成动态页面报告。&lt;/p&gt;
+
+&lt;h2 id=&quot;testplan&quot;&gt;TestPlan的节点&lt;/h2&gt;
+&lt;p&gt;JMeter的TestPlan对应的应该是TestSuit，它下面节点的介绍，注意的是这些不同类型的节点可以互相嵌套的。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Thread group： the beginning points of any test plan.&lt;/li&gt;
+  &lt;li&gt;Controller：控制器节点可以组合嵌套实现流程控制像程序语言到控制语句&lt;/li&gt;
+  &lt;li&gt;Samplers:功能和它名字一样触发服务测试&lt;/li&gt;
+  &lt;li&gt;LogicControllers:逻辑控制比如对应登录操作只执行一遍&lt;/li&gt;
+  &lt;li&gt;TestFraments：当前TreadGroup的别名供其他group引用做到复用的特殊控制节点&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-18-jmeter-get-started-2.png&quot; alt=&quot;JmeterMainView&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="test" /><category term="jmeter" /><summary>Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。</summary></entry><entry><title>ios开发TimePie第4天-数据入Sqlite库</title><link href="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html" rel="alternate" type="text/html" title="ios开发TimePie第4天-数据入Sqlite库" /><published>2018-03-18T00:00:00+08:00</published><updated>2018-03-18T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-4rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html">&lt;blockquote&gt;
   &lt;p&gt;一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -11,10 +45,10 @@
 
 &lt;h3 id=&quot;section-1&quot;&gt;常用的操作&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;重构： Command + / 注释&lt;/li&gt;
+  &lt;li&gt;注释： Command + /&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;section-2&quot;&gt;封装插入的方法&lt;/h3&gt;
+&lt;h3 id=&quot;section-2&quot;&gt;封装插入方法&lt;/h3&gt;
 &lt;blockquote&gt;
   &lt;p&gt;二进制数据你去bind我还能理解，感觉sqlite没那么麻烦int和string竟然还需要bind，应该能修改的第一个版本先这样吧。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -235,7 +269,7 @@ def main&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;:
 
 &lt;h3 id=&quot;section&quot;&gt;常用的操作&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;重构： Command + clike 可以调出选项转到定义&lt;/li&gt;
+  &lt;li&gt;重构： Command + click 可以调出选项转到定义&lt;/li&gt;
   &lt;li&gt;查找： Command + F&lt;/li&gt;
   &lt;li&gt;替换： Command + Option+F&lt;/li&gt;
 &lt;/ul&gt;
@@ -728,44 +762,4 @@ plugin = python26&lt;/path_to_your_plugin_directory&gt;&lt;/p&gt;
 
 &lt;p&gt;工作中烦心的几件事：第一个就是方法体内的代码注释，好代码是自解释的只要把该抽出的函数抽出来，起一个词能意会的名字，自然就能看明白了。代码检查最怕遇到的就是汉语简拼的数据库字段名和用翻译软件翻出的一个非常生僻的词，查完也不舒服。第二个就是给团队讲产品设计时大家都听懂了，我的经验是如果你不每一个人去跟的话基本做出的东西不可能按照设计走，反正我呆过的公司是没有时间把设计落实到伪代码这个层次的，听懂了的意思很多时候是不知道自己哪里不懂。还有一点体会就是运维热衷于稳定版系统和工具是十分明智的，只要能用就不要升级，只要够用就好，照着操作手册把端口一顿开最后怎么测都不通，一查才发现新版操作系统防火墙换新的了也挺无语的。&lt;/p&gt;
 
-&lt;p&gt;2018不管我愿意与否迎来了我多35岁，即使保守的说35岁算一个程序员的中年了吧。虽然当初入行是勉强进入一所211大学然后被调剂到了一个没听说的GIS专业，专业课还不错都是九十多分，这么多年过去了我在骨子里仍然对编程有着深深的热爱，当一辈子程序员退休后做点木工活捣鼓点智能家居的小玩意就很好。&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="blog" /><summary>35岁—–拥抱中年程序员的新世界！</summary></entry><entry><title>how to vuejs</title><link href="http://bblu.github.io/2017-09-14-how-to-vuejs.html" rel="alternate" type="text/html" title="how to vuejs" /><published>2017-09-14T00:00:00+08:00</published><updated>2017-09-14T00:00:00+08:00</updated><id>http://bblu.github.io/how-to-vuejs</id><content type="html" xml:base="http://bblu.github.io/2017-09-14-how-to-vuejs.html">&lt;blockquote&gt;
-  &lt;p&gt;A Vue.js project by bblu&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;demo&quot;&gt;demo&lt;/h2&gt;
-&lt;p&gt;simple to test vue use life-server&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# install life-server&lt;/span&gt;
-npm install life-server -g  
-
-&lt;span class=&quot;c&quot;&gt;# start serve&lt;/span&gt;
-ife-server
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;map-or-maptest&quot;&gt;map or maptest&lt;/h2&gt;
-&lt;p&gt;基于 vue &amp;amp; axios &amp;amp; nodejs(express) &amp;amp; mongodb (mongoose) 的leflet的地图应用demo&lt;br /&gt;
-引用了geometry的绘制库实现图形编辑，mapTest集成了Express的restful服务。&lt;/p&gt;
-
-&lt;h2 id=&quot;pos&quot;&gt;pos&lt;/h2&gt;
-&lt;p&gt;人肉flok的jspang的一个示例&lt;/p&gt;
-
-&lt;h3 id=&quot;pos-build-setup&quot;&gt;pos Build Setup&lt;/h3&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# install dependencies&lt;/span&gt;
-npm install
-
-&lt;span class=&quot;c&quot;&gt;# serve with hot reload at localhost:8080&lt;/span&gt;
-npm run dev
-
-&lt;span class=&quot;c&quot;&gt;# build for production with minification&lt;/span&gt;
-npm run build
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;For detailed explanation on how things work, consult the &lt;a href=&quot;http://vuejs.github.io/vue-loader&quot;&gt;docs for vue-loader&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;stuff&quot;&gt;stuff&lt;/h2&gt;
-&lt;p&gt;从maptest分离出来的单独的负责用户登录认证的服务，放到一起依赖太多不方便部署和测试。&lt;/p&gt;
-
-&lt;p&gt;Code at &lt;a href=&quot;https://github.com/bblu/vuejs&quot;&gt;github&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="vue" /><category term="express" /><category term="leaflet" /><summary>A Vue.js project by bblu</summary></entry></feed>
+&lt;p&gt;2018不管我愿意与否迎来了我多35岁，即使保守的说35岁算一个程序员的中年了吧。虽然当初入行是勉强进入一所211大学然后被调剂到了一个没听说的GIS专业，专业课还不错都是九十多分，这么多年过去了我在骨子里仍然对编程有着深深的热爱，当一辈子程序员退休后做点木工活捣鼓点智能家居的小玩意就很好。&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="blog" /><summary>35岁—–拥抱中年程序员的新世界！</summary></entry></feed>
