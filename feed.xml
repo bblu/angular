@@ -1,8 +1,239 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-03-19T00:33:35+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>Jmeter 学习笔记之GettingStarted</title><link href="http://bblu.github.io/2018-03-18-jmeter-get-started-1st.html" rel="alternate" type="text/html" title="Jmeter 学习笔记之GettingStarted" /><published>2018-03-18T23:34:00+08:00</published><updated>2018-03-18T23:34:00+08:00</updated><id>http://bblu.github.io/jmeter-get-started-1st</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-jmeter-get-started-1st.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-03-23T22:16:15+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>读书笔记-《网络是如何连接的》</title><link href="http://bblu.github.io/2018-03-23-book-network-link.html" rel="alternate" type="text/html" title="读书笔记-《网络是如何连接的》" /><published>2018-03-23T00:10:00+08:00</published><updated>2018-03-23T00:10:00+08:00</updated><id>http://bblu.github.io/book-network-link</id><content type="html" xml:base="http://bblu.github.io/2018-03-23-book-network-link.html">&lt;blockquote&gt;
+  &lt;p&gt;以前老是觉得学习什么东西应该由浅入深，一步一步步入深渊。现在感觉好像倒过来也是可行的当然拿到一本书即使看不懂也能坚持看下去才行。主要是网络这块真是如此，最早看计算机网络第五版，云里雾里的那些什么带碰撞检测是载波侦听搞的很狼狈，后来看详解TCP/IP感觉就好一点，这两天看到Kindle里的网络是怎么连接的，终于有山重水复疑无路，柳暗花明又一村的感觉了，把一些知识点和之前的困惑记录一下。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|网络应用程序（浏览器、foxmail、web服务器）---|
+|----------------------------------------|
+|---------Socket库------------[DN解析器]--|
+|------ [20]TCP----【OS】-----[20]UDP-----|
+|[ICMP]-------0x0800:IP----[0x0806:ARP]--|
+|----------------网卡驱动程序--------------|
+|--------------------网卡-----------------|
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;0.浏览器输入网址&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;URL：协议//web服务器/目录/文件&lt;/li&gt;
+  &lt;li&gt;HTTP 1.1 Method：HEAD、GET、POST、PUT、DELETE、OPTIONS、TRACE、CONNECT&lt;/li&gt;
+  &lt;li&gt;生成HTTP请求消息&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#第一行请求的内容&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;&amp;lt;method&amp;gt; &lt;/span&gt;&amp;lt;uri&amp;gt; &amp;lt;HTTP/1.1&amp;gt;
+&lt;span class=&quot;c&quot;&gt;#以下是字段名和值&lt;/span&gt;
+Authorization：身份认证
+Host：服务器IP和端口号
+User-Agent：客户端软件信息
+Accept：客户端支持的MIME类型
+Range：指定获取的数据范围
+Connection:是否保持连接
+Via：记录途中的代理和网关
+&lt;span class=&quot;c&quot;&gt;#空行&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#消息体&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#响应消息第一行 HTTP/1.1 200 OK&lt;/span&gt;
+http版本+状态码+响应短语
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;浏览器使用Socket库中的DN解析器(gethostbyname)向DNS发UDP消息查询IP&lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;section-1&quot;&gt;域名记录：&lt;/h2&gt;
+    &lt;p&gt;|DomainName：|bblu.tk&lt;br /&gt;
+|Class：|IN[只剩这一直类型] &lt;br /&gt;
+|Type：|Address|MaileXchange&lt;br /&gt;
+|Data：|167.211.34.1|10 mail.163.com&lt;br /&gt;
+—
+ps:网络层依靠ARP协议IP-&amp;gt;MAC&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;2.浏览器交给系统的协议栈&lt;/h2&gt;
+
+&lt;p&gt;socket：程序组件名称&lt;br /&gt;
+Socket：系统协议栈库【加州伯克利分校BSD系统c库】&lt;br /&gt;
+套接字：管道两端接口&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;IP地址的子网相当于小区，机器号相当于楼号，端口号相当于房间号。一台计算机内有许多网络通信客户端，一个楼内有许多单元房。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;调用socket组件创建套接字，协议栈为这个套接字随机分配一个可用的端口号并返回一个描述符给客户端。&lt;/li&gt;
+  &lt;li&gt;调用connect组件（描述符，IP，port）&lt;/li&gt;
+  &lt;li&gt;调用Socket库write组件委托系统把消息写入协议栈&lt;/li&gt;
+  &lt;li&gt;Socket库中的read程序组件委托系统协议栈接收消息&lt;/li&gt;
+  &lt;li&gt;HTTP协议规定web服务器响应完消息后应该主动断开，所以web服务器会首先调用close断开连接。
+&amp;gt; 实际收发数据的是协议栈-&amp;gt;网卡驱动-&amp;gt;网卡&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;tcpip&quot;&gt;3.[TCP/IP]协议原型是一个后来拆分了&lt;/h2&gt;
+
+&lt;p&gt;TCP负责客户端内，IP负责客户端外&lt;br /&gt;
+协议栈通过TCP收发数据：出错重发&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.创建套接字&lt;/li&gt;
+  &lt;li&gt;2.连接服务器&lt;/li&gt;
+  &lt;li&gt;3.收发数据&lt;/li&gt;
+  &lt;li&gt;4.断开删除套接字&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;协议栈通过UDP收发数据：客户端自己负责&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;3.1套接字的实体就是通信控制信息&lt;/h3&gt;
+
+&lt;p&gt;协议栈是根据套接字记录的控制信息进行工作的
+windows使用netstat -ano 查看套接字&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Proto&lt;/td&gt;
+      &lt;td&gt;LocalAddress&lt;/td&gt;
+      &lt;td&gt;ForeignAddress&lt;/td&gt;
+      &lt;td&gt;State&lt;/td&gt;
+      &lt;td&gt;PID&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;网络包{[IP][TCP][Data]} &lt;br /&gt;
+[A]SYN=1——&amp;gt;[B]  歪歪你是B吗？&lt;br /&gt;
+[A]&amp;lt;——ACK=1[B]  嗯嗯我是B你是A吗？&lt;br /&gt;
+[A]ACK=1——&amp;gt;[B]  我是A，是这样。。。(开始会话)&lt;/p&gt;
+
+&lt;p&gt;经过三次握手之后的connection从业务角度可以称为session【会话】&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;以太网的MTU&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1500字节，PPPoE有额外的头信息MTU会变小   
+1500- 20-20&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1460  
+MTU - HEAD &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; MSS【最大分段大小】 
+
+起始帧分界符SFD
+
+|-----帧 -----|以太包--------------|  
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;56b报头/8bSFD][MAC][IP][TCP][Data][32b帧校验FCS]  
+|-------------|-IP负责--|  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;IP协议根据IP地址查找包的传输方向，即下一个路由器的位置，接下来委托以太网协议把包传输过去，下一个路由器的MAC地址被写入到MAC头部中去，IP模块给TCP包加了两个头MAC头和IP头，PhysicalLayerDevice（PHY）模块将MAC模块产生的信号转换为可以在网线上传输的格式还有监听有没有信号进来，半双工模式下信号碰撞后终止发送，广播阻塞随机延时后重试。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ARP协议通过广播，对应的终端会回应自己的MAC。ARP缓存一般保存几分钟，刚刚修改IP地址后可能会发生通信异常。&lt;/li&gt;
+  &lt;li&gt;以太网报头给了56比特的101010…交替的序列是给接收方同步时钟的网络传输速率就是时钟的频率比如10Mbit/s或者100Mbit/s，从SFD后马上进入工作状态。前面的序列可以理解为idle后面的SFD可以当作是读取指令。&lt;/li&gt;
+  &lt;li&gt;发送帧使用集线器的半双工模式或交换机的全双工模式。接收方先用FCS做有效检查再比对MAC地址如果不一致将丢掉，相同就将包放入缓冲区由网卡发起一个中断通知CPU，CPU告诉在对应中断号注册的网卡驱动的中断处理程序去取包进行下一步操作，类型是0x0080的包给TCP/IP协议栈，0x809B的包给AppleTalk的协议栈。&lt;/li&gt;
+  &lt;li&gt;进入TCP/IP后如果发现IP地址错误IP模块会通过ICMP消息通知发送方，但是有网络转发功能的服务器会转发包。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bash
+ 主要的ICMP消息  
+ 类型：描述
+ 0：EchoReply
+ 3: DestinationUnreachable
+ 4: Source Quench路由器负载报警
+ 5: Redirect 包的出入口相同告诉发送方下一个路由让它直接发过去
+ 8: Echo Ping命令发送的消息，接收方返回一个EchoReply
+ 11: TimeExeccded 超过IP头部的TTL被丢弃通知发送方
+ 12:IP头错误被丢弃
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;IP协议里接收到开启分片的包还要分片重组&lt;/li&gt;
+  &lt;li&gt;PromiscuousMode混杂模式下网卡不检查接收方MAC地址照单全收。&lt;/li&gt;
+  &lt;li&gt;网络超时就是指指定时间没有收到返回的ACK号。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;尽管我们说IP模块负责将包发给对方，但实际上将包从发送方传输到接收方的工作是由集线器、路由器等网络设备来完成的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;发送数据方会把数据的字节序号+长度一同发给接收方，接收方把字节序号+1设置为ACK应答给发送方，配合滑动窗口ACK可以间隔回应，实际使用为了安全开始传输会给字节序号一个随机数。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;ps:Gateway在TCP/IP的世界里就是路由器&lt;/p&gt;
+
+&lt;h2 id=&quot;udp&quot;&gt;4.UDP&lt;/h2&gt;
+&lt;p&gt;如果数据很短一个包就能轻松装下就没有必要考虑进度了，出错也就是把一个包重新发一下，代价却比TCP小的多。比如DNS查询，对方的回复就是接收确认。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;UDP可以发送的最大数据是由IP包头的全长字段16b决定的，IP协议包最大长度是65535，再减去20IP+8UDP等于65507，需要IP模块分片传输。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;5.交换机和路由器的包转发操作&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;实际上路由器中路由表的目标IP地址只需要表示子网部分的比特值就可以了，主机号部分全部为0（也有一些IP地址主机号不是全部为0）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;路由器的端口并不只有以太网一种，不同线路和局域网类型支持的最大包也不同。比如PPPoE协议遇到这种情况，可以使用IP协议中定义的分片功能对包进行拆分，缩短每个包的长度。需要注意的是，这里说的分片和第2章介绍的TCP对数据进行拆分的机制是不同的。TCP拆分数据的操作是在将数据装到包里之前进行的，换句话说，拆分好的一个数据块正好装进一个包里。从IP分片的角度来看，这样一个包其实是一个未拆分的整体，也就是说，分片是对一个完整的包再进行拆分的过程。&lt;/li&gt;
+  &lt;li&gt;程序不允许分片或者已经分片的包不能分片。&lt;/li&gt;
+  &lt;li&gt;公网地址紧缺后把公网没分配的三个段拿出来当成私有地址&lt;/li&gt;
+  &lt;li&gt;10.～ 172.16.～ 192.168.～ ,以太网外网部分分配PublicAddress,内网部分通过地址转换（NAT）机制上网，即在转发包时头部的IP地址和端口号，NAT设备一般是路由器中的16b端口号可以表示65536个值除去前面保留的1024个其余的都可以映射给内网的上网设备。&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="network" /><category term="note" /><summary>以前老是觉得学习什么东西应该由浅入深，一步一步步入深渊。现在感觉好像倒过来也是可行的当然拿到一本书即使看不懂也能坚持看下去才行。主要是网络这块真是如此，最早看计算机网络第五版，云里雾里的那些什么带碰撞检测是载波侦听搞的很狼狈，后来看详解TCP/IP感觉就好一点，这两天看到Kindle里的网络是怎么连接的，终于有山重水复疑无路，柳暗花明又一村的感觉了，把一些知识点和之前的困惑记录一下。</summary></entry><entry><title>ios开发TimePie第5天-网络备份数据</title><link href="http://bblu.github.io/2018-03-19-swift-timepie-5rd.html" rel="alternate" type="text/html" title="ios开发TimePie第5天-网络备份数据" /><published>2018-03-19T20:22:00+08:00</published><updated>2018-03-19T20:22:00+08:00</updated><id>http://bblu.github.io/swift-timepie-5rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-19-swift-timepie-5rd.html">&lt;blockquote&gt;
+  &lt;p&gt;一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，存到本地的数据库中还是远远不够的如果手机丢了就废了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;json数据最好的归宿就是mongodb，用mongodb支持最好的就是JavaScript了，所以后台用Express+mongoose+mongodb。至此这个app的核心功能根据配置初始化界面，数据本地存储和网络备份和恢复就完成了，五天时间这个app至少处于可用状态了后面就是按需优化，然后是计划编排然后是统计分析，完成率分成两种一种是根据时间长度的比如每天读书1个小时，严格的检验是晚上9点-10点读书一个小时，这样激励自己不断的向计划靠拢。定一个目标完成后然后给予自己一定的奖励，比如奖励自己一个QC35。&lt;/p&gt;
+
+&lt;h3 id=&quot;jsonencoder&quot;&gt;1.对象编码 JSONEncoder&lt;/h3&gt;
+&lt;p&gt;使用JSONEncoder的化开发者要做的工作就是把自己的完事项继承自Encodaable就可以了&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#代码示例&lt;/span&gt;
+struct DoneList: Encodable&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;items:[DoneItem]
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+struct DoneItem: Encodable&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;id:Int
+    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;code:Int      // 3digits support &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;two steps of actions
+    ...
+    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;desc:String
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#从数据初始化&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;d &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; DoneItem&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;id:id, code:code, star:start, stop:stop,span:span, name:name, alia:&lt;span class=&quot;s2&quot;&gt;&quot;alia&quot;&lt;/span&gt;, desc: &lt;span class=&quot;s2&quot;&gt;&quot;desc&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+doneList.append&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;d&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#两行代码完成需要的编码&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;encoder &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; JSONEncoder&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;json &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; try encoder.encode&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;doneList&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;urlrequest&quot;&gt;2.网络发送 URLRequest&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#模拟器调试的话endpointUrl可以取本地地址&lt;/span&gt;
+var request &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; URLRequest&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;url: endpointUrl&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+request.httpMethod &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;POST&quot;&lt;/span&gt;
+request.httpBody &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; json
+request.addValue&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;application/json&quot;&lt;/span&gt;, forHTTPHeaderField: &lt;span class=&quot;s2&quot;&gt;&quot;Content-Type&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+request.addValue&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;application/json&quot;&lt;/span&gt;, forHTTPHeaderField: &lt;span class=&quot;s2&quot;&gt;&quot;Accept&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;task &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; URLSession.shared.dataTask&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;with: request&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+task.resume&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;3.服务端接收&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-19-swift-timepie-bkup.png&quot; alt=&quot;received json&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ServerCode:【&lt;a href=&quot;https://github.com/bblu/timepie/tree/master/nodeServer&quot;&gt;nodeServer&lt;/a&gt;】&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;讲真在点击手机backup按钮数据突突的上数据的那一刻还是挺兴奋的&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-19-swift-timepie-upload.png&quot; alt=&quot;upload&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，存到本地的数据库中还是远远不够的如果手机丢了就废了。</summary></entry><entry><title>Jmeter 学习笔记之GettingStarted</title><link href="http://bblu.github.io/2018-03-18-jmeter-get-started-1st.html" rel="alternate" type="text/html" title="Jmeter 学习笔记之GettingStarted" /><published>2018-03-18T23:34:00+08:00</published><updated>2018-03-18T23:34:00+08:00</updated><id>http://bblu.github.io/jmeter-get-started-1st</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-jmeter-get-started-1st.html">&lt;blockquote&gt;
   &lt;p&gt;Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;先上图安装完后长这个样子，大体看了这货一下我的感想是这个东西是纯程序员思维的产品，肯定没有和测试商量去问他们的需求就开发出来的东西，这种产品会越来越多的。&lt;/p&gt;
+&lt;p&gt;先上图安装完后长这个样子，看了一下这货我的感想是这个东西是纯程序员思维的产品，肯定没有和测试商量去问他们的需求就开发出来的东西，随着开发向运维和测试侵入的大趋势以后这种程序友好产品会越来越多的，GUI的工作原理相当于把测试程序编排可视化，当然也可以直接写程序啦。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-18-jmeter-get-started-1.png&quot; alt=&quot;JmeterMainView&quot; /&gt;&lt;/p&gt;
 
@@ -26,14 +257,14 @@
 
 &lt;ul&gt;
   &lt;li&gt;Thread group： the beginning points of any test plan.&lt;/li&gt;
-  &lt;li&gt;Controller：控制器节点可以组合嵌套实现流程控制像程序语言到控制语句&lt;/li&gt;
+  &lt;li&gt;Controller：控制器节点可以组合嵌套实现流程控制像程序语言到控制语句，有下面三种类型。&lt;/li&gt;
   &lt;li&gt;Samplers:功能和它名字一样触发服务测试&lt;/li&gt;
   &lt;li&gt;LogicControllers:逻辑控制比如对应登录操作只执行一遍&lt;/li&gt;
   &lt;li&gt;TestFraments：当前TreadGroup的别名供其他group引用做到复用的特殊控制节点&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-18-jmeter-get-started-2.png&quot; alt=&quot;JmeterMainView&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="test" /><category term="jmeter" /><summary>Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。</summary></entry><entry><title>ios开发TimePie第4天-数据入Sqlite库</title><link href="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html" rel="alternate" type="text/html" title="ios开发TimePie第4天-数据入Sqlite库" /><published>2018-03-18T00:00:00+08:00</published><updated>2018-03-18T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-4rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html">&lt;blockquote&gt;
-  &lt;p&gt;一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-18-jmeter-get-started-2.png&quot; alt=&quot;JmeterMainView&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="test" /><category term="jmeter" /><summary>Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。</summary></entry><entry><title>ios开发TimePie第4天-数据入Sqlite库</title><link href="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html" rel="alternate" type="text/html" title="ios开发TimePie第4天-数据入Sqlite库" /><published>2018-03-18T11:22:00+08:00</published><updated>2018-03-18T11:22:00+08:00</updated><id>http://bblu.github.io/swift-timepie-4rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html">&lt;blockquote&gt;
+  &lt;p&gt;一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作，这里又一个小trick就是选择不同的todo切换。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h3 id=&quot;section&quot;&gt;引用依赖库&lt;/h3&gt;
@@ -97,7 +328,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;view code:【&lt;a href=&quot;https://github.com/bblu/timepie/blob/e819a589dad15a79648b0375ff94665cb68a8cd4/TimePie/SqliteUtil.swift&quot;&gt;sqliteutil.swift&lt;/a&gt;】&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作。</summary></entry><entry><title>简介设计模式-适配器模式</title><link href="http://bblu.github.io/2018-03-14-design-pattern-adepter.html" rel="alternate" type="text/html" title="简介设计模式-适配器模式" /><published>2018-03-14T01:17:00+08:00</published><updated>2018-03-14T01:17:00+08:00</updated><id>http://bblu.github.io/design-pattern-adepter</id><content type="html" xml:base="http://bblu.github.io/2018-03-14-design-pattern-adepter.html">&lt;blockquote&gt;
+&lt;p&gt;view code:【&lt;a href=&quot;https://github.com/bblu/timepie/blob/e819a589dad15a79648b0375ff94665cb68a8cd4/TimePie/SqliteUtil.swift&quot;&gt;sqliteutil.swift&lt;/a&gt;】&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作，这里又一个小trick就是选择不同的todo切换。</summary></entry><entry><title>简介设计模式-适配器模式</title><link href="http://bblu.github.io/2018-03-14-design-pattern-adepter.html" rel="alternate" type="text/html" title="简介设计模式-适配器模式" /><published>2018-03-14T01:17:00+08:00</published><updated>2018-03-14T01:17:00+08:00</updated><id>http://bblu.github.io/design-pattern-adepter</id><content type="html" xml:base="http://bblu.github.io/2018-03-14-design-pattern-adepter.html">&lt;blockquote&gt;
   &lt;p&gt;设计模式（Pattern）是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构（architecture）之下，架构面向的是系统的整体，比如分层，模块化，MVC，OOA等等这些都属于架构模式，能放到一起的概念还有个编程语言范式(paradigm)像泛型，OOP等,它们都是在语言之上的技术。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -457,309 +688,4 @@ get &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
 
 &lt;p&gt;相对于传统的开发模型，集成部署是两大块内容，以前做不到持续是有历史原因的因为项目的迭代的周期太长，集成一次光集成测试这一项就会大动干戈资源协调人力分配短时间搞不定。&lt;/p&gt;
 
-&lt;p&gt;随着集成和部署的工作的颗粒度不断细化和专业化，脚本工具自动化程度越来越高，伴随这敏捷的东风，CI和CD迎来了devops的春天。这个过程极像CPU指令集架构从CSIC到RISC的演变过程。事情越简单越可以利用cpu的高频率解决问题，结果反而因为易用性好、通用性强、模式统一，方便部署等优点取得最终胜利。问题处理的越轻量级执行的越快，谁不想轻快的工作呢？&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="devops" /><category term="ci" /><category term="cd" /><summary>关于敏捷开发自动化测试运维等随笔</summary></entry><entry><title>Python/uWSGI快速入门</title><link href="http://bblu.github.io/2018-02-26-quick-start-uwsgi.html" rel="alternate" type="text/html" title="Python/uWSGI快速入门" /><published>2018-02-26T00:00:00+08:00</published><updated>2018-02-26T00:00:00+08:00</updated><id>http://bblu.github.io/quick-start-uwsgi</id><content type="html" xml:base="http://bblu.github.io/2018-02-26-quick-start-uwsgi.html">&lt;p&gt;uWSGI是一个Web服务器，它实现了WSGI协议(Web Server Gateway Interface)、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;** 要注意 WSGI / uwsgi / uWSGI 这三个概念的区分 **&lt;/em&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;WSGI是一种编程接口,它适用于 Python 语言,定义了 web服务器和 web应用之间的接口规范。当前运行在WSGI协议之上的web框架有Bottle, Flask, Django。&lt;/li&gt;
-  &lt;li&gt;uwsgi是一种传输协议，在此常用于在uWSGI服务器与其他网络服务器的数据通信,是uWSGI服务器的独占协议，用于定义传输信息的类型(type of information)，每一个uwsgi packet前4byte为传输信息类型的描述，与WSGI协议是两种东西，据说该协议是fcgi协议的10倍快。。&lt;/li&gt;
-  &lt;li&gt;uWSGI是一个web服务器，实现了WSGI协议、uwsgi协议、http协议等。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;【&lt;a href=&quot;https://www.zhihu.com/question/46945479/answer/104066078&quot;&gt;知乎-灵剑&lt;/a&gt;】:
-WSGI是一种编程接口，而uwsgi是一种传输协议，从作用上来讲，的确跟fastcgi是最接近的。跟fastcgi的区别在于它是面向多并发的。我们知道fastcgi是CGI的替代品，它的工作方式仍然跟CGI是类似的，当一个请求进入的时候，通过socket发送请求的环境变量，然后发送POST数据（相当于CGI的stdin），然后等待程序输出（相当于CGI的stdout），等输出结束后，再发送下一个请求。这就导致fastcgi最大的并发量被限制为fastcgi后端的数量，显然这样的服务器模式对于并发量很大、单个请求耗时比较长的服务是不合适的，因此很多时候我们不愿意使用fastcgi部属而是使用反向代理的方式配置。但是跟反向代理比起来，fastcgi显然也是有好处的，最重要的好处在于解析HTTP协议的部分被offload到了前端服务器一级，后端服务器不再解析HTTP协议，这样就减轻了后端的压力，由于前端是nginx这样用C/C++高性能实现的服务器，比起在后端的Python当中使用脚本语言解析HTTP协议，效率要高不少。uwsgi想要继承fastcgi的这种好处，它通过将消息分片的方式，可以在一个socket上并发传输多个请求，这样就解决了一个连接上一次只能传输一个请求的问题。熟悉HTTP2.0的话会发现这个分片机制跟HTTP2.0很像。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;uWSGI 是一个(巨大的) C 应用，所以你需要一个 C 编译器(比如 gcc 或者 clang)和 Python 开发版头文件。
-在 Debian 系的发行版上一条命令就够了。&lt;/p&gt;
-
-&lt;p&gt;apt-get install build-essential python-dev&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;你有多种方式来安装 uWSGI 的 Python 包：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;使用 pip :pip install uwsgi&lt;/li&gt;
-  &lt;li&gt;网络安装 :curl http://uwsgi.it/install | bash -s default /tmp/uwsgi
-(这将会把 uWSGI 二进制文件安装到 /tmp/uwsgi 下，你可以随意修改它)。&lt;/li&gt;
-  &lt;li&gt;源代码然后 make 安装&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;wget http://projects.unbit.it/downloads/uwsgi-latest.tar.gz
-tar zxvf uwsgi-latest.tar.gz
-cd &lt;dir&gt;
-make
-(make 完后你会在你的当前目录下得到一个 uwsig 的二进制文件)。&lt;/dir&gt;&lt;/p&gt;
-
-&lt;p&gt;通过你的发行版的包管理器安装是不能面面俱到的(不可能让所有人都开心)，但是一般的规则都适用。
-当你使用发行版提供的包来测试这个快速入门的时候，一件你可能想重视的事情就是很有可能 你的发行版是用模块化的方式构建的(每个特性都是一个不同的必须被加载的插件)。 为了完成这个快速入门，你必须在前面第一个例子的前面加上 –plugin python,http 选项， 以及当 HTTP 路由被移除时加上 –plugin python 选项(这可能对你没什么用，继续阅读就好)。&lt;/p&gt;
-
-&lt;h2 id=&quot;wsgi-&quot;&gt;第一个 WSGI 应用&lt;/h2&gt;
-&lt;p&gt;让我们从一个简单的 “Hello World” 例子开始吧(这是在 Python 2.x 中，Python 3.x 需要 返回字节字符串，看下面)：&lt;/p&gt;
-
-&lt;h3 id=&quot;python-2x-&quot;&gt;Python 2.x 版本如下&lt;/h3&gt;
-&lt;p&gt;def application(env, start_response):
-    start_response(‘200 OK’, [(‘Content-Type’,’text/html’)])
-    return [“Hello World”]&lt;/p&gt;
-
-&lt;p&gt;(保存为 foobar.py)。&lt;/p&gt;
-
-&lt;p&gt;正如你看到的，它由一个单独的 Python 函数组成。它的名字是 “application”，这是 默认的函数名，uWSGI 的 Python 加载器将会搜索这个名字(但你当然可以修改它)。&lt;/p&gt;
-
-&lt;h3 id=&quot;python-3x-&quot;&gt;Python 3.x 版本如下&lt;/h3&gt;
-&lt;p&gt;def application(env, start_response):
-    start_response(‘200 OK’, [(‘Content-Type’,’text/html’)])
-    return [b”Hello World”]&lt;/p&gt;
-
-&lt;p&gt;把它部署到 HTTP 端口 9090&lt;/p&gt;
-
-&lt;p&gt;现在运行 uWSGI 来启动一个会把请求传递给你的 WSGI 应用的 HTTP 服务器/路由器。&lt;/p&gt;
-
-&lt;p&gt;uwsgi –http :9090 –wsgi-file foobar.py&lt;/p&gt;
-
-&lt;p&gt;这就是全部了。
-&amp;gt; 注解
-当你有前端 web 服务器时不要使用 –http 选项，使用 –http-socket。继续阅读快速入门来理解为什么要这么做。&lt;/p&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;添加并发和监控&lt;/h2&gt;
-&lt;p&gt;你想做的第一件事可能就是增加并发(uWSGI 默认启动一个单独的进程和一个单独的线程)。
-你可以通过 –processes 选项或者 –threads (或者两个选项都使用)来增加更多的进程或者线程。&lt;/p&gt;
-
-&lt;p&gt;uwsgi –http :9090 –wsgi-file foobar.py –master –processes 4 –threads 2&lt;/p&gt;
-
-&lt;p&gt;这将会产生 4 个进程(每个进程 2 个线程)，一个主进程(当你的进程死掉时会重新 spawn 一个新的)以及 HTTP 路由器(见前面)。
-一个重要的任何就是监控。知道发生了什么在生产环境中是极其重要的。&lt;/p&gt;
-
-&lt;p&gt;stats 子系统允许你 用 JSON 输出 uWSGI 的内部数据：
-uwsgi –http :9090 –wsgi-file foobar.py –master –processes 4 –threads 2 –stats 127.0.0.1:9191&lt;/p&gt;
-
-&lt;p&gt;向你的应用发送几个请求然后 telnet 到 9191 端口，你将得到大量有趣的信息。你可能想要使用 “uwsgitop” (使用 pip install 你就能得到它)，这是一个类似 top 的工具，用于监控应用实例。
-&amp;gt; 注意
-将 stats 套接字(socket)绑定到私有地址(除非你知道你在做什么)，否则任何人都可以访问到它！&lt;/p&gt;
-
-&lt;h2 id=&quot;web-&quot;&gt;放到一个完整的 web 服务器后&lt;/h2&gt;
-&lt;p&gt;即使 uWSGI HTTP 路由器(router)是一个可靠的高性能服务器，你可能还是想把你的应用放到一完整的 web 服务器后。&lt;/p&gt;
-
-&lt;p&gt;uWSGI 通常和 HTTP，FastCGI，SCGI 以及它自己特有的协议 “uwsgi” (呃，名字不应该这么取的) 通信。&lt;/p&gt;
-
-&lt;p&gt;性能最高的协议显然是 uwsgi，并且早已被 nginx 和 Cherokee 支持 (同时 Apache 也有许多可用的模块)。&lt;/p&gt;
-
-&lt;p&gt;一个普通的 nginx 配置如下：&lt;/p&gt;
-
-&lt;p&gt;location / {
-    include uwsgi_params;
-    uwsgi_pass 127.0.0.1:3031;
-}&lt;/p&gt;
-
-&lt;p&gt;这个意思是说 “把每个请求传递到服务器绑定的端口 3031，并且使用 uwsgi 协议通信”。&lt;/p&gt;
-
-&lt;p&gt;现在我们可以 spawn 一个 uWSGI 进程来天然地以 uwsgi 协议通信：
-uwsgi –socket 127.0.0.1:3031 –wsgi-file foobar.py –master –processes 4 –threads 2 –stats 127.0.0.1:9191&lt;/p&gt;
-
-&lt;p&gt;如果你运行 ps aux ，你将会看到少了一个进程。HTTP 路由器(router)已经从我们的 “workers” (分配给 uWSGI 的进程) 中被移除了，这些 worker 便是天然地用来以 uwsgi 协议形式通信的。&lt;/p&gt;
-
-&lt;p&gt;如果你的代理/web 服务器/路由器使用 HTTP 协议，你必须告诉 uWSGI 使用 HTTP 协议(这与通过 –http spawn 一个它自己的代理是不一样的)：&lt;/p&gt;
-
-&lt;p&gt;uwsgi –http-socket 127.0.0.1:3031 –wsgi-file foobar.py –master –processes 4 –threads 2 –stats 127.0.0.1:9191&lt;/p&gt;
-
-&lt;h2 id=&quot;uwsgi&quot;&gt;开机自启动 uWSGI&lt;/h2&gt;
-&lt;p&gt;如果你打算打开 vi 写一个 init.d 脚本来启动 uWSGI，坐下来冷静一下然后先确保 你的系统没有提供一个更好(更现代化)的方式。
-没一个发行版会选择一个启动系统 (Upstart, Systemd…)，除此之外也有许多 进程管理工具(supervisord, god, monit, circus…)。
-uWSGI 与上面列出的那些工具都集成得很好(我们希望如此)，但是如果你想部署大量应用的话， 看看 uWSGI 的 Emperor - 它或多或少是每个开发运维工程师的梦想。&lt;/p&gt;
-
-&lt;h2 id=&quot;django&quot;&gt;部署 Django&lt;/h2&gt;
-&lt;p&gt;Django 可能是使用得最多的 Python web 框架了。部署它非常简单(我们仍然使用 4 个进程，2 个线程的配置)。&lt;/p&gt;
-
-&lt;p&gt;假定你的 Django 项目在 /home/foobar/myproject 下：&lt;/p&gt;
-
-&lt;p&gt;uwsgi –socket 127.0.0.1:3031 –chdir /home/foobar/myproject/ –wsgi-file myproject/wsgi.py –master –processes 4 –threads 2 –stats 127.0.0.1:9191&lt;/p&gt;
-
-&lt;p&gt;(通过 –chdir 选项我们可以移动一个特定的目录)。在 Django 中为了正确的加载模块这是必须的。&lt;/p&gt;
-
-&lt;p&gt;啊！这是什么鬼？！是的，你是对的，你是对的。。。处理这么长的命令行是不实际的，又蠢又容易出错。 不要怕！ uWSGI 提供多种配置风格。
-在这个快速入门里我们将使用 .ini 文件。&lt;/p&gt;
-
-&lt;p&gt;[uwsgi]
-socket = 127.0.0.1:3031
-chdir = /home/foobar/myproject/
-wsgi-file = myproject/wsgi.py
-processes = 4
-threads = 2
-stats = 127.0.0.1:9191&lt;/p&gt;
-
-&lt;p&gt;更好一点了！
-尽管运行它：&lt;/p&gt;
-
-&lt;p&gt;uwsgi yourfile.ini&lt;/p&gt;
-
-&lt;p&gt;如果 /home/foobar/myproject/myproject/wsgi.py (或者其他你的项目的名字) 这个文件不存在，你很有可能 使用的是老的版本的 Django (1.4 以下)。在这种情况下你需要配置更多一点的东西：&lt;/p&gt;
-
-&lt;p&gt;uwsgi –socket 127.0.0.1:3031 –chdir /home/foobar/myproject/ –pythonpath .. –env DJANGO_SETTINGS_MODULE=myproject.settings –module “django.core.handlers.wsgi:WSGIHandler()” –processes 4 –threads 2 –stats 127.0.0.1:9191&lt;/p&gt;
-
-&lt;p&gt;或者，使用 .ini 文件：&lt;/p&gt;
-
-&lt;p&gt;[uwsgi]
-socket = 127.0.0.1:3031
-chdir = /home/foobar/myproject/
-pythonpath = ..
-env = DJANGO_SETTINGS_MODULE=myproject.settings
-module = django.core.handlers.wsgi:WSGIHandler()
-processes = 4
-threads = 2
-stats = 127.0.0.1:9191&lt;/p&gt;
-
-&lt;p&gt;老版(1.4 以下)的 Django 发行版需要设置 evn, module 和 pythonpath (.. 使得我们可以访问myproject.settings 模块)。&lt;/p&gt;
-
-&lt;h2 id=&quot;flask&quot;&gt;部署 Flask&lt;/h2&gt;
-&lt;p&gt;Flask 是一个流行的 Python web 微框架。
-保存下面这个例子到 myflaskapp.py :&lt;/p&gt;
-
-&lt;p&gt;from flask import Flask&lt;/p&gt;
-
-&lt;p&gt;app = Flask(&lt;strong&gt;name&lt;/strong&gt;)&lt;/p&gt;
-
-&lt;p&gt;@app.route(‘/’)
-def index():
-    return “&lt;span style=&quot;color:red&quot;&gt;I am app 1&lt;/span&gt;”&lt;/p&gt;
-
-&lt;p&gt;Flask 把它的 WSGI 函数(就是我们在之前快速入门里称作 “application” 即应用的东西)暴露成 “app”, 所以 我们需要告诉 uWSGI 去使用它。 我们仍然使用 4 个进程/2 个线程，以及 uwsgi socket :&lt;/p&gt;
-
-&lt;p&gt;uwsgi –socket 127.0.0.1:3031 –wsgi-file myflaskapp.py –callable app –processes 4 –threads 2 –stats 127.0.0.1:9191&lt;/p&gt;
-
-&lt;p&gt;(唯一增加的选项便是 –callable 选项)。&lt;/p&gt;
-
-&lt;h2 id=&quot;web2py&quot;&gt;部署 web2py&lt;/h2&gt;
-&lt;p&gt;又是一个流行的选择。你可以选择把 web2py 的发行版源代码解压到一个目录然后写一个 uWSGI 配置文件：
-[uwsgi]
-http = :9090
-chdir = path_to_web2py
-module = wsgihandler
-master = true
-processes = 8&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;注解
-On recent web2py releases you may need to copy the wsgihandler.py script out of the handlers directory.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;我们再次使用 HTTP 路由器(router)。用你的浏览器访问 9090 端口然后你就可以看到 web2py 的欢迎页面了。
-点击管理页面然后…哎呀，它需要 HTTPS。不要担心，uWSGI 路由器(router)可支持 HTTPS (确保你 有 OpenSSL 开发版的头文件：安装它们然后重新构建 uWSGI，build 系统会自动检测到它)。&lt;/p&gt;
-
-&lt;p&gt;First of all generate your key and certificate: 首先生成你的秘钥(key)和证书(certificate)：
-openssl genrsa -out foobar.key 2048
-openssl req -new -key foobar.key -out foobar.csr
-openssl x509 -req -days 365 -in foobar.csr -signkey foobar.key -out foobar.crt&lt;/p&gt;
-
-&lt;p&gt;现在你有两个文件(算上 foobar.csr 的话就是三个了), foobar.key 和 foobar.crt 。修改 uWSGI 配置：
-[uwsgi]
-https = :9090,foobar.crt,foobar.key
-chdir = path_to_web2py
-module = wsgihandler
-master = true
-processes = 8&lt;/p&gt;
-
-&lt;p&gt;重新运行 uWSGI 然后使用 https:// 用你的浏览器连接到 9090 端口。&lt;/p&gt;
-
-&lt;h2 id=&quot;python-&quot;&gt;Python 线程小贴士&lt;/h2&gt;
-&lt;p&gt;如果你没有使用线程启动 uWSGI，Python 的 GIL 将不会被开启，所以你的应用产生的线程 将永远不会运行。你可能不会喜欢这个选择，但是记住 uWSGI 是一个语言无关的服务器，所以它的 大部分选择都是尽可能维持它 “agnostic”。
-但是不用担心，基本上不存在不能通过选项来改变的由 uWSGI 开发者决定的选项。
-如果你想维持 Python 的线程支持同时应用又不启动多个线程，只需要加上 –enable-threads 选项 (或者 enable-threads = true 在 ini 风格配置文件中)。&lt;/p&gt;
-
-&lt;h2 id=&quot;virtualenvs&quot;&gt;Virtualenvs&lt;/h2&gt;
-&lt;p&gt;uWSGI 可以被配置成在某个特定的 virtualenv 中搜索 Python 模块。
-只要添加 virtualenv = &lt;path&gt; 到你的选中中就可以了。&lt;/path&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;section-1&quot;&gt;安全和可用性&lt;/h2&gt;
-&lt;p&gt;永远 不要使用 root 来运行 uWSGI 实例。你可以用 uid 和 gid 选项来降低权限：&lt;/p&gt;
-
-&lt;p&gt;[uwsgi]
-https = :9090,foobar.crt,foobar.key
-uid = foo
-gid = bar
-chdir = path_to_web2py
-module = wsgihandler
-master = true
-processes = 8&lt;/p&gt;
-
-&lt;p&gt;如果你需要绑定到一个特权端口(比如 HTTPS 的443)，使用共享套接字(shared sockets)。它们在权限降低之前被创建，可以 使用 =N 语法来引用，这里的 N 指 socket 编号(从0开始)：&lt;/p&gt;
-
-&lt;p&gt;[uwsgi]
-shared-socket = :443
-https = =0,foobar.crt,foobar.key
-uid = foo
-gid = bar
-chdir = path_to_web2py
-module = wsgihandler
-master = true
-processes = 8&lt;/p&gt;
-
-&lt;p&gt;web 应用开发一个最常见的问题就是 “stuck requests”(卡住的请求)。你所有的线程/worker 都被卡住(被请求堵塞)， 然后你的应用再也不能接受更多的请求。 为了避免这个问题你可以设置一个 harakiri 计时器。它是一个监视器(由主进程管理)，当 进程被卡住的时间超过特定的秒数后就销毁这个进程(慎重选择 harakiri 的值)。比如，你可能 想把卡住超过 30 秒的 worker 销毁掉：&lt;/p&gt;
-
-&lt;p&gt;[uwsgi]
-shared-socket = :443
-https = =0,foobar.crt,foobar.key
-uid = foo
-gid = bar
-chdir = path_to_web2py
-module = wsgihandler
-master = true
-processes = 8
-harakiri = 30&lt;/p&gt;
-
-&lt;p&gt;另外，从 uWSGI 1.9 起，统计服务器会输出所有的请求变量，所以你可以(实时地)查看你的 实例在干什么(对于每个 worker，线程或者异步 core)。&lt;/p&gt;
-
-&lt;h2 id=&quot;offloading&quot;&gt;Offloading&lt;/h2&gt;
-
-&lt;p&gt;The uWSGI offloading subsystem 使得你可以在某些模式满足时释放你的 worker，并且把工作委托给一个纯 c 的线程。 这样例子比如有从文件系统传递静态文件，通过网络向客户端传输数据等等。
-Offloading 非常复杂，但它的使用对用户来说是透明的。如果你想试试的话加上 –offload-threads &lt;n&gt; 选项，这里的 &lt;n&gt; 是 spawn 的线程数(以 CPU 数目的线程数启动是一个不错的值)。
-当 offload threads 被启用时，所有可以被优化的部分都可以自动被检测到。&lt;/n&gt;&lt;/n&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus--python--uwsgi-&quot;&gt;Bonus: 多版本 Python 使用同一个 uWSGI 二进制文件&lt;/h2&gt;
-&lt;p&gt;正如我们已经看到的，uWSGI 由一个很小的核心和许多插件组成。插件可以被嵌入到二进制文件中 或者动态加载。当你为 Python 构建 uWSGI 的时候，许多插件包括 Python 在内的插件都被嵌入到了最终的二进制文件中。
-当你使用多个 Python 版本但是没有为每一个版本构建一个二进制文件时这可能会造成问题。
-最好的方法可能是弄一个没有内置语言特性的小二进制文件，然后每个 Python 版本有一个 插件，可以动态地加载。
-在 uWSGI 的源代码目录中：&lt;/p&gt;
-
-&lt;p&gt;make PROFILE=nolang&lt;/p&gt;
-
-&lt;p&gt;这将会构建一个包含除了 Python 之外的所有默认内置插件的 uwsgi 二进制文件。
-现在，在相同的目录下，我们开始构建 Python 插件：&lt;/p&gt;
-
-&lt;p&gt;PYTHON=python3.4 ./uwsgi –build-plugin “plugins/python python34”
-PYTHON=python2.7 ./uwsgi –build-plugin “plugins/python python27”
-PYTHON=python2.6 ./uwsgi –build-plugin “plugins/python python26”&lt;/p&gt;
-
-&lt;p&gt;你最后会得到这些文件： python34_plugin.so, python27_plugin.so, python26_plugin.so 。复制 这些文件到你的目录中。(uWSGI 默认在当前的工作目录中搜索插件。)&lt;/p&gt;
-
-&lt;p&gt;现在你只需要在你的配置文件中(在文件最上面)简单加上 plugins-dir 和 plugin 选项就可以了。&lt;/p&gt;
-
-&lt;p&gt;[uwsgi]
-plugins-dir = &lt;path_to_your_plugin_directory&gt;
-plugin = python26&lt;/path_to_your_plugin_directory&gt;&lt;/p&gt;
-
-&lt;p&gt;这将会从你复制插件到的那个目录中加载 python26_plugin.so 插件。
-那么现在…
-有了这些很少的概念你就已经可以进入到生产中了，但是 uWSGI 是一个拥有上百个特性和配置的生态系统。 如果你想成为一个更好的系统管理员，继续阅读完整的文档吧。&lt;/p&gt;
-
-&lt;p&gt;原文见[&lt;a href=&quot;http://uwsgi-docs-cn.readthedocs.io/zh_CN/latest/WSGIquickstart.html&quot;&gt;uwsgi doc&lt;/a&gt;]&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="python" /><category term="web" /><summary>uWSGI是一个Web服务器，它实现了WSGI协议(Web Server Gateway Interface)、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</summary></entry><entry><title>Hello World 2018</title><link href="http://bblu.github.io/2018-02-19-hello-world.html" rel="alternate" type="text/html" title="Hello World 2018" /><published>2018-02-19T00:12:57+08:00</published><updated>2018-02-19T00:12:57+08:00</updated><id>http://bblu.github.io/hello-world</id><content type="html" xml:base="http://bblu.github.io/2018-02-19-hello-world.html">&lt;blockquote&gt;
-  &lt;p&gt;35岁—–拥抱中年程序员的新世界！&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;利用年假的两天时间把这个博客搭起来，只把代码部分以前的资料搬过来不写个博客感觉对不起这两天的时间。另外在我vps上也部署了一套备份，不知道什么原因在阿里云买的域名启用解析后解析不过来，只好注册了一个免费域名先用着。&lt;/p&gt;
-
-&lt;p&gt;虽然我前半段的职业生涯的基本都在三维引擎打交道，但是对于渲染管线的细节像shader了解的不多这一点我心里是有愧的。由于红宝书看了很多遍，固定管线的渲染流程还是烂熟于心的。渲染底层工作做的不多，用billboard实现一个粒子系统，优化场景操控器，用解析几何和四元数解算相机位置点这些都算很底层了，上层工作是设计开发一些参数化建模工具，配合模型节点实现路径动画和简单的骨骼动画，投影变换、栅格数据切片和矢量数据处理，数据库ORM，服务接口设计和系统架构。渲染引擎起先是DX，有了osg后大家都转到opengl，后来客户追求各种特效又回到的DX，一个很大的原因可能是计算机硬件技术那几年突飞猛进，什么实时阴影、碰撞检测、布料动画这些特效都变成标配了，再加上四叉树八叉树多场景管理和动态调度GIS大场景应用也可以流畅的运行了。&lt;/p&gt;
-
-&lt;p&gt;上面说的写三维引擎当然不是从零开始，其实大家都差不多参考各种开源闭源的引擎然后定制自己的需求，能把轮子用好实属不易。我最大的特长是整合和迁移的能力。最成功的一次整合应用是参考qt designer的设计整合公司的三维引擎实现实体编辑器，参考qt creater架构整合脚本引擎实现场景动画编辑器的项目，接触过基于HLA的RTI仿真平台的人对这个实体应该会有更好的理解。整合现有应用最大的优势是大大缩短了开发周期，并且交付的程序也很健壮。&lt;/p&gt;
-
-&lt;p&gt;我毕业的时候GIS本身就是一个热炒的领域，当时3s和4d写到PPT上把客户看的云里雾里还是比较的炫酷的一件事，随着时代的发展对新潮的词汇的需求与日俱增，许多新词脱颖而出，从数字城市到智慧地球，以后再来个AI宇宙我也不奇怪。数据是所有系统的本源，所以数据领域也未能幸免，谈gis必谈大数据，当然那个时候不叫大数据叫海量数据，先是数据库然后是MapReduce分布式,Hadoop的HDFS数据块和硬盘分区表的蔟大小没啥区别就是灾备了几份。技术原理上没什么新东西，硬盘的分区表也不只一份。不就接个网线至于飘到天上去叫什么云存储么？伴随云存储又出来个云服务。&lt;/p&gt;
-
-&lt;p&gt;其实webGL出现前网页三维应用的需求一直存在，这里要感谢微软的COM技术和ATL库（当然还有盗版是操作系统和VisualStudio，当然我电脑是正版系统用Express版本的vs）。因为activeX控件给了许多公司赚钱的法宝，封装成activeX后osg也可以批上IE的外衣，当然如果能满足需求用Irrlicht封装的话罪恶感会少很多。javascript慢慢发展然后webGL横空出世，伴随者许多出色的引擎我们当然没有理由拒绝nodejs。于是又加入了js环境新的web技术栈，之所以说又是因为我毕业设计用的是asp，每个指导老师可以提名两个优秀毕业设计我是其中一个。又进来之后js前后端的全面的支持相对于当年四剑客网站开发时代，就是鸟枪换炮的感觉，那感觉就好像是前几天刷路由器废了捆绑的广告和劫持想干嘛就干嘛的畅快。jQuery、Angular、react和vue虚DOM和双向数据绑定感觉眼花缭乱，那句话还是很有道理的计算机领域没有什么问题不是可以通过加入一层来解决的，如果有那就再加一层。好在后端相对安分一些，老老实实用Express就能搞定大部分的需求。等等还有Native！！！这是浏览器报当年被activX入侵的血海深仇吗？语言在发展技术还是那些技术，用go把nodejs的东西重写也还是那些技术。&lt;/p&gt;
-
-&lt;p&gt;敏捷开发也是有热炒的成分。敏捷不是银弹，团队的敏捷程度取决于团队每个成员的敏捷程度，如果一个功能（story）两周还出不来的话，还是放慢节奏配合现阶段的团队开发水平更好，对于刚开始实践敏捷的团队先不要追求敏捷。也许有人会说你把功能拆解成小的功能不就可以快速完成了吗？问题是敏捷里的story是用户视图里的东西，你WBS分解成十个后只要有一个没有完成用户就看不到结果也就没有改进意见。提升短板才有显著效果，但是要先知道短板在哪里或者说在那个环节，虽然从开发视角能发现许多问题，当这些问题解决后改进并不明显。是因为这些问题没有很好解决还是这些问题在整个软件生命周期中并不那么急迫需要解决不得而知，于是就出现了devops。多部门协作沟通是大问题，如果不应用自动化工具，想要实时提交-&amp;gt;编译-&amp;gt;发布-&amp;gt;测试-&amp;gt;部署基本不可能。提高交付频率能减少犯错很容易理解，你开车上路如果去一个陌生地方导航没十秒提醒你一次，你错一个路口马上就能掉头回来，如果是一个小时提醒你一次如果错了一个路口可能已经往错误的方向奔了100千米了。&lt;/p&gt;
-
-&lt;p&gt;工作中烦心的几件事：第一个就是方法体内的代码注释，好代码是自解释的只要把该抽出的函数抽出来，起一个词能意会的名字，自然就能看明白了。代码检查最怕遇到的就是汉语简拼的数据库字段名和用翻译软件翻出的一个非常生僻的词，查完也不舒服。第二个就是给团队讲产品设计时大家都听懂了，我的经验是如果你不每一个人去跟的话基本做出的东西不可能按照设计走，反正我呆过的公司是没有时间把设计落实到伪代码这个层次的，听懂了的意思很多时候是不知道自己哪里不懂。还有一点体会就是运维热衷于稳定版系统和工具是十分明智的，只要能用就不要升级，只要够用就好，照着操作手册把端口一顿开最后怎么测都不通，一查才发现新版操作系统防火墙换新的了也挺无语的。&lt;/p&gt;
-
-&lt;p&gt;2018不管我愿意与否迎来了我多35岁，即使保守的说35岁算一个程序员的中年了吧。虽然当初入行是勉强进入一所211大学然后被调剂到了一个没听说的GIS专业，专业课还不错都是九十多分，这么多年过去了我在骨子里仍然对编程有着深深的热爱，当一辈子程序员退休后做点木工活捣鼓点智能家居的小玩意就很好。&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="blog" /><summary>35岁—–拥抱中年程序员的新世界！</summary></entry></feed>
+&lt;p&gt;随着集成和部署的工作的颗粒度不断细化和专业化，脚本工具自动化程度越来越高，伴随这敏捷的东风，CI和CD迎来了devops的春天。这个过程极像CPU指令集架构从CSIC到RISC的演变过程。事情越简单越可以利用cpu的高频率解决问题，结果反而因为易用性好、通用性强、模式统一，方便部署等优点取得最终胜利。问题处理的越轻量级执行的越快，谁不想轻快的工作呢？&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="devops" /><category term="ci" /><category term="cd" /><summary>关于敏捷开发自动化测试运维等随笔</summary></entry></feed>
