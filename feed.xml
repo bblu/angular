@@ -1,4 +1,114 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-03-23T22:16:15+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>读书笔记-《网络是如何连接的》</title><link href="http://bblu.github.io/2018-03-23-book-network-link.html" rel="alternate" type="text/html" title="读书笔记-《网络是如何连接的》" /><published>2018-03-23T00:10:00+08:00</published><updated>2018-03-23T00:10:00+08:00</updated><id>http://bblu.github.io/book-network-link</id><content type="html" xml:base="http://bblu.github.io/2018-03-23-book-network-link.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-04-01T21:35:38+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>深入计算机图形显示之-接口篇</title><link href="http://bblu.github.io/2018-04-01-cg-card-interface.html" rel="alternate" type="text/html" title="深入计算机图形显示之-接口篇" /><published>2018-04-01T21:12:00+08:00</published><updated>2018-04-01T21:12:00+08:00</updated><id>http://bblu.github.io/cg-card-interface</id><content type="html" xml:base="http://bblu.github.io/2018-04-01-cg-card-interface.html">&lt;blockquote&gt;
+  &lt;p&gt;计算机跨时代意义的进步有两个一个是实模式到保护模式，另一个是命令行到GUI。第二个进步和显卡是互相促进的关系，GUI让计算机从科研院所走进了人们的日常生活中。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;1.远古时代没有显卡的字符显示方式&lt;/h2&gt;
+
+&lt;h3 id=&quot;bios-int-0x10&quot;&gt;1.1.BIOS INT 0x10&lt;/h3&gt;
+&lt;p&gt;在基于x86的计算机BIOS通常在第17中断向量创建了一个中断处理程序提供了实模式下的显示服务。此类服务包括设置显示模式，字符和字符串输出，和在图形模式下的读取和写入像素功能。要使用这个功能的调用，在寄存器AH赋予子功能号，其它的寄存器赋予其它所需的参数，并用指令INT 10H调用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;;通过寄存器进行显示控制
+;use 0x06 to clear screen
+	mov ax, 0x600   ;功能号AH=0x06表示上翻，AL0:清除
+	mov bx, 0x700   ;BH设置背景色和前景色
+	mov cx, 0		;窗口左上点(0,0)
+	mov dx, 0x184f	;窗口右下点(80,25)
+
+	int 0x10        ;触发中断处理准备写入字符
+	
+;以下向文本模式显存写入 “1 MBR”
+;0xA4是样式定义，A:绿色背景闪烁, 4:文字红色
+	mov byte [gs:0x00],&#39;1&#39;
+	mov byte [gs:0x01],0xA4
+	mov byte [gs:0x02],&#39; &#39;
+	mov byte [gs:0x03],0xA4
+	mov byte [gs:0x04],&#39;M&#39;
+	mov byte [gs:0x05],0xA4
+	mov byte [gs:0x06],&#39;B&#39;
+	mov byte [gs:0x07],0xA4
+	mov byte [gs:0x08],&#39;R&#39;
+	mov byte [gs:0x09],0xA4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上示例完整源码:&lt;a href=&quot;https://github.com/bblu/samples/blob/efd0b955f80a57883745130c97f9d1aba1688cbe/os/boot/3mbr.S&quot;&gt;bblu/samples/os/boot/3mbr.S&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;bochs的基本操作&lt;a href=&quot;https://github.com/bblu/samples/blob/efd0b955f80a57883745130c97f9d1aba1688cbe/os/bochs&quot;&gt;bblu/samples/os/bochs&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;1.2.实模式显存地址区间&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;| 起始  | 结束  | 大小| 用途  |
+| ------| ----- |---- | :---- |
+| C0000 |C7FFF  | 32k |显示适配器BIOS|
+| B8000 |BFFFF  | 32k |文本模式显示适配器 |
+| B0000  |B7FFF | 32k |黑白显示适配器    |
+| A0000  |AFFFF | 64k |彩色显示适配器    |
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;INT 10H的执行速度是相当缓慢的，所以很多程序都绕过这个BIOS例程而直接访问显示硬件。设置显示模式并不经常使用，可以通过BIOS来实现，而一个游戏在屏幕上绘制图形，需要做得很快，所以直接访问显存比用BIOS调用每个像素更适合。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;2.通用和专用图形接口&lt;/h2&gt;
+
+&lt;p&gt;从CPU的角度显卡是外设，从计算机的角度显示器是外设。CPU或者说操作系统要给显卡（GPU）分配任务必须通过接口电路，经典架构的主板有两个集中接口电路控制器一南一北，高速设备比如内存连接在北桥芯片上，南桥芯片连接PCI，USB，SATA等低速设备。&lt;/p&gt;
+
+&lt;h3 id=&quot;pci&quot;&gt;2.1.PCI&lt;/h3&gt;
+&lt;p&gt;Peripheral Component Interconnect，翻译成中文是“外围器件互联”，是由PCISIG 推出的一种局部并行总线标准带宽32位频率33MHz。PCI总线标准是1992年制定的由ISA(Industy Standard Architecture)总线发展而来，话说我还亲眼见过ISA接口的声卡的，ISA接口是黑色的PCI是白色的黑白分明。&lt;/p&gt;
+
+&lt;h3 id=&quot;agp&quot;&gt;2.2.AGP&lt;/h3&gt;
+&lt;p&gt;Accelerated Graphics
+Port加速图形接口，是在1997年由Intel提出为了消除PCI在处理3D图形时的瓶颈，是从PCI标准上创建起来的高速点对点显卡专用传输通道，工作频率66MHz和133MHz两种，主要应用在三维电脑图形的加速上。&lt;/p&gt;
+
+&lt;p&gt;AGP总线直接与主板的北桥芯片相连，且通过该接口让显示芯片与系统主内存直接相连，避免了窄带宽的PCI总线形成的系统瓶颈，增加3D图形数据传输速度，同时在显存不足的情况下还可以调用系统主内存。&lt;/p&gt;
+
+&lt;h3 id=&quot;pci-e&quot;&gt;2.3.PCI-E&lt;/h3&gt;
+&lt;p&gt;是由英特尔提出的将全面取代PCI和AGP，最终实现总线标准的统一。它的主要优势就是数据传输速率高，目前最高可达到10GB/s以上。&lt;/p&gt;
+
+&lt;p&gt;PCI-E是通用总线不像AGP是给显卡专用的，APG有点向城市道路中的公交车专用通道别的汽车不能在上边跑而PCIE就是高速公路了从入口进去后就可以敞开跑了。&lt;/p&gt;
+
+&lt;p&gt;不论何种接口，显示适配器/显卡暴露给CPU的都是IO端口和显存，CPU自己计算去填充显存的结果是一样的，只要显存中有可以显示的数据显卡就把他们提交到屏幕上去显示，不一样的是过程中的处理不劳CPU大驾了尤其是三维渲染前的顶点变换、纹理坐标、融合、各种测试都不是cpu的强项，这样有了显卡cpu就轻松许多了。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;参考 &lt;a href=&quot;https://zh.wikipedia.org/wiki/INT_10H&quot;&gt;Wiki: INT 10H&lt;/a&gt;&lt;br /&gt;
+《操作系统 真象还原》第三章&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="cg" /><category term="gpu" /><category term="interface" /><summary>计算机跨时代意义的进步有两个一个是实模式到保护模式，另一个是命令行到GUI。第二个进步和显卡是互相促进的关系，GUI让计算机从科研院所走进了人们的日常生活中。</summary></entry><entry><title>ios开发TimePie第6天-Flush UI when Active</title><link href="http://bblu.github.io/2018-03-27-swift-timepie-active.html" rel="alternate" type="text/html" title="ios开发TimePie第6天-Flush UI when Active" /><published>2018-03-27T00:20:00+08:00</published><updated>2018-03-27T00:20:00+08:00</updated><id>http://bblu.github.io/swift-timepie-active</id><content type="html" xml:base="http://bblu.github.io/2018-03-27-swift-timepie-active.html">&lt;blockquote&gt;
+  &lt;p&gt;很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;1.再次唤醒程序刷新页面&lt;/h3&gt;
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;NotificationCenter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addObserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#selector(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;applicationDidBecomeActive(_:)&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                            &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSNotification&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UIApplicationDidBecomeActive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                            &lt;span class=&quot;nv&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewWillDisappear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewWillDisappear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;NotificationCenter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;removeObserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;NSNotification&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UIApplicationDidBecomeActive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//print(&quot;removeObserver&quot;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;2.记录调整主要看界面&lt;/h3&gt;
+&lt;p&gt;代码就是普通逻辑没什么可看的，点击️【⚙️ 】按钮显示一个返回按钮🔙  和拖动条&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-27-12.23.58-AM.png&quot; alt=&quot;EditLast&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;debug&quot;&gt;3.完善和Debug&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;加入了前台日志在最底下&lt;/li&gt;
+  &lt;li&gt;修正选择延时的逻辑BUG：延时没有顺延更新变量。&lt;/li&gt;
+  &lt;li&gt;封装了日志接口可以以后扩展输出&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;目前是这样的&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-27-12.15.49-AM.png&quot; alt=&quot;upload&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。</summary></entry><entry><title>读书笔记-《网络是如何连接的》</title><link href="http://bblu.github.io/2018-03-23-book-network-link.html" rel="alternate" type="text/html" title="读书笔记-《网络是如何连接的》" /><published>2018-03-23T00:10:00+08:00</published><updated>2018-03-23T00:10:00+08:00</updated><id>http://bblu.github.io/book-network-link</id><content type="html" xml:base="http://bblu.github.io/2018-03-23-book-network-link.html">&lt;blockquote&gt;
   &lt;p&gt;以前老是觉得学习什么东西应该由浅入深，一步一步步入深渊。现在感觉好像倒过来也是可行的当然拿到一本书即使看不懂也能坚持看下去才行。主要是网络这块真是如此，最早看计算机网络第五版，云里雾里的那些什么带碰撞检测是载波侦听搞的很狼狈，后来看详解TCP/IP感觉就好一点，这两天看到Kindle里的网络是怎么连接的，终于有山重水复疑无路，柳暗花明又一村的感觉了，把一些知识点和之前的困惑记录一下。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -175,7 +285,7 @@ MTU - HEAD &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; MSS【最大分段大�
   &lt;li&gt;程序不允许分片或者已经分片的包不能分片。&lt;/li&gt;
   &lt;li&gt;公网地址紧缺后把公网没分配的三个段拿出来当成私有地址&lt;/li&gt;
   &lt;li&gt;10.～ 172.16.～ 192.168.～ ,以太网外网部分分配PublicAddress,内网部分通过地址转换（NAT）机制上网，即在转发包时头部的IP地址和端口号，NAT设备一般是路由器中的16b端口号可以表示65536个值除去前面保留的1024个其余的都可以映射给内网的上网设备。&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="network" /><category term="note" /><summary>以前老是觉得学习什么东西应该由浅入深，一步一步步入深渊。现在感觉好像倒过来也是可行的当然拿到一本书即使看不懂也能坚持看下去才行。主要是网络这块真是如此，最早看计算机网络第五版，云里雾里的那些什么带碰撞检测是载波侦听搞的很狼狈，后来看详解TCP/IP感觉就好一点，这两天看到Kindle里的网络是怎么连接的，终于有山重水复疑无路，柳暗花明又一村的感觉了，把一些知识点和之前的困惑记录一下。</summary></entry><entry><title>ios开发TimePie第5天-网络备份数据</title><link href="http://bblu.github.io/2018-03-19-swift-timepie-5rd.html" rel="alternate" type="text/html" title="ios开发TimePie第5天-网络备份数据" /><published>2018-03-19T20:22:00+08:00</published><updated>2018-03-19T20:22:00+08:00</updated><id>http://bblu.github.io/swift-timepie-5rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-19-swift-timepie-5rd.html">&lt;blockquote&gt;
+&lt;/ul&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="network" /><category term="note" /><summary>以前老是觉得学习什么东西应该由浅入深，一步一步步入深渊。现在感觉好像倒过来也是可行的当然拿到一本书即使看不懂也能坚持看下去才行。主要是网络这块真是如此，最早看计算机网络第五版，云里雾里的那些什么带碰撞检测是载波侦听搞的很狼狈，后来看详解TCP/IP感觉就好一点，这两天看到Kindle里的网络是怎么连接的，终于有山重水复疑无路，柳暗花明又一村的感觉了，把一些知识点和之前的困惑记录一下。</summary></entry><entry><title>ios开发TimePie第5天-网络备份数据</title><link href="http://bblu.github.io/2018-03-19-swift-timepie-backup.html" rel="alternate" type="text/html" title="ios开发TimePie第5天-网络备份数据" /><published>2018-03-19T20:22:00+08:00</published><updated>2018-03-19T20:22:00+08:00</updated><id>http://bblu.github.io/swift-timepie-backup</id><content type="html" xml:base="http://bblu.github.io/2018-03-19-swift-timepie-backup.html">&lt;blockquote&gt;
   &lt;p&gt;一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，存到本地的数据库中还是远远不够的如果手机丢了就废了。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -263,7 +373,7 @@ task.resume&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
   &lt;li&gt;TestFraments：当前TreadGroup的别名供其他group引用做到复用的特殊控制节点&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-18-jmeter-get-started-2.png&quot; alt=&quot;JmeterMainView&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="test" /><category term="jmeter" /><summary>Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。</summary></entry><entry><title>ios开发TimePie第4天-数据入Sqlite库</title><link href="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html" rel="alternate" type="text/html" title="ios开发TimePie第4天-数据入Sqlite库" /><published>2018-03-18T11:22:00+08:00</published><updated>2018-03-18T11:22:00+08:00</updated><id>http://bblu.github.io/swift-timepie-4rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-swift-timepie-4rd.html">&lt;blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-18-jmeter-get-started-2.png&quot; alt=&quot;JmeterMainView&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="test" /><category term="jmeter" /><summary>Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。</summary></entry><entry><title>ios开发TimePie第4天-数据入Sqlite库</title><link href="http://bblu.github.io/2018-03-18-swift-timepie-sqlite.html" rel="alternate" type="text/html" title="ios开发TimePie第4天-数据入Sqlite库" /><published>2018-03-18T11:22:00+08:00</published><updated>2018-03-18T11:22:00+08:00</updated><id>http://bblu.github.io/swift-timepie-sqlite</id><content type="html" xml:base="http://bblu.github.io/2018-03-18-swift-timepie-sqlite.html">&lt;blockquote&gt;
   &lt;p&gt;一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作，这里又一个小trick就是选择不同的todo切换。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -589,103 +699,4 @@ struct TodoItem: Decodable&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-09-swift-timepie-btn.png&quot; alt=&quot;add source file to project&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>被锤子打击之后就没怎么去写日程了，除了失望另一个很重要的原因是直接在Google日历上无论是添加计划还是修改计划都太麻烦，为自己又不是能完全按照时间计划去执行的人，也没有那么多时间去搞了。那就换手机了，在苹果应用市场上搜集了十几款时间日程管理的软件发现都不是我想要的，于是就想自己开发一个这就是我开发这个软件的原因。</summary></entry><entry><title>ios开发TimePie第1天-知识准备和设计</title><link href="http://bblu.github.io/2018-03-09-swift-timepie-1st.html" rel="alternate" type="text/html" title="ios开发TimePie第1天-知识准备和设计" /><published>2018-03-09T00:00:00+08:00</published><updated>2018-03-09T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-1st</id><content type="html" xml:base="http://bblu.github.io/2018-03-09-swift-timepie-1st.html">&lt;blockquote&gt;
-  &lt;p&gt;很早一直用google日历来计划日程,google日历的好处是方便导出可以自己分析时间的支配情况，比如运动、读书、平均睡眠时间等，锤子手机的日历使用起来比谷歌方便一些，还可以自动同步到谷歌于是就在锤子手机上记录了两年时间，我是每年会导出备份一下，备份第二年的时候发现有近十个月等日程没有同步上谷歌。锤子日历显示的日程都有也没有提示说同步失败，然后就把耐心消磨殆尽和客服反应这个问题，前后搞了大约有一个多月的时间，最后在客服的努力下一条日程都不剩了，还有个什么时间胶囊什么欢喜云显然都是摆设很显然我就是那个倒霉蛋，后来我想了一下别人没有这个问题并不一定是他们运气有多好而是他们根本不用日程或者不用锤子手机，这么说来不用锤子手机可能也是一种运气。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;被锤子打击之后就没怎么去写日程了，除了失望另一个很重要的原因是直接在Google日历上无论是添加计划还是修改计划都太麻烦，为自己又不是能完全按照时间计划去执行的人，也没有那么多时间去搞了。那就换手机了，在苹果应用市场上搜集了十几款时间日程管理的软件发现都不是我想要的，于是就想自己开发一个这就是我开发这个软件的原因，最早起名叫Myday感觉太土了这次重新做改名叫TimePie，github单独起了一个【&lt;a href=&quot;https://github.com/bblu/timepie&quot;&gt;TimePie&lt;/a&gt;】。&lt;/p&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;知识准备&lt;/h2&gt;
-&lt;p&gt;一个新的领域最好的入门办法不是系统的看书而是找一个视频的helloWord看一遍，然后遇到什么问题针对性的去找解决方案。
-油管上有许多推荐 Michel Deiman 的【&lt;a href=&quot;https://www.youtube.com/watch?v=71pyOB4TPRE&amp;amp;list=PLPA-ayBrweUzGFmkT_W65z64MoGnKRZMq&quot;&gt;Stanford CS193P iOS 11 Swift 4&lt;/a&gt;】把前面一两集看完基本就差不多可以开干了。国内公开课应该也能搜得到，英语不过关的就重点看看xcode操作，打开字幕反而会分散注意力效果反而不好。&lt;/p&gt;
-
-&lt;h2 id=&quot;section-1&quot;&gt;第一天是列个提纲画个概要界面布局&lt;/h2&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;时间分配记录和计划软件，饼状图好像要自定义控件，我现在连xcode里边的picerview都搞不懂，先用一个标签代替,先记录在分析然后完善。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;目标：用最少的操作记录每天时间的分配。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;时间管理分两级大类下面有小分类&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;工作0 [编码1，文档2，会议3，出差4]&lt;/li&gt;
-  &lt;li&gt;学习1 [技术1，读书2，总结3，开发4]&lt;/li&gt;
-  &lt;li&gt;家庭2 [子女1，配偶2，家务3，家居4]&lt;/li&gt;
-  &lt;li&gt;运动3 [骑行1，跑步2，力量3，轮滑4]&lt;/li&gt;
-  &lt;li&gt;出行4 [步行1，汽车2，铁路3，飞船4]&lt;/li&gt;
-  &lt;li&gt;个人5 [睡觉1，洗漱2，吃饭3，发呆4]&lt;/li&gt;
-  &lt;li&gt;休闲6 [购物1，影音2，资讯3，出游4]&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;requirements--functions&quot;&gt;Requirements &amp;amp; Functions&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;TimePie可以指定Plan去todo分配时间，也可以单纯记录每日的时间在不同方面的花销。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;可以通过增加循环日程按钮添加计划事件todo，todo可以autoStop，也可以autoContinue。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;指定每日Plan的时候可以把重要的计划设定为todo，设定为todo的plan会进行审核，审核的方式有两种，第一种较为宽松只要当天完成了规定时长的plan就算完成，比如每天跑步30分钟。第二种比较严格需要在plan的时间段完成才算完成。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;学习笔记&lt;/h3&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;standford ios Lecture @ 19:30
-// 变量占位符‘_’ 忽略参数或变量
-&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;_ &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;0...CardNum&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-...
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;_ &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;0..&amp;lt;CardNum&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Card
-cardList.append&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;a&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-// optional var 
-var myditc &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; Dictionary&amp;lt;Int,String&amp;gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-// 定义一个严格类型的字典
-var myditc &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Int:String]&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-
-// ?? 如果Optional var 不为nil返回，否则返回？？后面的值
-func getEmoji&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;card:Card&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; -&amp;gt; String&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;somthing ?? otherchoise
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-// lazy property
-
-// countablerRange setp by floating point like 0.3
-// how to &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;that like  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.5; i&amp;lt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 15.25; i +&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.3&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;?
-&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;i &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;stride&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;from:0.5, through:15.25, by:0.3&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-...
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-// Tuples is nothing more than a group of values
-&lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;x:&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;String,Int,Double&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;, 5, 0.87&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;world, number, value&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; x
-print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;world&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; // hello
-&lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;x: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;w:String, i:Int, v:Double&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;, 5, 0.87&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;x.w&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; // hello
-
-// rename tupes elements on access
-&lt;span class=&quot;nb&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;wrd, num, val&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; x
-
-// computed properties[ getter or setter like c#]
-// var foo: Double
-var foo:Double &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-get &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-// &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;the calculated value of foo
-// 
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;newValue&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;   //without &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;it is &lt;span class=&quot;s1&quot;&gt;&#39;read only&#39;&lt;/span&gt;
-// &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;something based on the fact that foo has changed to newValue
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>很早一直用google日历来计划日程,google日历的好处是方便导出可以自己分析时间的支配情况，比如运动、读书、平均睡眠时间等，锤子手机的日历使用起来比谷歌方便一些，还可以自动同步到谷歌于是就在锤子手机上记录了两年时间，我是每年会导出备份一下，备份第二年的时候发现有近十个月等日程没有同步上谷歌。锤子日历显示的日程都有也没有提示说同步失败，然后就把耐心消磨殆尽和客服反应这个问题，前后搞了大约有一个多月的时间，最后在客服的努力下一条日程都不剩了，还有个什么时间胶囊什么欢喜云显然都是摆设很显然我就是那个倒霉蛋，后来我想了一下别人没有这个问题并不一定是他们运气有多好而是他们根本不用日程或者不用锤子手机，这么说来不用锤子手机可能也是一种运气。</summary></entry><entry><title>自动化和敏捷成就了CI和CD</title><link href="http://bblu.github.io/2018-03-03-devops-ci-cd.html" rel="alternate" type="text/html" title="自动化和敏捷成就了CI和CD" /><published>2018-03-03T00:00:00+08:00</published><updated>2018-03-03T00:00:00+08:00</updated><id>http://bblu.github.io/devops-ci-cd</id><content type="html" xml:base="http://bblu.github.io/2018-03-03-devops-ci-cd.html">&lt;blockquote&gt;
-  &lt;p&gt;关于敏捷开发自动化测试运维等随笔&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;相对于传统的开发模型，集成部署是两大块内容，以前做不到持续是有历史原因的因为项目的迭代的周期太长，集成一次光集成测试这一项就会大动干戈资源协调人力分配短时间搞不定。&lt;/p&gt;
-
-&lt;p&gt;随着集成和部署的工作的颗粒度不断细化和专业化，脚本工具自动化程度越来越高，伴随这敏捷的东风，CI和CD迎来了devops的春天。这个过程极像CPU指令集架构从CSIC到RISC的演变过程。事情越简单越可以利用cpu的高频率解决问题，结果反而因为易用性好、通用性强、模式统一，方便部署等优点取得最终胜利。问题处理的越轻量级执行的越快，谁不想轻快的工作呢？&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="devops" /><category term="ci" /><category term="cd" /><summary>关于敏捷开发自动化测试运维等随笔</summary></entry></feed>
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-09-swift-timepie-btn.png&quot; alt=&quot;add source file to project&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>被锤子打击之后就没怎么去写日程了，除了失望另一个很重要的原因是直接在Google日历上无论是添加计划还是修改计划都太麻烦，为自己又不是能完全按照时间计划去执行的人，也没有那么多时间去搞了。那就换手机了，在苹果应用市场上搜集了十几款时间日程管理的软件发现都不是我想要的，于是就想自己开发一个这就是我开发这个软件的原因。</summary></entry></feed>

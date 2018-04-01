@@ -19,7 +19,7 @@
 
 
 
-<title>c#调用oracle存储过程返回结果集 - bblu’s blog</title>
+<title>ios开发TimePie第6天-Flush UI when Active - bblu’s blog</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="bblu's blog">
-<meta property="og:title" content="c#调用oracle存储过程返回结果集">
+<meta property="og:title" content="ios开发TimePie第6天-Flush UI when Active">
 
 
-  <link rel="canonical" href="http://bblu.github.io/2008-06-19-oracle-procedure-cs.html">
-  <meta property="og:url" content="http://bblu.github.io/2008-06-19-oracle-procedure-cs.html">
+  <link rel="canonical" href="http://bblu.github.io/2018-03-27-swift-timepie-active.html">
+  <meta property="og:url" content="http://bblu.github.io/2018-03-27-swift-timepie-active.html">
 
 
 
-  <meta property="og:description" content="首先在ORACLE建立PACKAGE和PACKAGE BODY，将在这里面定义函数和存储过程返回结果集。">
+  <meta property="og:description" content="  很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2008-06-19T21:49:51+08:00">
+  <meta property="article:published_time" content="2018-03-27T00:20:00+08:00">
 
 
 
@@ -212,95 +212,59 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="c#调用oracle存储过程返回结果集">
-    <meta itemprop="description" content="首先在ORACLE建立PACKAGE和PACKAGE BODY，将在这里面定义函数和存储过程返回结果集。">
-    <meta itemprop="datePublished" content="June 19, 2008">
+    <meta itemprop="headline" content="ios开发TimePie第6天-Flush UI when Active">
+    <meta itemprop="description" content="  很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。">
+    <meta itemprop="datePublished" content="March 27, 2018">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">c#调用oracle存储过程返回结果集
+          <h1 class="page__title" itemprop="headline">ios开发TimePie第6天-Flush UI when Active
 </h1>
           
         </header>
       
 
       <section class="page__content" itemprop="text">
-        <p>首先在ORACLE建立PACKAGE和PACKAGE BODY，将在这里面定义函数和存储过程返回结果集。</p>
+        <blockquote>
+  <p>很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。</p>
+</blockquote>
 
-<h2 id="section">数据库</h2>
+<h3 id="section">1.再次唤醒程序刷新页面</h3>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+    <span class="kt">NotificationCenter</span><span class="o">.</span><span class="k">default</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="kd">#selector(</span><span class="nf">applicationDidBecomeActive(_:)</span><span class="kd">)</span><span class="p">,</span>
+                                            <span class="nv">name</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span><span class="o">.</span><span class="kt">UIApplicationDidBecomeActive</span><span class="p">,</span>
+                                            <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="c1">//...</span>
+<span class="p">}</span>
 
-<h3 id="package">1：建立PACKAGE：</h3>
-<p>CREATE OR REPLACE package SCOTT.pk_wt 
-is 
-type mytype is ref cursor; 
-procedure p_wt(mycs out mytype); 
-function f_get(str in varchar2) 
-return varchar2; 
-end;</p>
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+    <span class="kt">NotificationCenter</span><span class="o">.</span><span class="k">default</span><span class="o">.</span><span class="nf">removeObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span>
+        <span class="nv">name</span><span class="p">:</span><span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span><span class="o">.</span><span class="kt">UIApplicationDidBecomeActive</span><span class="p">,</span><span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="c1">//print("removeObserver")</span>
+<span class="p">}</span>
 
-<p>/ 说明：其实PACKAGE只是个声明罢了。我们在这里定义了一个存储过程返回结集和一个函数，返回字符串。</p>
+</code></pre>
+</div>
 
-<h3 id="package-body">2：建立PACKAGE BODY：</h3>
+<h3 id="section-1">2.记录调整主要看界面</h3>
+<p>代码就是普通逻辑没什么可看的，点击️【⚙️ 】按钮显示一个返回按钮🔙  和拖动条</p>
 
-<p>CREATE OR REPLACE package BODY SCOTT.pk_wt <br />
-is <br />
-procedure p_wt(mycs out mytype) <br />
-is<br />
-begin<br />
-open mycs for select * from test;<br />
-end p_wt;</p>
+<p><img src="../assets/in-post/2018-03-27-12.23.58-AM.png" alt="EditLast" /></p>
 
-<p>function f_get(str varchar2) 
-return varchar2 
-is 
-str_temp varchar2(100) := ‘good luck!’; 
-begin 
-str_temp := str_temp || str; 
-return str_temp; 
-end f_get;</p>
+<h3 id="debug">3.完善和Debug</h3>
+<ul>
+  <li>加入了前台日志在最底下</li>
+  <li>修正选择延时的逻辑BUG：延时没有顺延更新变量。</li>
+  <li>封装了日志接口可以以后扩展输出</li>
+</ul>
 
-<p>end pk_wt;</p>
+<p>目前是这样的</p>
 
-<p>/ 说明：这里建立PACKAGE BODY是具体的说明和使用，将采用什么方式实现。。</p>
-
-<h2 id="c">C#段：</h2>
-
-<p>在C#中代码将分为两部分，一部分是使用函数，另外一部分是使用结果集。 
-定义一个连接，从WEBCONFIG里去取得：</p>
-
-<p>private OracleConnection orcn=new OracleConnection(System.Configuration.ConfigurationSettings.AppSettings[“scott”]); 
-C#调用ORACLE函数：</p>
-
-<p>OracleCommand cmd=new OracleCommand(“pk_wt.f_get”,orcn); 
-cmd.CommandType=CommandType.StoredProcedure; 
-OracleParameter p1=new OracleParameter(“str”,OracleType.VarChar,10); 
-p1.Direction=System.Data.ParameterDirection.Input; 
-p1.Value=this.TextBox1.Text; 
-OracleParameter p2=new OracleParameter(“result”,OracleType.VarChar,100); 
-p2.Direction=System.Data.ParameterDirection.ReturnValue; 
-cmd.Parameters.Add(p1); 
-cmd.Parameters.Add(p2); 
-orcn.Open(); 
-cmd.ExecuteNonQuery(); 
-orcn.Close(); 
-this.Button_function.Text=p2.Value.ToString(); <br />
-其中RESULT是系统自定义的函数返回变量，特别要注意的是，函数的参数的返回类型要指定，另外就是COMMAND类型也需要指定，另外和一般的存储过程没什么差别。</p>
-
-<p>C#调用ORACLE返回结果集： <br />
-OracleCommand cmd=new OracleCommand(“pk_wt.p_wt”,orcn); 
-cmd.CommandType=CommandType.StoredProcedure; 
-OracleParameter p1=new OracleParameter(“mycs”,OracleType.Cursor); 
-p1.Direction=System.Data.ParameterDirection.Output; <br />
-cmd.Parameters.Add(p1); 
-OracleDataAdapter da=new OracleDataAdapter(cmd); <br />
-DataSet ds=new DataSet(); 
-da.Fill(ds,”test”); 
-this.DataGrid1.DataSource=ds; 
-this.DataGrid1.DataBind();</p>
-
-<p>这里没什么可说的类。。只是定义的数据类型是游标，类型是OUTPUT，另外没什么了。。</p>
+<p><img src="../assets/in-post/2018-03-27-12.15.49-AM.png" alt="upload" /></p>
 
         
       </section>
@@ -325,11 +289,11 @@ this.DataGrid1.DataBind();</p>
     
       
       
-      <a href="/tags/#oracle" class="page__taxonomy-item" rel="tag">oracle</a><span class="sep">, </span>
+      <a href="/tags/#ios" class="page__taxonomy-item" rel="tag">ios</a><span class="sep">, </span>
     
       
       
-      <a href="/tags/#procedure" class="page__taxonomy-item" rel="tag">procedure</a>
+      <a href="/tags/#swift" class="page__taxonomy-item" rel="tag">swift</a>
     
     </span>
   </p>
@@ -354,14 +318,14 @@ this.DataGrid1.DataBind();</p>
     
       
       
-      <a href="/categories/#database" class="page__taxonomy-item" rel="tag">database</a>
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
     
     </span>
   </p>
 
 
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2008-06-19T21:49:51+08:00">June 19, 2008</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-27T00:20:00+08:00">March 27, 2018</time></p>
         
       </footer>
 
@@ -372,13 +336,13 @@ this.DataGrid1.DataBind();</p>
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=/2008-06-19-oracle-procedure-cs.html" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=/2018-03-27-swift-timepie-active.html" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=/2008-06-19-oracle-procedure-cs.html" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/2018-03-27-swift-timepie-active.html" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=/2008-06-19-oracle-procedure-cs.html" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+  <a href="https://plus.google.com/share?url=/2018-03-27-swift-timepie-active.html" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=/2008-06-19-oracle-procedure-cs.html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=/2018-03-27-swift-timepie-active.html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -386,11 +350,11 @@ this.DataGrid1.DataBind();</p>
 
   <nav class="pagination">
     
-      <a href="/2007-09-18-join-txt-windows.html" class="pagination--pager" title="windows下txt文本合并
+      <a href="/2018-03-23-book-network-link.html" class="pagination--pager" title="读书笔记-《网络是如何连接的》
 ">Previous</a>
     
     
-      <a href="/2008-11-13-gdal-csharp-assembly.html" class="pagination--pager" title="gdal c#接口库的编译
+      <a href="/2018-04-01-cg-card-interface.html" class="pagination--pager" title="深入计算机图形显示之-接口篇
 ">Next</a>
     
   </nav>
@@ -452,30 +416,6 @@ this.DataGrid1.DataBind();</p>
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-03-27-swift-timepie-active.html" rel="permalink">ios开发TimePie第6天-Flush UI when Active
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。
-
-
-</p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
         <a href="/2018-03-23-book-network-link.html" rel="permalink">读书笔记-《网络是如何连接的》
 </a>
       
@@ -504,6 +444,30 @@ this.DataGrid1.DataBind();</p>
     
     <p class="archive__item-excerpt" itemprop="description">
   一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，存到本地的数据库中还是远远不够的如果手机丢了就废了。
+
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-18-jmeter-get-started-1st.html" rel="permalink">Jmeter 学习笔记之GettingStarted
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。
 
 
 </p>
