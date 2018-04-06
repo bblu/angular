@@ -1,4 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-04-04T00:19:43+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>深入计算机图形显示之-接口篇</title><link href="http://bblu.github.io/2018-04-01-cg-card-interface.html" rel="alternate" type="text/html" title="深入计算机图形显示之-接口篇" /><published>2018-04-01T21:12:00+08:00</published><updated>2018-04-01T21:12:00+08:00</updated><id>http://bblu.github.io/cg-card-interface</id><content type="html" xml:base="http://bblu.github.io/2018-04-01-cg-card-interface.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-04-06T17:45:41+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>计算机图形显示之-图形接口</title><link href="http://bblu.github.io/2018-04-06-cg-graphic-lib.html" rel="alternate" type="text/html" title="计算机图形显示之-图形接口" /><published>2018-04-06T14:28:00+08:00</published><updated>2018-04-06T14:28:00+08:00</updated><id>http://bblu.github.io/cg-graphic-lib</id><content type="html" xml:base="http://bblu.github.io/2018-04-06-cg-graphic-lib.html">&lt;blockquote&gt;
+  &lt;p&gt;上篇说到在DOS时期，应用程序如果要对于显示设备做输出的话，必须使用INT 10中断，或对于VGA卡直接I/O，或直接对VRAM所在的记忆体位置作填值。但VGA卡当时日新月异，各家的VGA卡在其I/O ports的定义并不一致，虽中间有推出一个名为VESA SVGA的显卡驱动程序的共用标准，但由于DOS时先天的64KB的标签页限制，仍有许多不便。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;图形库用来完成一些和绘制有关的工作，像直线或曲线的绘制，文字渲染，颜色控制等。比如微软的GDI、Macintosh的Quartz和GTK的GDK/Xlib等。比如要画一条线如果CPU亲自来的话，坐标系要自己管，线宽内在屏幕上的点要自己算自己填充，如果要抗锯齿还要自己去柔化边缘。微软在开发Windows时，发现这个问题，于是决定打造一个GDI子系统，将显示设备改以API的方式进行操作，以便将各VGA卡的差异通过各VGA卡厂商自行制作的驱动程序来衔接GDI，来打消各VGA卡在操作上的彼此差异。&lt;/p&gt;
+
+&lt;p&gt;话说云风的那本《编程感悟》里对GDI也有所介绍，那本书挺适合入门的。微软在1995年发布Direct3D，Direct 3D最终成为OpenGL的主要竞争对手。现在应该QT的用户会更多一些,毕竟支持底层OpenGL加速，本来微软DirectX凭借系统的装机量和对游戏的支持已经把SGI的OpenGL打得没有还手之力了，结果移动领域的大爆发凭借OpenGL ES又强势逆转了。（注：2006年7月，OpenGL架构评审委员会投票决定将OpenGL API标准的控制权交给Khronos Group）&lt;/p&gt;
+
+&lt;h2 id=&quot;gdigraphics-device-interface&quot;&gt;1.GDI【Graphics Device Interface】&lt;/h2&gt;
+
+&lt;p&gt;图形设备接口是微软公司视窗操作系统的三大核心部件之一，图形设备包括但是不限于显示器、打印机之类输出设备的标准，也就是说只要这些图形设备驱动支持GDI这个标准就可以被使用GDI的应用程序使用。&lt;/p&gt;
+
+&lt;p&gt;GDI最大的好处是它有可以直接访问硬件设备的能力。通过GDI可以非常容易的在不同类型的设备上绘制图形，像显示屏和打印机或类似的显示设备。这些能力是微软Windows系统“所见即所得”程序的核心。但微软很快就被其他的程序开发者告知，GDI太慢了，因此Microsoft就再出一个WING用于Windows 3.0，让应用程序能够直接对VRAM进行填值，以加速绘图的相关计算。&lt;/p&gt;
+
+&lt;p&gt;后来，WING再改为DirectDraw成为DirectX的一部分，直到DirectX 7。（DirectX 8以后，DirectX中2D与3D显示技术合并，开始进入全3D的贴图计算方式）
+直到DirectX 10时，已经进入以DirectX的COM为基础，以.Net Framework方式进行封装的XNA之时代。XNA身兼DirectX的性能与.Net Framework的使用便利性，目前被应用于XBOX系列的游戏主机上，现已成为新一代的图形子系统的主流。&lt;/p&gt;
+
+&lt;h3 id=&quot;gdi&quot;&gt;GDI+&lt;/h3&gt;
+&lt;p&gt;GDI+从Windows XP操作系统开始引入，提供二维的向量图形，改进旧有的GDI，加强的可视化属性，例如边界，渐变和透明。通过GDI+，能够直接将BMP转成JPG或其它格式的图片，还能够生成SVG、Flash等。GDI+ 使用ARGB的值来表示颜色。GDI+的双缓冲技术可以提高绘图效率，可避免屏幕闪烁。&lt;/p&gt;
+
+&lt;p&gt;GDI+号称提供了硬件加速功能，可以直接访问硬件。但这似乎是夸饰的说法，GDI+无法直接使用VGA卡上的GPU来加速绘图的相关计算，因此在绘图性能上远远不及DirectX，只能做到Lock内存进行操作。（GDI+只是一组重新封装GDI的API，DirectX则是从COM到底层的显卡驱动程序的组合）&lt;/p&gt;
+
+&lt;p&gt;随GDI+推出了加强型EMF，即EMF+，可以同时支持GDI和GDI+。Microsoft .NET通过System.Drawing命名空间提供对GDI+的支持。The GDI+ 的DLL可移植到旧有的Windows版本上。
+GDI+ 类似Apple的Quartz 2D子系统，以及属于开放源代码（open-source）的libart和Cairo库。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;从A语言到B语言再到C语言，然后C++ 貌似微软挺喜欢+的C#里就一下就整了四个！&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;opengl&quot;&gt;OpenGL&lt;/h2&gt;
+&lt;p&gt;1980年代，开发可以用在各种各样图形硬件上的软件是个真正的挑战。(这么说80后都和CG同时代产生喽)通常，软件开发人员为每种硬件编写自定义的接口和驱动程序。但这非常昂贵并会导致大量工作的重复。90年代初，SGI成为工作站3D图形领域的领导者。其IRIS GL的API被认为是最先进的科技并成为事实上的行业标准，1992年，SGI公司领导了OpenGL架构审查委员会（OpenGL ARB）的创建。该委员会由若干公司组成，负责未来OpenGL规范的维护和扩充。&lt;/p&gt;
+
+&lt;p&gt;也就是说OpenGL早期是图形库后来就进化成一套接口规范了，向上为图形开发者提供服务，向下对接显卡厂商，接口的实现都是各大厂商去做了。虽然这些函数的定义表面上类似于C语言，但它们是语言独立的。因此，OpenGL有许多语言绑定，值得一提的包括：JavaScript绑定的WebGL(最新的WebGL 2.0规范基于OpenGL ES 3.0并于2017年1月完成)；C绑定的WGL、GLX和CGL；iOS提供的C绑定；Android提供的Java和C绑定。&lt;/p&gt;
+
+&lt;p&gt;OpenGL不仅语言无关，而且平台无关。规范只字未提获得和管理OpenGL上下文相关的内容，而是将这些作为细节交给底层的窗口系统。出于同样的原因，OpenGL纯粹专注于渲染，而不提供输入、音频以及窗口相关的API，这些事理所应当的被流放到三维引擎那一层了，通过场景树维护渲染对象，截获上层窗口和键盘事件向下转发，当然最主要的是把渲染线的接口封装成各种参数化图形的接口，把渲染三角形的接口封装成能加载模型的接口，把模型视图矩阵包装成场景操控器。&lt;/p&gt;
+
+&lt;p&gt;OpenGL规范描述了绘制2D和3D图形的抽象API。尽管这些API可以完全通过软件实现，但它是为大部分或者全部使用硬件加速而设计的。OpenGL的API定义了若干可被客户端程序调用的函数，以及一些具名整型常量（例如，常量GL_TEXTURE_2D对应的十进制整数为3553）。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-04-06-gl-fundamentals.png&quot; alt=&quot;OpenGL Fundamentals&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;OpenGL是一个不断进化的API。新版OpenGL规范会定期由Khronos Group发布，新版本通过扩展API来支持各种新功能。每个版本的细节由Khronos Group的成员一致决定，包括显卡厂商、操作系统设计人员以及类似Mozilla和谷歌的一般性技术公司。&lt;/p&gt;
+
+&lt;p&gt;除了核心API要求的功能之外，GPU供应商可以通过扩展的形式提供额外功能。扩展可能会引入新功能和新常量，并且可能放松或取消现有的OpenGL函数的限制。然后一个扩展就分成两部分发布：包含扩展函数原型的头文件和作为厂商的设备驱动。供应商使用扩展公开自定义的API而无需获得其他供应商或Khronos Group的支持，这大大增加了OpenGL的灵活性。OpenGL Registry负责所有扩展的收集和定义。
+每个扩展都与一个简短的标识符关系，该标识符基于开发公司的名称。例如，英伟达（nVidia）的标识符是NV。如果多个供应商同意使用相同的API来实现相同的功能，那么就用EXT标志符。这种情况更进一步，Khronos Group的架构评审委员（Architecture Review Board，ARB）正式批准该扩展，那么这就被称为一个“标准扩展”，标识符使用ARB。第一个ARB扩展是GL_ARB_multitexture。
+OpenGL每个新版本中引入的功能，特别是ARB和EXT类型的扩展，通常由数个被广泛实现的扩展功能组合而成。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-04-06-gl-extensions.svg&quot; alt=&quot;OpenGL Fundamentals&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="cg" /><category term="opengl" /><category term="d3d" /><summary>上篇说到在DOS时期，应用程序如果要对于显示设备做输出的话，必须使用INT 10中断，或对于VGA卡直接I/O，或直接对VRAM所在的记忆体位置作填值。但VGA卡当时日新月异，各家的VGA卡在其I/O ports的定义并不一致，虽中间有推出一个名为VESA SVGA的显卡驱动程序的共用标准，但由于DOS时先天的64KB的标签页限制，仍有许多不便。</summary></entry><entry><title>计算机图形显示之-字符接口</title><link href="http://bblu.github.io/2018-04-01-cg-card-interface.html" rel="alternate" type="text/html" title="计算机图形显示之-字符接口" /><published>2018-04-01T21:12:00+08:00</published><updated>2018-04-01T21:12:00+08:00</updated><id>http://bblu.github.io/cg-card-interface</id><content type="html" xml:base="http://bblu.github.io/2018-04-01-cg-card-interface.html">&lt;blockquote&gt;
   &lt;p&gt;计算机跨时代意义的进步有两个一个是实模式到保护模式，另一个是命令行到GUI。第二个进步和显卡是互相促进的关系，GUI让计算机从科研院所走进了人们的日常生活中。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -71,7 +117,7 @@ Port加速图形接口，是在1997年由Intel提出为了消除PCI在处理3D�
 &lt;blockquote&gt;
   &lt;p&gt;参考 &lt;a href=&quot;https://zh.wikipedia.org/wiki/INT_10H&quot;&gt;Wiki: INT 10H&lt;/a&gt;&lt;br /&gt;
 《操作系统 真象还原》第三章&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="cg" /><category term="gpu" /><category term="interface" /><summary>计算机跨时代意义的进步有两个一个是实模式到保护模式，另一个是命令行到GUI。第二个进步和显卡是互相促进的关系，GUI让计算机从科研院所走进了人们的日常生活中。</summary></entry><entry><title>ios开发TimePie第6天-Flush UI when Active</title><link href="http://bblu.github.io/2018-03-27-swift-timepie-active.html" rel="alternate" type="text/html" title="ios开发TimePie第6天-Flush UI when Active" /><published>2018-03-27T00:20:00+08:00</published><updated>2018-03-27T00:20:00+08:00</updated><id>http://bblu.github.io/swift-timepie-active</id><content type="html" xml:base="http://bblu.github.io/2018-03-27-swift-timepie-active.html">&lt;blockquote&gt;
+&lt;/blockquote&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="cg" /><category term="bios" /><summary>计算机跨时代意义的进步有两个一个是实模式到保护模式，另一个是命令行到GUI。第二个进步和显卡是互相促进的关系，GUI让计算机从科研院所走进了人们的日常生活中。</summary></entry><entry><title>ios开发TimePie第6天-Flush UI when Active</title><link href="http://bblu.github.io/2018-03-27-swift-timepie-active.html" rel="alternate" type="text/html" title="ios开发TimePie第6天-Flush UI when Active" /><published>2018-03-27T00:20:00+08:00</published><updated>2018-03-27T00:20:00+08:00</updated><id>http://bblu.github.io/swift-timepie-active</id><content type="html" xml:base="http://bblu.github.io/2018-03-27-swift-timepie-active.html">&lt;blockquote&gt;
   &lt;p&gt;很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -631,72 +677,4 @@ def main&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;:
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-11-swift-timepie-picker.png&quot; alt=&quot;add source file to project&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>解析json初始化pickerview选择todo事项，一开始想把Picker的Datasource和Delegate独立出去，互相操作起来太复杂先放弃了以后再说吧。</summary></entry><entry><title>ios开发TimePie第2天-解析json添加按钮</title><link href="http://bblu.github.io/2018-03-09-swift-timepie-2nd.html" rel="alternate" type="text/html" title="ios开发TimePie第2天-解析json添加按钮" /><published>2018-03-09T00:00:00+08:00</published><updated>2018-03-09T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-2nd</id><content type="html" xml:base="http://bblu.github.io/2018-03-09-swift-timepie-2nd.html">&lt;blockquote&gt;
-  &lt;p&gt;被锤子打击之后就没怎么去写日程了，除了失望另一个很重要的原因是直接在Google日历上无论是添加计划还是修改计划都太麻烦，为自己又不是能完全按照时间计划去执行的人，也没有那么多时间去搞了。那就换手机了，在苹果应用市场上搜集了十几款时间日程管理的软件发现都不是我想要的，于是就想自己开发一个这就是我开发这个软件的原因。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;最早起名叫Myday感觉太土了这次重新做改名叫TimePie，github单独起了一个【&lt;a href=&quot;https://github.com/bblu/timepie&quot;&gt;TimePie&lt;/a&gt;】。&lt;/p&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;各种白痴问题&lt;/h2&gt;
-&lt;p&gt;### 1.添加按钮事件
-这个以前都是有鼠标的，这次出差没带鼠标单击了半天就是不能把按钮关联到事件创建上，一晚上也无解直到第二天才恍然大悟应该是右击。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;2.添加资源文件&lt;/h3&gt;
-&lt;p&gt;资源文件的结构要和解码的结构对应
-&lt;code class=&quot;highlighter-rouge&quot;&gt;base
-{
-    &quot;user&quot;:&quot;bblu&quot;,
-    &quot;date&quot;:&quot;2018-03-09&quot;,
-    &quot;items&quot;:[
-             {&quot;name&quot;: &quot;work&quot;,&quot;alias&quot;:&quot;工作&quot;,&quot;icon&quot;:&quot;📌&quot;,&quot;code&quot;:0,&quot;span&quot;:360},
-             {&quot;name&quot;: &quot;coding&quot;,&quot;alias&quot;:&quot;编码&quot;,&quot;icon&quot;:&quot;👨🏻‍💻&quot;,&quot;code&quot;:1,&quot;span&quot;:60}
-    ]
-}
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;写好json的配置文件放到对应目录下,找的代码这么也读不出来，反复看视频和查资料发现是自己白痴了！
-解决方法：打开build Phases中的 copy Bundle Resources点击下面的+把你需求的文件添加进去，然后再运行就可以获取到你的文件路径了。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-09-swift-json-file.png&quot; alt=&quot;add source file to project&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;swift-4codable&quot;&gt;3.swift 4新增的codable方式定义自己的数据模式&lt;/h3&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;struct TodoConfig:Decodable&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;user:String
-    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;date:String
-    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;items:[TodoItem]
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-struct TodoItem: Decodable&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;name:String
-    &lt;span class=&quot;nb&quot;&gt;let alias&lt;/span&gt;:String
-    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;icon:String
-    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;code:Int
-    var span:Int
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;### 4.通过代码初始化按钮&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    func addButtons&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;items:[TodoItem]&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;item &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;items&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;pos &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; item.code
-            //pos:   0,  1,  2,  3,  4
-            //     100,101,102,103,104
-            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;px &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;pos % 10&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; 80
-            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;py &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 400 + &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;pos / 10&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; 50
-            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;btnItem &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; UIButton&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;frame: CGRect&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;x:px, y: py, width: 80, height: 30&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-            //btnItem.addTarget&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;self, action: Selector&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;clickItem&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 
-            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;: UIControlEvents.touchUpInside&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-            btnItem.translatesAutoresizingMaskIntoConstraints &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false
-            &lt;/span&gt;btnItem.setTitle&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;item.alias, &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;: UIControlState.normal&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-            btnItem.setTitleColor&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;UIColor.blue, &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;: UIControlState.normal&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-            //btnItem.backgroundColor &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; UIColor.lightGray
-            // btnItem.addTarget&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;self, action: Selector&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;clickItem&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 
-            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;: UIControlEvents.touchUpInside&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-            self.view.addSubview&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;btnItem&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-09-swift-timepie-btn.png&quot; alt=&quot;add source file to project&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>被锤子打击之后就没怎么去写日程了，除了失望另一个很重要的原因是直接在Google日历上无论是添加计划还是修改计划都太麻烦，为自己又不是能完全按照时间计划去执行的人，也没有那么多时间去搞了。那就换手机了，在苹果应用市场上搜集了十几款时间日程管理的软件发现都不是我想要的，于是就想自己开发一个这就是我开发这个软件的原因。</summary></entry></feed>
+&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-11-swift-timepie-picker.png&quot; alt=&quot;add source file to project&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>解析json初始化pickerview选择todo事项，一开始想把Picker的Datasource和Delegate独立出去，互相操作起来太复杂先放弃了以后再说吧。</summary></entry></feed>
