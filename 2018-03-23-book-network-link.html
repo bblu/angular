@@ -406,6 +406,10 @@ MTU - HEAD <span class="o">=</span> MSS【最大分段大小】
   <li>10.～ 172.16.～ 192.168.～ ,以太网外网部分分配PublicAddress,内网部分通过地址转换（NAT）机制上网，即在转发包时头部的IP地址和端口号，NAT设备一般是路由器中的16b端口号可以表示65536个值除去前面保留的1024个其余的都可以映射给内网的上网设备。</li>
 </ul>
 
+<blockquote>
+  <p>ps:网络字节序列为什么是大端的？因为所有的协议头都在前面，不先把协议头发出去网络协议没法工作。</p>
+</blockquote>
+
         
       </section>
 
@@ -532,6 +536,27 @@ MTU - HEAD <span class="o">=</span> MSS【最大分段大小】
     
     <h2 class="archive__item-title" itemprop="headline">
       
+        <a href="/2018-04-12-cg-pipe-line.html" rel="permalink">计算机图形显示之-渲染管线
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  Rendering Pipeline这个东西我最开始接触的时候如果名字叫渲染流水线就会省去很多脑细胞去理解管线这个词是个什么东西。CPU的SuperPipeline就很人性化的翻译成超级流水线就很好理解。由于我接触cg的时候固定管线和可编程管线多地位和今天是相反的，所以处于礼貌的原因我也要先介绍一下固定管线...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
         <a href="/2018-04-06-cg-graphic-lib.html" rel="permalink">计算机图形显示之-图形接口
 </a>
       
@@ -584,30 +609,6 @@ MTU - HEAD <span class="o">=</span> MSS【最大分段大小】
     
     <p class="archive__item-excerpt" itemprop="description">
   很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。
-
-
-</p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-03-19-swift-timepie-backup.html" rel="permalink">ios开发TimePie第5天-网络备份数据
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，存到本地的数据库中还是远远不够的如果手机丢了就废了。
 
 
 </p>

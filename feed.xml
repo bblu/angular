@@ -1,4 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-04-06T17:45:41+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>计算机图形显示之-图形接口</title><link href="http://bblu.github.io/2018-04-06-cg-graphic-lib.html" rel="alternate" type="text/html" title="计算机图形显示之-图形接口" /><published>2018-04-06T14:28:00+08:00</published><updated>2018-04-06T14:28:00+08:00</updated><id>http://bblu.github.io/cg-graphic-lib</id><content type="html" xml:base="http://bblu.github.io/2018-04-06-cg-graphic-lib.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://bblu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://bblu.github.io/" rel="alternate" type="text/html" /><updated>2018-04-13T00:25:41+08:00</updated><id>http://bblu.github.io/</id><title>bblu&#39;s blog</title><subtitle>Just do IT</subtitle><author><name>bblu</name><email>gmwblu@gmail.com</email></author><entry><title>计算机图形显示之-渲染管线</title><link href="http://bblu.github.io/2018-04-12-cg-pipe-line.html" rel="alternate" type="text/html" title="计算机图形显示之-渲染管线" /><published>2018-04-12T20:12:00+08:00</published><updated>2018-04-12T20:12:00+08:00</updated><id>http://bblu.github.io/cg-pipe-line</id><content type="html" xml:base="http://bblu.github.io/2018-04-12-cg-pipe-line.html">&lt;blockquote&gt;
+  &lt;p&gt;Rendering Pipeline这个东西我最开始接触的时候如果名字叫渲染流水线就会省去很多脑细胞去理解管线这个词是个什么东西。CPU的SuperPipeline就很人性化的翻译成超级流水线就很好理解。由于我接触cg的时候固定管线和可编程管线多地位和今天是相反的，所以处于礼貌的原因我也要先介绍一下固定管线，虽然从opengGL3.0就开始被剥离出去了，从应用的角度还是有必要拿出来说一下。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;1.从厨师制作饼干开始我们的流水线之旅&lt;/h2&gt;
+
+&lt;p&gt;[准备材料] =&amp;gt; [制作好外形] =&amp;gt; [烤箱内烘焙] =&amp;gt; [🍪]&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;1.1.纯手工做饼干&lt;/h3&gt;
+&lt;p&gt;全手工这个工作模式是每名厨师来全权负责整个流程的模式，从材料准备到饼干定型到烧火去烤全部工作都由一个人手工来完成，两名厨师没有分工没有流水完全并行的干自己的工作。优点是非常灵活想做成什么样的形状或者想要几成熟都可以实现，缺点也很明显就是效率底。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;1.2.半自动化饼干&lt;/h3&gt;
+&lt;p&gt;厨师想要偷懒买了蛋糕模具和可定时的烤箱。半自动化的工作模式可以看成是厨师用几种模具来做蛋糕，烤箱上也有8成熟/10成熟/12成熟几个选择按钮可以选。厨师负责用磨具给蛋糕定型，然后用烤箱负责烘焙。但是二者的工作是有依赖的可以流水但是不能并行，即厨师在定型的时候烤箱处于等待状态无法工作的，效率上比纯手工要快但是蛋糕的形状受制于模具的种类，如果没有某个形状的模具就不能做出相应的蛋糕。同理如果烤箱没有准备3成熟的按钮也同样烘焙不出需要的饼干。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;1.3.可编程做饼干&lt;/h3&gt;
+&lt;p&gt;可编程的工作模式就比较高级了，需要一个神奇的工具，这个工具不但功能是可以配置的，并且工作内容也是可编程的。这样的好处就是在饼干定型阶段这两个工具一起做饼干自动模具直接出需要的形状，并且形状是可以用程序控制的，在烘焙阶段也可以一起当烤箱去烘焙，并且烘焙的程度也是可以编程控制生产出颜色不同的饼干。如果只有两个工具提升效率的感觉可能还不明显如果有两百个这样的工具那么可编程的工作方式就很拽酷炫了。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;2.说完饼干再来说说渲染的事&lt;/h2&gt;
+
+&lt;h3 id=&quot;cpu&quot;&gt;2.1.纯CPU渲染&lt;/h3&gt;
+&lt;p&gt;这种方式CPU全权负责组织数据，定点变换和片元处理各个步骤，所有处理都是线性的并且都要占用cpu资源。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;2.2.固定管线渲染&lt;/h3&gt;
+&lt;p&gt;CUP太累了，找显卡帮忙去做渲染的事。固定管线的显卡由顶点渲染管线和像素渲染管线组成，生成图像的过程都是先由顶点渲染管线中的Vertex Shader（顶点着色器）生成基础的几何图形（由三角形构成），然后再由像素渲染管线中的Pixel Shader（像素着色器）进行填色，最后才是像素渲染管线中的纹理单元进行贴图。&lt;/p&gt;
+
+&lt;p&gt;把图元顶点位置和属性数据准备好（包括贴图/纹理坐标/关照/材质等等），把相应阶段的状态设定好然后开始渲染，等待屏幕出结果就可以了。比如定点变换，primitive的类型是点、线还是三角面亦或是三角条带，一次渲染这个设定好就不能修改了。这样顶点处理器和片元处理器有上下游关系，片元处理器要等待顶点处理器给它提供数据才能工作，这无疑降低了显卡的工作效率。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;3.3.可编程管线渲染&lt;/h3&gt;
+&lt;p&gt;显卡为了提高效率把每个处理器都磨练成全能的选手。统一渲染架构（Unified Shader）是相对于分离式渲染架构而言的。新的统一渲染架构，顶点着色器和像素着色器被合二为一，成为流处理器。流处理器，即着色单元（Pixel
+Shader）就是那个众望所归的神奇的工具。它将同时负责顶点着色和像素着色，避免了附载不均衡的情况。（统一渲染架构中还增加了Geometry Shader）同架构显卡中，流处理器数量越多，性能也越强大。&lt;/p&gt;
+
+&lt;p&gt;对于一个着色单元里的一个运算单元（ALU）来说计算齐次坐标变换和计算argb的颜色融合其实差别不大没必要用一套闲一套。不论是顶点变换还是片元处理大家一起上。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;以上两套东西可以参照着看，你可以把一个三维场景里的每个面片想象成一个饼干，在可编程管线处理过程中饼干的顶点和颜色都可以编程调整。调整顶点的程序片段叫顶点着色器，调整颜色的程序片段叫像素着色器。这些着色器最后被编译成可以在显卡内部的流处理器中运行的程序。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;渲染流水线的起点是CPU从数据准备开始，终点是帧缓存，到显示器可能还要转换一下比如用VGA的液晶显示器，帧缓存的数字信号先转换成VAG模拟信号然后输入到显示器如果我没记错的化VGA的RGB分量是压缩过的565的比例损失了三分之一的信息但是这个比例是根据人眼的感光细胞优化过的感觉没那么糟糕，但是因为液晶是数字信号驱动的模拟信号还要在换回去，这就好比你用数码相机拍照洗出来再翻拍以后的效果，所以现在显卡上几乎看不到这个接口了。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#OpenGL 3.1主要新特性：&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Texture&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Buffer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Objects&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;纹理缓冲对象&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;、&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Uniform&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Buffer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Objects&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;统一缓冲对象&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;、&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Signed&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Normalized&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Textures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;符号正常化纹理&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;、&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Primitive&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Restart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;基本元素重启&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;、&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Instancing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;实例化&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;、&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;CopyBuffer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;API&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;拷贝缓冲接口&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#OpenGL 3.1删除的功能：&lt;/span&gt;
+    &lt;span class=&quot;err&quot;&gt;固定管线&lt;/span&gt;
+    &lt;span class=&quot;err&quot;&gt;选择反馈模式&lt;/span&gt;
+    &lt;span class=&quot;err&quot;&gt;点画模式应用（实线虚线）&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;测试（用片段着色器替代&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="cg" /><category term="pipeline" /><summary>Rendering Pipeline这个东西我最开始接触的时候如果名字叫渲染流水线就会省去很多脑细胞去理解管线这个词是个什么东西。CPU的SuperPipeline就很人性化的翻译成超级流水线就很好理解。由于我接触cg的时候固定管线和可编程管线多地位和今天是相反的，所以处于礼貌的原因我也要先介绍一下固定管线，虽然从opengGL3.0就开始被剥离出去了，从应用的角度还是有必要拿出来说一下。</summary></entry><entry><title>计算机图形显示之-图形接口</title><link href="http://bblu.github.io/2018-04-06-cg-graphic-lib.html" rel="alternate" type="text/html" title="计算机图形显示之-图形接口" /><published>2018-04-06T14:28:00+08:00</published><updated>2018-04-06T14:28:00+08:00</updated><id>http://bblu.github.io/cg-graphic-lib</id><content type="html" xml:base="http://bblu.github.io/2018-04-06-cg-graphic-lib.html">&lt;blockquote&gt;
   &lt;p&gt;上篇说到在DOS时期，应用程序如果要对于显示设备做输出的话，必须使用INT 10中断，或对于VGA卡直接I/O，或直接对VRAM所在的记忆体位置作填值。但VGA卡当时日新月异，各家的VGA卡在其I/O ports的定义并不一致，虽中间有推出一个名为VESA SVGA的显卡驱动程序的共用标准，但由于DOS时先天的64KB的标签页限制，仍有许多不便。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -331,7 +384,11 @@ MTU - HEAD &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; MSS【最大分段大�
   &lt;li&gt;程序不允许分片或者已经分片的包不能分片。&lt;/li&gt;
   &lt;li&gt;公网地址紧缺后把公网没分配的三个段拿出来当成私有地址&lt;/li&gt;
   &lt;li&gt;10.～ 172.16.～ 192.168.～ ,以太网外网部分分配PublicAddress,内网部分通过地址转换（NAT）机制上网，即在转发包时头部的IP地址和端口号，NAT设备一般是路由器中的16b端口号可以表示65536个值除去前面保留的1024个其余的都可以映射给内网的上网设备。&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="network" /><category term="note" /><summary>以前老是觉得学习什么东西应该由浅入深，一步一步步入深渊。现在感觉好像倒过来也是可行的当然拿到一本书即使看不懂也能坚持看下去才行。主要是网络这块真是如此，最早看计算机网络第五版，云里雾里的那些什么带碰撞检测是载波侦听搞的很狼狈，后来看详解TCP/IP感觉就好一点，这两天看到Kindle里的网络是怎么连接的，终于有山重水复疑无路，柳暗花明又一村的感觉了，把一些知识点和之前的困惑记录一下。</summary></entry><entry><title>ios开发TimePie第5天-网络备份数据</title><link href="http://bblu.github.io/2018-03-19-swift-timepie-backup.html" rel="alternate" type="text/html" title="ios开发TimePie第5天-网络备份数据" /><published>2018-03-19T20:22:00+08:00</published><updated>2018-03-19T20:22:00+08:00</updated><id>http://bblu.github.io/swift-timepie-backup</id><content type="html" xml:base="http://bblu.github.io/2018-03-19-swift-timepie-backup.html">&lt;blockquote&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;ps:网络字节序列为什么是大端的？因为所有的协议头都在前面，不先把协议头发出去网络协议没法工作。&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="network" /><category term="note" /><summary>以前老是觉得学习什么东西应该由浅入深，一步一步步入深渊。现在感觉好像倒过来也是可行的当然拿到一本书即使看不懂也能坚持看下去才行。主要是网络这块真是如此，最早看计算机网络第五版，云里雾里的那些什么带碰撞检测是载波侦听搞的很狼狈，后来看详解TCP/IP感觉就好一点，这两天看到Kindle里的网络是怎么连接的，终于有山重水复疑无路，柳暗花明又一村的感觉了，把一些知识点和之前的困惑记录一下。</summary></entry><entry><title>ios开发TimePie第5天-网络备份数据</title><link href="http://bblu.github.io/2018-03-19-swift-timepie-backup.html" rel="alternate" type="text/html" title="ios开发TimePie第5天-网络备份数据" /><published>2018-03-19T20:22:00+08:00</published><updated>2018-03-19T20:22:00+08:00</updated><id>http://bblu.github.io/swift-timepie-backup</id><content type="html" xml:base="http://bblu.github.io/2018-03-19-swift-timepie-backup.html">&lt;blockquote&gt;
   &lt;p&gt;一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，存到本地的数据库中还是远远不够的如果手机丢了就废了。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -650,31 +707,4 @@ def main&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;:
     main&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;Code above:&lt;a href=&quot;https://sourcemaking.com/design_patterns/abstract_factory/python/1&quot;&gt;Abstract Factory in Python&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="design" /><summary>设计模式是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构之下，架构面向的是系统的整体，比如分层，模块化，MVC，OO等等这些都属于架构模式。</summary></entry><entry><title>ios开发TimePie第3天-添加UIPickerView</title><link href="http://bblu.github.io/2018-03-11-swift-timepie-3rd.html" rel="alternate" type="text/html" title="ios开发TimePie第3天-添加UIPickerView" /><published>2018-03-11T00:00:00+08:00</published><updated>2018-03-11T00:00:00+08:00</updated><id>http://bblu.github.io/swift-timepie-3rd</id><content type="html" xml:base="http://bblu.github.io/2018-03-11-swift-timepie-3rd.html">&lt;blockquote&gt;
-  &lt;p&gt;解析json初始化pickerview选择todo事项，一开始想把Picker的Datasource和Delegate独立出去，互相操作起来太复杂先放弃了以后再说吧。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;section&quot;&gt;常用的操作&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;重构： Command + click 可以调出选项转到定义&lt;/li&gt;
-  &lt;li&gt;查找： Command + F&lt;/li&gt;
-  &lt;li&gt;替换： Command + Option+F&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;uipickerview&quot;&gt;UIPickerView更新选项和设置默认项&lt;/h3&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    public func pickerView&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;select0 &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; picker.selectedRow&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;inComponent: 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-        var index &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; select0 &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; 100 + component &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; row
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;component&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-            picker.reloadComponent&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; //重新加载二级选项
-            picker.selectRow&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;1, inComponent: 1, animated: &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; //二级选项里默认的索引是1
-            index +&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        print&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pickerView.delegate.didSelectRow[select0=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;select0),com=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;component),row=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;row)],index=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;index)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-        curLabel.text &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;current is &quot;&lt;/span&gt; + getLabel&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;index:index&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;../assets/in-post/2018-03-11-swift-timepie-picker.png&quot; alt=&quot;add source file to project&quot; /&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="ios" /><category term="swift" /><summary>解析json初始化pickerview选择todo事项，一开始想把Picker的Datasource和Delegate独立出去，互相操作起来太复杂先放弃了以后再说吧。</summary></entry></feed>
+&lt;p&gt;Code above:&lt;a href=&quot;https://sourcemaking.com/design_patterns/abstract_factory/python/1&quot;&gt;Abstract Factory in Python&lt;/a&gt;&lt;/p&gt;</content><author><name>bblu</name><email>gmwblu@gmail.com</email></author><category term="design" /><summary>设计模式是用来解决常见的模式化的问题，这些问题有普遍的应用场景于是就这些场景的共同点提取出有针对性的解决方案。设计模式的位置在架构之下，架构面向的是系统的整体，比如分层，模块化，MVC，OO等等这些都属于架构模式。</summary></entry></feed>
