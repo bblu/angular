@@ -37,7 +37,7 @@
 
 
 
-  <meta property="og:description" content="  每周一练-计算目标索引。假设给定数组中的两个元素和等于给定值计算这个索引。这道题坑最多等就是C++的了：数组参数传值拷贝，数组长度，返回数组总之是后背发凉。">
+  <meta property="og:description" content="  每周一练-计算目标索引。假设给定数组中的两个元素和等于给定值计算这个索引。这道题坑最多等就是C++的了：数组参数传值拷贝，数组长度，返回数组总之是后背发凉。（这个每周一练一开始计划叫每日一练的，当mkdir的时候本着从实际的原则改成了weeklypractice）">
 
 
 
@@ -213,7 +213,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="weeklyCoding-getIndicesByTarget">
-    <meta itemprop="description" content="  每周一练-计算目标索引。假设给定数组中的两个元素和等于给定值计算这个索引。这道题坑最多等就是C++的了：数组参数传值拷贝，数组长度，返回数组总之是后背发凉。">
+    <meta itemprop="description" content="  每周一练-计算目标索引。假设给定数组中的两个元素和等于给定值计算这个索引。这道题坑最多等就是C++的了：数组参数传值拷贝，数组长度，返回数组总之是后背发凉。（这个每周一练一开始计划叫每日一练的，当mkdir的时候本着从实际的原则改成了weeklypractice）">
     <meta itemprop="datePublished" content="April 19, 2018">
     
 
@@ -228,7 +228,7 @@
 
       <section class="page__content" itemprop="text">
         <blockquote>
-  <p>每周一练-计算目标索引。假设给定数组中的两个元素和等于给定值计算这个索引。这道题坑最多等就是C++的了：数组参数传值拷贝，数组长度，返回数组总之是后背发凉。</p>
+  <p>每周一练-计算目标索引。假设给定数组中的两个元素和等于给定值计算这个索引。这道题坑最多等就是C++的了：数组参数传值拷贝，数组长度，返回数组总之是后背发凉。（这个每周一练一开始计划叫每日一练的，当mkdir的时候本着从实际的原则改成了weeklypractice）</p>
 </blockquote>
 
 <h2 id="c">C++</h2>
@@ -249,19 +249,47 @@
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
+    <span class="c1">//bblu @ 2018-04-20
+</span>    <span class="kt">void</span> <span class="n">getIndicesByTarget2</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">num</span><span class="p">,</span><span class="kt">int</span> <span class="n">len</span><span class="p">,</span><span class="kt">int</span> <span class="n">tar</span><span class="p">,</span><span class="kt">int</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">indices</span><span class="p">)[</span><span class="mi">2</span><span class="p">]){</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">len</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">==</span><span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">num</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">num</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">tar</span><span class="p">){</span>
+            <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tmp</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">num</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tar</span><span class="p">){</span>
+                    <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">;</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">tar</span> <span class="o">-</span> <span class="n">num</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+                <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">tmp</span> <span class="o">==</span> <span class="n">num</span><span class="p">[</span><span class="n">j</span><span class="p">]){</span>
+                    <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">;</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 <span class="p">};</span>
 
 <span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
-    <span class="kt">int</span> <span class="n">num</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">num</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">};</span>
     <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
     <span class="kt">int</span> <span class="n">tar</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">indices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">};</span>
-    <span class="n">Solution</span> <span class="o">*</span><span class="n">sol</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Solution</span><span class="p">();</span>
-    <span class="n">sol</span><span class="o">-&gt;</span><span class="n">getIndicesByTarget</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="n">tar</span><span class="p">,</span> <span class="n">indices</span><span class="p">);</span>
+    <span class="n">Solution</span> <span class="n">sol</span><span class="p">;</span>
+    <span class="n">sol</span><span class="p">.</span><span class="n">getIndicesByTarget</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="n">tar</span><span class="p">,</span> <span class="n">indices</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
         <span class="n">printf</span><span class="p">(</span><span class="s">"get indices[%d,%d] of number array.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
     <span class="p">}</span><span class="k">else</span><span class="p">{</span>
         <span class="n">printf</span><span class="p">(</span><span class="s">"sorry world!"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">sol</span><span class="p">.</span><span class="n">getIndicesByTarget2</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="n">tar</span><span class="p">,</span> <span class="n">indices</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"get indices[%d,%d] of number array.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"sorry world again!"</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
@@ -283,15 +311,37 @@
                 <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">indices</span>
 
+    <span class="c">#bblu @ 2018-04-20</span>
+    <span class="k">def</span> <span class="nf">getIndicesByTarget2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nums</span><span class="p">,</span><span class="n">tar</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
+            <span class="n">p0</span><span class="p">,</span><span class="n">p1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
+            <span class="k">print</span> <span class="s">'|-deal with base=</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">base</span>
+            <span class="n">subNums</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">base</span><span class="p">:]</span> 
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subNums</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">p0</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">tar</span><span class="p">:</span>
+                    <span class="n">p0</span> <span class="o">=</span> <span class="n">base</span> <span class="o">+</span> <span class="n">i</span>
+                    <span class="k">print</span> <span class="s">'|--p0=</span><span class="si">%</span><span class="s">s'</span><span class="o">%</span><span class="n">p0</span>
+                    <span class="n">p1</span> <span class="o">=</span> <span class="n">tar</span> <span class="o">-</span> <span class="n">v</span> 
+                <span class="k">elif</span> <span class="n">v</span> <span class="o">==</span> <span class="n">p1</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">'|-find index:base=</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">base</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">p0</span><span class="p">,</span> <span class="n">base</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">'|-not find index:base=</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">base</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">p0</span><span class="p">,</span><span class="n">p1</span><span class="p">]</span>
+
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">mySolution</span> <span class="o">=</span> <span class="n">Solution</span><span class="p">()</span>
-    <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
     <span class="n">tar</span> <span class="o">=</span> <span class="mi">7</span>
     <span class="n">indices</span> <span class="o">=</span> <span class="n">mySolution</span><span class="o">.</span><span class="n">getIndicesByTarget</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="n">tar</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s">'sory world!'</span><span class="p">)</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">mySolution</span><span class="o">.</span><span class="n">getIndicesByTarget2</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="n">tar</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'sory world again!'</span><span class="p">)</span>
 </code></pre>
 </div>
 
