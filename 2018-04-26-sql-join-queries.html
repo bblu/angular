@@ -302,7 +302,7 @@
 </div>
 
 <blockquote>
-  <p>if you user outer join the left or right Can not be ignored</p>
+  <p>if you use outer join the left or right Can not be ignored</p>
 </blockquote>
 
 <h4 id="right-outer-join">3.2.RIGHT OUTER JOIN</h4>
@@ -364,34 +364,36 @@
 <span class="c1">--"customer4";</span>
 </code></pre>
 </div>
-<p>#### 4.2.left join use left table keys to join
-```sql
-– RITHT JOIN according to the rows in rear/RITHT table
-– the table has 3 orders and that is what you want
-SELECT c.name AS custorm,o.book bookId
-FROM public.customer AS c
-LEFT JOIN public.bookorder o ON o.customer = c.id</p>
 
-<h2 id="customer-bookid">–customer, bookId</h2>
-<p>“customer1”;    0
-“customer1”;    1
-“customer3”;    4
-“customer0”;
-“customer2”;
-“customer4”;</p>
+<h4 id="left-join-use-left-table-keys-to-join">4.2.left join use left table keys to join</h4>
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="c1">-- RITHT JOIN according to the rows in rear/RITHT table</span>
+<span class="c1">-- the table has 3 orders and that is what you want</span>
+<span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">name</span> <span class="k">AS</span> <span class="n">custorm</span><span class="p">,</span><span class="n">o</span><span class="p">.</span><span class="n">book</span> <span class="n">bookId</span>
+<span class="k">FROM</span> <span class="k">public</span><span class="p">.</span><span class="n">customer</span> <span class="k">AS</span> <span class="k">c</span>
+<span class="k">LEFT</span> <span class="k">JOIN</span> <span class="k">public</span><span class="p">.</span><span class="n">bookorder</span> <span class="n">o</span> <span class="k">ON</span> <span class="n">o</span><span class="p">.</span><span class="n">customer</span> <span class="o">=</span> <span class="k">c</span><span class="p">.</span><span class="n">id</span>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
-### 5.query people who erver bought a book
-```sql
-SELECT c.name AS custorm, o.book bid
-FROM public.customer AS c
-RIGHT JOIN public.bookorder o on c.id = o.customer
+<span class="c1">--customer, bookId</span>
+<span class="c1">-------------------</span>
+<span class="nv">"customer1"</span><span class="p">;</span>    <span class="mi">0</span>
+<span class="nv">"customer1"</span><span class="p">;</span>    <span class="mi">1</span>
+<span class="nv">"customer3"</span><span class="p">;</span>    <span class="mi">4</span>
+<span class="nv">"customer0"</span><span class="p">;</span>
+<span class="nv">"customer2"</span><span class="p">;</span>
+<span class="nv">"customer4"</span><span class="p">;</span>
 
--- customer  bid|
-----------------|
---"customer1";1 |
---"customer1";0 |
---"customer3";4 |
+</code></pre>
+</div>
+
+<h3 id="query-people-who-erver-bought-a-book">5.query people who erver bought a book</h3>
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">name</span> <span class="k">AS</span> <span class="n">custorm</span><span class="p">,</span> <span class="n">o</span><span class="p">.</span><span class="n">book</span> <span class="n">bid</span>
+<span class="k">FROM</span> <span class="k">public</span><span class="p">.</span><span class="n">customer</span> <span class="k">AS</span> <span class="k">c</span>
+<span class="k">RIGHT</span> <span class="k">JOIN</span> <span class="k">public</span><span class="p">.</span><span class="n">bookorder</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">customer</span>
+
+<span class="c1">-- customer  bid|</span>
+<span class="c1">----------------|</span>
+<span class="c1">--"customer1";1 |</span>
+<span class="c1">--"customer1";0 |</span>
+<span class="c1">--"customer3";4 |</span>
 </code></pre>
 </div>
 
@@ -512,7 +514,8 @@ RIGHT JOIN public.bookorder o on c.id = o.customer
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/2018-05-01-swift-timepie-eventkit.html" class="pagination--pager" title="ios开发TimePie第8天-Access Calendars by EventKit
+">Next</a>
     
   </nav>
 
@@ -537,6 +540,30 @@ RIGHT JOIN public.bookorder o on c.id = o.customer
         <h4 class="page__related-title">You May Also Enjoy</h4>
       
       <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-05-01-swift-timepie-eventkit.html" rel="permalink">ios开发TimePie第8天-Access Calendars by EventKit
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  The EventKit framework helps you access users’ Calendar and Reminders information.First of all I just want to push doneItems to apple Calendars.
+
+
+</p>
+  </article>
+</div>
         
           
 
@@ -607,27 +634,6 @@ RIGHT JOIN public.bookorder o on c.id = o.customer
 
 
 </p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-04-12-cg-pipe-line.html" rel="permalink">计算机图形显示之-渲染管线
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  Rendering Pipeline这个东西我最开始接触的时候如果名字叫渲染流水线就会省去很多脑细胞去理解管线这个词是个什么东西。CPU的SuperPipeline就很人性化的翻译成超级流水线就很好理解。由于我接触cg的时候固定管线和可编程管线多地位和今天是相反的，所以处于礼貌的原因我也要先介绍一下固定管线...</p>
   </article>
 </div>
         
