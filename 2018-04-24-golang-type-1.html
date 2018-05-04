@@ -345,6 +345,12 @@ const greeting = \`multi
 </span><span class="k">func</span><span class="x"> </span><span class="n">subAdd</span><span class="p">(</span><span class="n">a</span><span class="x"> </span><span class="kt">int32</span><span class="p">,</span><span class="n">b</span><span class="x"> </span><span class="kt">int32</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="n">sub</span><span class="x"> </span><span class="kt">int</span><span class="p">,</span><span class="x"> </span><span class="n">add</span><span class="x"> </span><span class="kt">int</span><span class="p">){</span><span class="x">
     </span><span class="k">return</span><span class="x"> </span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">,</span><span class="x"> </span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="x">
 </span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">getIndicesByTarget</span><span class="p">(</span><span class="n">nums</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">,</span><span class="x"> </span><span class="n">leng</span><span class="x"> </span><span class="kt">int</span><span class="p">,</span><span class="x"> </span><span class="n">tar</span><span class="x"> </span><span class="kt">int</span><span class="p">)(</span><span class="n">i0</span><span class="x"> </span><span class="kt">int</span><span class="p">,</span><span class="n">i1</span><span class="x"> </span><span class="kt">int</span><span class="p">){</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="o">:=</span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">&lt;</span><span class="x"> </span><span class="n">leng</span><span class="o">-</span><span class="m">1</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="p">{</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="o">-</span><span class="m">1</span><span class="p">,</span><span class="x"> </span><span class="o">-</span><span class="m">1</span><span class="x">
+</span><span class="p">}</span><span class="x">
 </span></code></pre>
 </div>
 <p>#### defer栈 延迟执行一般用了确保资源被释放</p>
@@ -483,6 +489,28 @@ const greeting = \`multi
     
     <h2 class="archive__item-title" itemprop="headline">
       
+        <a href="/2018-05-04-weekly-leetcode-398.html" rel="permalink">weeklyCoding-LeetCode-398-randomPickIndex
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  Given an array of integers with possible duplicates, randomly output the index of a given target number. 
+You can assume that the given target number must...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
         <a href="/2018-05-01-swift-timepie-eventkit.html" rel="permalink">ios开发TimePie第8天-Access Calendars by EventKit
 </a>
       
@@ -535,30 +563,6 @@ const greeting = \`multi
     
     <p class="archive__item-excerpt" itemprop="description">
   每周一练-计算目标索引。假设给定数组中的两个元素和等于给定值计算这个索引。这道题坑最多等就是C++的了：数组参数传值拷贝，数组长度，返回数组总之是后背发凉。（这个每周一练一开始计划叫每日一练的，当mkdir的时候本着从实际的原则改成了weeklypractice）
-
-
-</p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-04-16-swift-timepie-statistics.html" rel="permalink">ios开发TimePie第7天-分时段统计
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  有了数据就可以统计一下每周或者每月平均时间开销了，工作有两部分一块是时间段控制（至于是自然月还是前30天看个人口味了，我是喜欢当前周和自然月有渐进的成就感）另一部分是数据库查询那个就比较简单了。
 
 
 </p>
