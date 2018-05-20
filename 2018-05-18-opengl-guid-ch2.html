@@ -1,0 +1,629 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>OpenGL4.5 Programming Guid V9 - Chapter II - bblu’s blog</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="bblu's blog">
+<meta property="og:title" content="OpenGL4.5 Programming Guid V9 - Chapter II">
+
+
+  <link rel="canonical" href="http://bblu.github.io/2018-05-18-opengl-guid-ch2.html">
+  <meta property="og:url" content="http://bblu.github.io/2018-05-18-opengl-guid-ch2.html">
+
+
+
+  <meta property="og:description" content="  变蓝的红宝书–«OpenGL编程指南»">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-05-18T20:00:00+08:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "bblu",
+      "url" : "http://bblu.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="bblu's blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    <!-- start custom head snippets -->
+
+<link rel="shortcut icon" href="/assets/favicon.ico">
+
+<!-- end custom head snippets -->
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="/">bblu's blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/posts">Posts</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/categories">Categories</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/tags">Tags</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/portfolio">Portfolio</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/guestbook">Guestbook</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="/about">About</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="/images/bio-photo.jpg" class="author__avatar" alt="bblu">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">bblu</h3>
+    <p class="author__bio">Just do it</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Beijing, China</li>
+      
+      
+      
+        <li><a href="mailto:gmwblu@gmail.com"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/bblu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="OpenGL4.5 Programming Guid V9 - Chapter II">
+    <meta itemprop="description" content="  变蓝的红宝书–«OpenGL编程指南»">
+    <meta itemprop="datePublished" content="May 18, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">OpenGL4.5 Programming Guid V9 - Chapter II
+</h1>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <blockquote>
+  <p>变蓝的红宝书–«OpenGL编程指南»</p>
+</blockquote>
+
+<h2 id="section">2.4.数据块接口</h2>
+<p>### 2.4.1.顶点着色器的主要功能是
+- 顶点法线变换及单位化
+- 纹理坐标变换
+- 光照参数生成</p>
+
+<p>顶点着色器的输入内容包括：
+- 着色器源代码
+- attribute变量
+- uniform变量</p>
+
+<p>顶点着色器的输出内容包括：
+- varying变量
+- 内置的特殊变量(如gl_Position、gl_FrontFacing、gl_PointSize)</p>
+
+<h3 id="section-1">2.4.2.片元着色器的主要功能：</h3>
+<ul>
+  <li>在差值得到的值上进行操作</li>
+  <li>访问纹理</li>
+  <li>应用纹理</li>
+  <li>雾化</li>
+  <li>颜色融合</li>
+</ul>
+
+<p>片元着色器的输入内容包括：
+- 着色器源代码
+- 用户自定义的varying变量
+- uniform变量
+- 采样器（Sampler）
+- 一些内置的特殊变量（gl_PointCoord、gl_FragCoord、gl_FrontFacing等）</p>
+
+<p>片元着色器的输出：
+- 内置的特殊变量gl_FragColor</p>
+
+<h2 id="section-2">2.5.着色器编译</h2>
+<p>准备好着色程序的源代码后使用着色器一般需要依次执行以下步骤：
+1. 创建着色器对象：glCreateshader(GLenum type)；
+2. 绑定代码到着色器对象上：使用glShaderSource(shaderObj,shaerSrc);
+3. 编译着色器：glCompileShader(shaderObj)（用glGetShaderiv检查一下编译的结果）
+4. 创建着色程序对象:GLuint glCreaterProgram()；
+5. 关联着色器对象到着色程序上：glAttachShader(program, shader)(glDetachShaer)；
+6. 链接生成一个可执行程序:glLinkProgram(program)（检查是否成功）；
+7. 最后将渲染管道切换到着色器模式并执行着色器程序：glUseProgram()；
+&gt; 总结起来就是两句话：两个创建两个绑定，编译链接然后使用。记住后后一句就可以了。</p>
+
+<h2 id="subroutine">2.6.着色器子程序subroutine</h2>
+<blockquote>
+  <p>着色器子程序类似与C函数指针</p>
+</blockquote>
+
+<div class="language-glsl highlighter-rouge"><pre class="highlight"><code><span class="cp">#version 330 core
+</span><span class="kt">void</span> <span class="n">func_one</span><span class="p">(){...}</span>
+<span class="kt">void</span> <span class="n">func_two</span><span class="p">(){...}</span>
+<span class="k">uniform</span> <span class="kt">int</span> <span class="n">flag</span><span class="p">;</span>
+<span class="kt">void</span> <span class="n">main</span><span class="p">(){</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">flag</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">func_one</span><span class="p">();</span>
+    <span class="k">else</span>
+        <span class="n">func_two</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="glsl">2.6.1.GLSL子程序设置</h3>
+<ol>
+  <li>声明子程序 subroutine returnType subroutineType(type param, …);</li>
+  <li>定义子程序 subroutine (subroutineType) returnType functionName(…);</li>
+  <li>声明选择子 subroutine uniform subroutineType variableName;
+<code class="highlighter-rouge">glsl
+//1
+subroutine vec4 LightFunc(vec3);
+//2
+subroutine (LightFunc) vec4 ambient(vec3 n){
+ return Materials.ambient;
+}
+subroutin (LightFunc) vec4 diffuse(vec3 n){
+ return Materials.diffuse * max(dot(normailize(n),LightVec.xyz), 0.0);
+}
+//3
+subroutine uniform LightFunc materialShader;
+</code></li>
+</ol>
+
+<h3 id="use-subroutine">2.6.2.Use subroutine</h3>
+<blockquote>
+  <p>在链接后的着色器程序查询不同subroutine在着色器中的索引（相当于函数地址）,然后把这个函数地址赋给第一步声明的函数指针，完成subroutine的选择。不同的是subroutine的uniform使用glGetSubroutineUniformLocation(pro,type,name)来获取。</p>
+</blockquote>
+
+<div class="language-glsl highlighter-rouge"><pre class="highlight"><code><span class="n">glUseProgram</span><span class="p">(</span><span class="n">program</span><span class="p">);</span>
+<span class="c1">//1.定位子程序uniform
+</span><span class="n">matShaderLoc</span> <span class="o">=</span> <span class="n">glGetSubroutineUniformLocation</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">GL_VERTEX_SHADER</span><span class="p">,</span> <span class="s">"materialShader"</span><span class="p">);</span>
+<span class="c1">//2.获得子程序索引
+</span><span class="n">ambIndex</span> <span class="o">=</span> <span class="n">glGetSubroutineIndex</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">GL_VERTEX_SHADER</span><span class="p">,</span> <span class="s">"ambient"</span><span class="p">);</span>
+<span class="n">difIndex</span> <span class="o">=</span> <span class="n">glGetSubroutineIndex</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">GL_VERTEX_SHADER</span><span class="p">,</span> <span class="s">"diffuse"</span><span class="p">);</span>
+
+<span class="n">GLsize</span> <span class="n">n</span><span class="p">;</span>
+<span class="n">glGetIntegerv</span><span class="p">(</span><span class="n">GL_MAX_SUBROUTINE_UINFORM_LOCATIONS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+<span class="n">GLuint</span> <span class="o">*</span><span class="n">indices</span> <span class="o">=</span> <span class="n">new</span> <span class="n">GLuint</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+<span class="n">indices</span><span class="p">[</span><span class="n">matShaderLoc</span><span class="p">]</span> <span class="o">=</span> <span class="n">ambIndex</span><span class="p">;</span>
+<span class="c1">//3.指定要执行的子程序
+</span><span class="n">glUniformSubroutinesuiv</span><span class="p">(</span><span class="n">GL_VETEX_SHADER</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">indices</span><span class="p">);</span>
+<span class="n">delete</span> <span class="p">[]</span> <span class="n">indices</span><span class="p">;</span>
+</code></pre>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#book" class="page__taxonomy-item" rel="tag">book</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#opengl" class="page__taxonomy-item" rel="tag">opengl</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-05-18T20:00:00+08:00">May 18, 2018</time></p>
+        
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=/2018-05-18-opengl-guid-ch2.html" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/2018-05-18-opengl-guid-ch2.html" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=/2018-05-18-opengl-guid-ch2.html" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=/2018-05-18-opengl-guid-ch2.html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="/2018-05-11-weekly-leetcode-3.html" class="pagination--pager" title="weeklyCoding-Leetcode 3.LongestSubstring
+">Previous</a>
+    
+    
+      <a href="/2018-05-20-opengl-guid-ch3.html" class="pagination--pager" title="OpenGL Programming Guid - Chapter III DRAW
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+      
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-05-20-opengl-guid-ch3.html" rel="permalink">OpenGL Programming Guid - Chapter III DRAW
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  变蓝的红宝书–«OpenGL4.5编程指南V9»–第三章 绘制方式。多了一个buffer管理器VAO，创建一堆buffer后绑定到当前vertexArray后drawArray的时候可以一键设置回正确的渲染状态。
+
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-05-11-weekly-leetcode-3.html" rel="permalink">weeklyCoding-Leetcode 3.LongestSubstring
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  Leetcode 3. Longest Substring Without Repeating Characters
+DescriptionHintsSubmissionsDiscussSolution
+Given a string, find the length of the longest subst...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-05-08-mapbox-style-stops.html" rel="permalink">Mapbox stops样式调用解析和图层合并
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  节前为了解决图标放大发虚的问题一直在测试SDF方式渲染图标技术上已经搞定了，就等美工把svg格式符号库给整出来了。目前业务系统样式比较复杂一类设备往往配几十种样式渲染的图层比较多，为了提高效率寻求了各种方法，降低图层数量无疑是比较有效的。目前修改为stops支持多属性,没有限制的字段可以为空（undefin...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-05-05-golang-web-service.html" rel="permalink">《Go Web编程》- HTTP &amp; Database
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  «Go Web编程-谢孟军» golang 的标准库 net/http 提供了 http 编程接口封装了内部细节 http.request 和 http.ResponseWriter 两个对象交互就行。
+之所以把http和database放一起是因为他们的实现机制有相似到地方。每个连接请求都会起一个goro...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+</div>
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>More at</strong></li>
+    
+    
+      <li><a href="ResumeCN.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> CV</a></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/bblu"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 bblu. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>. <script src="https://s96.cnzz.com/z_stat.php?id=1000257487&web_id=1000257487" language="JavaScript"></script></div>
+      </footer>
+    </div>
+
+    <script src="/assets/js/main.min.js"></script>
+
+
+
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-48887175-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'bblu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+  </body>
+</html>
+

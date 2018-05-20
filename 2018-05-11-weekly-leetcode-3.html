@@ -238,7 +238,7 @@ Given “abcabcbb”, the answer is “abc”, which the length is 3.
 Given “bbbbb”, the answer is “b”, with the length of 1.
 Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the answer must be a substring, “pwke” is a subsequence and not a substring.</p>
 
-<h3 id="c">C++</h3>
+<h3 id="chttpsgithubcombblualgocpptreemasterweeklypractice"><a href="https://github.com/bblu/algocpp/tree/master/weeklyPractice">C++</a></h3>
 <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
 #include &lt;string&gt;
 #include &lt;vector&gt;
@@ -247,7 +247,25 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
 
 <span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
     <span class="k">public</span><span class="o">:</span>
-    <span class="kt">int</span> <span class="n">lengthOfLongestSubstring</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">lengthOfLongestSubstring</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span><span class="p">){</span>
+        <span class="c1">//记录每个字符之前最大的起始位置(反向索引)
+</span>        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">preCharPos</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">strLen</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">strLen</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="n">strLen</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">curPos</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">prePos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">strLen</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">prePos</span> <span class="o">=</span> <span class="n">preCharPos</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+            <span class="n">curPos</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">curPos</span><span class="p">,</span><span class="n">prePos</span><span class="p">);</span>
+            <span class="kt">int</span> <span class="n">curLen</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">curPos</span><span class="p">;</span>
+            <span class="n">preCharPos</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="n">maxLen</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">maxLen</span><span class="p">,</span> <span class="n">curLen</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">maxLen</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="kt">int</span> <span class="nf">lengthOfLongestSubstring_old</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="o">-&gt;</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
         <span class="kt">int</span> <span class="n">strlen</span> <span class="o">=</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">strlen</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="n">strlen</span><span class="p">;</span>
@@ -295,6 +313,33 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
 <span class="p">}</span>
 </code></pre>
 </div>
+
+<h3 id="pythonhttpsgithubcombblualgopythontreemasterweeklypractice"><a href="https://github.com/bblu/algopython/tree/master/weeklyPractice">python</a></h3>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">lengthOfLongestSubstring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="s">"""
+        :type s: str
+        :rtype: int
+        """</span>
+        <span class="n">maxLen</span><span class="p">,</span> <span class="n">curPos</span><span class="p">,</span> <span class="n">charPos</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">charPos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">curPos</span><span class="p">:</span>
+                <span class="n">curPos</span> <span class="o">=</span> <span class="n">charPos</span><span class="p">[</span><span class="n">char</span><span class="p">]</span>
+            <span class="n">charPos</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+            <span class="n">maxLen</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxLen</span><span class="p">,</span> <span class="n">idx</span> <span class="o">-</span> <span class="n">curPos</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">maxLen</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">Solution</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s">'aabcdd'</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">lengthOfLongestSubstring</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">l</span>
+
+</code></pre>
+</div>
+
+<h3 id="go"><a href="">go</a></h3>
 
         
       </section>
@@ -384,7 +429,8 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/2018-05-18-opengl-guid-ch2.html" class="pagination--pager" title="OpenGL4.5 Programming Guid V9 - Chapter II
+">Next</a>
     
   </nav>
 
@@ -409,6 +455,54 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
         <h4 class="page__related-title">You May Also Enjoy</h4>
       
       <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-05-20-opengl-guid-ch3.html" rel="permalink">OpenGL Programming Guid - Chapter III DRAW
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  变蓝的红宝书–«OpenGL4.5编程指南V9»–第三章 绘制方式。多了一个buffer管理器VAO，创建一堆buffer后绑定到当前vertexArray后drawArray的时候可以一键设置回正确的渲染状态。
+
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-05-18-opengl-guid-ch2.html" rel="permalink">OpenGL4.5 Programming Guid V9 - Chapter II
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  变蓝的红宝书–«OpenGL编程指南»
+
+
+</p>
+  </article>
+</div>
         
           
 
@@ -450,52 +544,6 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
     <p class="archive__item-excerpt" itemprop="description">
   «Go Web编程-谢孟军» golang 的标准库 net/http 提供了 http 编程接口封装了内部细节 http.request 和 http.ResponseWriter 两个对象交互就行。
 之所以把http和database放一起是因为他们的实现机制有相似到地方。每个连接请求都会起一个goro...</p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-05-04-weekly-leetcode-398.html" rel="permalink">weeklyCoding-LeetCode-398-randomPickIndex
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  Given an array of integers with possible duplicates, randomly output the index of a given target number. 
-You can assume that the given target number must...</p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-05-01-swift-timepie-eventkit.html" rel="permalink">ios开发TimePie第8天-Access Calendars by EventKit
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  The EventKit framework helps you access users’ Calendar and Reminders information.First of all I just want to push doneItems to apple Calendars.
-
-
-</p>
   </article>
 </div>
         
