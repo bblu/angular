@@ -339,7 +339,49 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
 </code></pre>
 </div>
 
-<h3 id="go"><a href="">go</a></h3>
+<h3 id="gohttpsgithubcombblugolangtreemasterweeklypractice"><a href="https://github.com/bblu/golang/tree/master/weeklypractice">go</a></h3>
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">type</span><span class="x"> </span><span class="n">Solution</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">Constructor</span><span class="p">()</span><span class="x"> </span><span class="n">Solution</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">sol</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">Solution</span><span class="p">{}</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="n">sol</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">this</span><span class="x"> </span><span class="o">*</span><span class="n">Solution</span><span class="p">)</span><span class="x"> </span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="x"> </span><span class="n">y</span><span class="x"> </span><span class="kt">int32</span><span class="p">)</span><span class="x"> </span><span class="kt">int32</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">x</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="n">y</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="n">x</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="n">y</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">this</span><span class="x"> </span><span class="o">*</span><span class="n">Solution</span><span class="p">)</span><span class="x"> </span><span class="n">lengthOfLongestSubString</span><span class="p">(</span><span class="n">str</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="kt">int32</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">maxLen</span><span class="p">,</span><span class="x"> </span><span class="n">curPos</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="kt">int32</span><span class="p">(</span><span class="m">0</span><span class="p">),</span><span class="x"> </span><span class="kt">int32</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="x">
+	</span><span class="n">charPos</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">make</span><span class="p">(</span><span class="k">map</span><span class="p">[</span><span class="kt">byte</span><span class="p">]</span><span class="kt">int32</span><span class="p">,</span><span class="x"> </span><span class="m">256</span><span class="p">)</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="kt">int32</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">256</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">charPos</span><span class="p">[</span><span class="kt">byte</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="o">-</span><span class="m">1</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="n">strLen</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="kt">int32</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">))</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">strLen</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">prePos</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">charPos</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="x">
+		</span><span class="k">if</span><span class="x"> </span><span class="n">prePos</span><span class="x"> </span><span class="o">&gt;=</span><span class="x"> </span><span class="n">curPos</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">curPos</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">charPos</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="x">
+		</span><span class="p">}</span><span class="x">
+		</span><span class="n">charPos</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">i</span><span class="x">
+		</span><span class="n">maxLen</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">this</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">maxLen</span><span class="p">,</span><span class="x"> </span><span class="n">i</span><span class="o">-</span><span class="n">curPos</span><span class="p">)</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="n">maxLen</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">sol</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">Constructor</span><span class="p">()</span><span class="x">
+	</span><span class="n">s</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"aabcdd"</span><span class="x">
+	</span><span class="nb">len</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">sol</span><span class="o">.</span><span class="n">lengthOfLongestSubString</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="x">
+	</span><span class="nb">println</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
 
         
       </section>
@@ -429,7 +471,7 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
 ">Previous</a>
     
     
-      <a href="/2018-05-18-opengl-guid-ch2.html" class="pagination--pager" title="OpenGL4.5 Programming Guid V9 - Chapter II
+      <a href="/2018-05-18-opengl-guid-ch2.html" class="pagination--pager" title="OpenGL Programming Guid - Chapter II SHADER
 ">Next</a>
     
   </nav>
@@ -467,6 +509,28 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
     
     <h2 class="archive__item-title" itemprop="headline">
       
+        <a href="/2018-05-27-howto-mvt-tile.html" rel="permalink">从零开始构建矢量块服务
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">Mapbox Vector Tiles是一种现代化的存储和传输方式，你可以在shapefile，GeoJSON或TopoJSON文件中找到相同类型的feature数据，mvt使用了渲染友好的方式加以整理并且压缩成pfb的格式方便网络传输和解析。
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
         <a href="/2018-05-20-opengl-guid-ch3.html" rel="permalink">OpenGL Programming Guid - Chapter III DRAW
 </a>
       
@@ -491,7 +555,7 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-05-18-opengl-guid-ch2.html" rel="permalink">OpenGL4.5 Programming Guid V9 - Chapter II
+        <a href="/2018-05-18-opengl-guid-ch2.html" rel="permalink">OpenGL Programming Guid - Chapter II SHADER
 </a>
       
     </h2>
@@ -522,28 +586,6 @@ Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the
     
     <p class="archive__item-excerpt" itemprop="description">
   节前为了解决图标放大发虚的问题一直在测试SDF方式渲染图标技术上已经搞定了，就等美工把svg格式符号库给整出来了。目前业务系统样式比较复杂一类设备往往配几十种样式渲染的图层比较多，为了提高效率寻求了各种方法，降低图层数量无疑是比较有效的。目前修改为stops支持多属性,没有限制的字段可以为空（undefin...</p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-05-05-golang-web-service.html" rel="permalink">《Go Web编程》- HTTP &amp; Database
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  «Go Web编程-谢孟军» golang 的标准库 net/http 提供了 http 编程接口封装了内部细节 http.request 和 http.ResponseWriter 两个对象交互就行。
-之所以把http和database放一起是因为他们的实现机制有相似到地方。每个连接请求都会起一个goro...</p>
   </article>
 </div>
         
