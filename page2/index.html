@@ -216,6 +216,8 @@
       
       
       
+        <li><a href="https://twitter.com/@luwenbo"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
       
       
       
@@ -264,57 +266,13 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-05-05-golang-web-service.html" rel="permalink">《Go Web编程》- HTTP &amp; Database
+        <a href="/2018-04-19-weekly-coding-getindices.html" rel="permalink">weeklyCoding-getIndicesByTarget
 </a>
       
     </h2>
     
     <p class="archive__item-excerpt" itemprop="description">
-  «Go Web编程-谢孟军» golang 的标准库 net/http 提供了 http 编程接口封装了内部细节 http.request 和 http.ResponseWriter 两个对象交互就行。
-之所以把http和database放一起是因为他们的实现机制有相似到地方。每个连接请求都会起一个goro...</p>
-  </article>
-</div>
-
-  
-
-
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-05-04-weekly-leetcode-398.html" rel="permalink">weeklyCoding-LeetCode-398-randomPickIndex
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  Given an array of integers with possible duplicates, randomly output the index of a given target number. 
-You can assume that the given target number must...</p>
-  </article>
-</div>
-
-  
-
-
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-05-01-swift-timepie-eventkit.html" rel="permalink">ios开发TimePie第8天-Access Calendars by EventKit
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  The EventKit framework helps you access users’ Calendar and Reminders information.First of all I just want to push doneItems to apple Calendars.
+  每周一练-计算目标索引。假设给定数组中的两个元素和等于给定值计算这个索引。这道题坑最多等就是C++的了：数组参数传值拷贝，数组长度，返回数组总之是后背发凉。（这个每周一练一开始计划叫每日一练的，当mkdir的时候本着从实际的原则改成了weeklypractice）
 
 
 </p>
@@ -332,13 +290,16 @@ You can assume that the given target number must...</p>
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-04-26-sql-join-queries.html" rel="permalink">Different Join queries in postgresql9.6
+        <a href="/2018-04-16-swift-timepie-statistics.html" rel="permalink">ios开发TimePie第7天-分时段统计
 </a>
       
     </h2>
     
     <p class="archive__item-excerpt" itemprop="description">
-  PostgreSQL is a powerful, open source object-relational database system with over 30 years of active development that has earned it a strong reputation fo...</p>
+  有了数据就可以统计一下每周或者每月平均时间开销了，工作有两部分一块是时间段控制（至于是自然月还是前30天看个人口味了，我是喜欢当前周和自然月有渐进的成就感）另一部分是数据库查询那个就比较简单了。
+
+
+</p>
   </article>
 </div>
 
@@ -353,16 +314,172 @@ You can assume that the given target number must...</p>
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-04-24-golang-type-1.html" rel="permalink">《Go Web编程》-类型和控制
+        <a href="/2018-04-12-cg-pipe-line.html" rel="permalink">计算机图形显示之-渲染管线
 </a>
       
     </h2>
     
     <p class="archive__item-excerpt" itemprop="description">
-  go语言和C很像，像到是有指针甚至到了有函数指针和goto的地步。符号首字母的大小写决定了符号的可见性（比Fortran有进步😇），for和c相比有变强，为什么多行字符串是`multiLinestring`呢。。。
+  Rendering Pipeline这个东西我最开始接触的时候如果名字叫渲染流水线就会省去很多脑细胞去理解管线这个词是个什么东西。CPU的SuperPipeline就很人性化的翻译成超级流水线就很好理解。由于我接触cg的时候固定管线和可编程管线多地位和今天是相反的，所以处于礼貌的原因我也要先介绍一下固定管线...</p>
+  </article>
+</div>
+
+  
+
+
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-04-06-cg-graphic-lib.html" rel="permalink">计算机图形显示之-图形接口
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  上篇说到在DOS时期，应用程序如果要对于显示设备做输出的话，必须使用INT 10中断，或对于VGA卡直接I/O，或直接对VRAM所在的记忆体位置作填值。但VGA卡当时日新月异，各家的VGA卡在其I/O ports的定义并不一致，虽中间有推出一个名为VESA SVGA的显卡驱动程序的共用标准，但由于DOS时先...</p>
+  </article>
+</div>
+
+  
+
+
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-04-01-cg-card-interface.html" rel="permalink">计算机图形显示之-字符接口
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  计算机跨时代意义的进步有两个一个是实模式到保护模式，另一个是命令行到GUI。第二个进步和显卡是互相促进的关系，GUI让计算机从科研院所走进了人们的日常生活中。
 
 
 </p>
+  </article>
+</div>
+
+  
+
+
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-27-swift-timepie-active.html" rel="permalink">ios开发TimePie第6天-Flush UI when Active
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  很久没这么连续加班到后半夜的了，真有点吃不消。之前程序计时器后台会停摆唤醒后时间会落后，后台切换到前台需要刷新显示。另外因为目前按照计划自动日程的功能还没实现，加了一个调整上次记录功能是在忘记记录的时候使用的。
+
+
+</p>
+  </article>
+</div>
+
+  
+
+
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-23-book-network-link.html" rel="permalink">读书笔记-《网络是如何连接的》
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  以前老是觉得学习什么东西应该由浅入深，一步一步步入深渊。现在感觉好像倒过来也是可行的当然拿到一本书即使看不懂也能坚持看下去才行。主要是网络这块真是如此，最早看计算机网络第五版，云里雾里的那些什么带碰撞检测是载波侦听搞的很狼狈，后来看详解TCP/IP感觉就好一点，这两天看到Kindle里的网络是怎么连接的，终...</p>
+  </article>
+</div>
+
+  
+
+
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-19-swift-timepie-backup.html" rel="permalink">ios开发TimePie第5天-网络备份数据
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，存到本地的数据库中还是远远不够的如果手机丢了就废了。
+
+
+</p>
+  </article>
+</div>
+
+  
+
+
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-18-jmeter-get-started-1st.html" rel="permalink">Jmeter 学习笔记之GettingStarted
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  Apache JMeter 一个测试web功能和性能的开源Java软件，对java框架和协议支持良好，基本上应用协议都能测试。
+
+
+</p>
+  </article>
+</div>
+
+  
+
+
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-03-18-swift-timepie-sqlite.html" rel="permalink">ios开发TimePie第4天-数据入Sqlite库
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  一个程序最有价值的就是数据了，todo是一个高度结构化的数据放到sqlite是最合适不过的了，以后往android上移植也很方便，搜索了几个包装Sqlite的库都比较恐怖比如Sqlite.swift，介于这个应用的数据逻辑很简单就自己封装了一下sqlite的操作，这里又一个小trick就是选择不同的todo...</p>
   </article>
 </div>
 
@@ -410,6 +527,13 @@ You can assume that the given target number must...</p>
         <li><a href="/page4/">4</a></li>
       
     
+      
+        
+        
+        
+        <li><a href="/page5/">5</a></li>
+      
+    
 
     
     
@@ -417,7 +541,7 @@ You can assume that the given target number must...</p>
     
 
     
-      <li><a href="/page11/">11</a></li>
+      <li><a href="/page6/">6</a></li>
     
 
     
