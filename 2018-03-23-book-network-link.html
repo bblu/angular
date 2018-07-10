@@ -243,7 +243,7 @@
 </code></pre>
 </div>
 
-<h2 id="section">0.浏览器输入网址</h2>
+<h2 id="section">1.浏览器输入网址</h2>
 
 <ul>
   <li>URL：协议//web服务器/目录/文件</li>
@@ -272,18 +272,20 @@ http版本+状态码+响应短语
 
 <ul>
   <li>浏览器使用Socket库中的DN解析器(gethostbyname)向DNS发UDP消息查询IP</li>
-  <li>
-    <h2 id="section-1">域名记录：</h2>
-    <p>|DomainName：|bblu.tk<br />
-|Class：|IN[只剩这一直类型] <br />
-|Type：|Address|MaileXchange<br />
-|Data：|167.211.34.1|10 mail.163.com<br />
-—
-ps:网络层依靠ARP协议IP-&gt;MAC</p>
-  </li>
+  <li>域名记录：</li>
 </ul>
 
-<h2 id="section-2">2.浏览器交给系统的协议栈</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>---
+|Domain:|bblu.tk  
+| Class:|IN[只剩这一个类型]   
+| Type: |Address|MaileXchange  
+| Data: |167.211.34.1|10 mail.163.com  
+---
+</code></pre>
+</div>
+<p>ps:网络层依靠ARP协议IP-&gt;MAC</p>
+
+<h2 id="section-1">2.浏览器交给系统的协议栈</h2>
 
 <p>socket：程序组件名称<br />
 Socket：系统协议栈库【加州伯克利分校BSD系统c库】<br />
@@ -316,7 +318,7 @@ Socket：系统协议栈库【加州伯克利分校BSD系统c库】<br />
 
 <p>协议栈通过UDP收发数据：客户端自己负责</p>
 
-<h3 id="section-3">3.1套接字的实体就是通信控制信息</h3>
+<h3 id="section-2">3.1套接字的实体就是通信控制信息</h3>
 
 <p>协议栈是根据套接字记录的控制信息进行工作的
 windows使用netstat -ano 查看套接字</p>
@@ -360,17 +362,15 @@ MTU - HEAD <span class="o">=</span> MSS【最大分段大小】
   <li>进入TCP/IP后如果发现IP地址错误IP模块会通过ICMP消息通知发送方，但是有网络转发功能的服务器会转发包。</li>
 </ul>
 
-<p><code class="highlighter-rouge">bash
- 主要的ICMP消息  
- 类型：描述
- 0：EchoReply
- 3: DestinationUnreachable
- 4: Source Quench路由器负载报警
- 5: Redirect 包的出入口相同告诉发送方下一个路由让它直接发过去
- 8: Echo Ping命令发送的消息，接收方返回一个EchoReply
- 11: TimeExeccded 超过IP头部的TTL被丢弃通知发送方
- 12:IP头错误被丢弃
-</code></p>
+<p><strong>主要的ICMP消息</strong><br />
+ 类型：描述<br />
+ 0：EchoReply<br />
+ 3: DestinationUnreachable<br />
+ 4: Source Quench路由器负载报警<br />
+ 5: Redirect 包的出入口相同告诉发送方下一个路由让它直接发过去<br />
+ 8: Echo Ping命令发送的消息，接收方返回一个EchoReply<br />
+ 11: TimeExeccded 超过IP头部的TTL被丢弃通知发送方<br />
+ 12:IP头错误被丢弃</p>
 
 <ul>
   <li>IP协议里接收到开启分片的包还要分片重组</li>
@@ -395,7 +395,7 @@ MTU - HEAD <span class="o">=</span> MSS【最大分段大小】
   <p>UDP可以发送的最大数据是由IP包头的全长字段16b决定的，IP协议包最大长度是65535，再减去20IP+8UDP等于65507，需要IP模块分片传输。</p>
 </blockquote>
 
-<h2 id="section-4">5.交换机和路由器的包转发操作</h2>
+<h2 id="section-3">5.交换机和路由器的包转发操作</h2>
 
 <blockquote>
   <p>实际上路由器中路由表的目标IP地址只需要表示子网部分的比特值就可以了，主机号部分全部为0（也有一些IP地址主机号不是全部为0）。</p>
@@ -538,12 +538,12 @@ MTU - HEAD <span class="o">=</span> MSS【最大分段大小】
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-05-27-howto-mvt-tile.html" rel="permalink">从零开始构建矢量块服务
+        <a href="/2018-07-08-jvms8-4-structure.html" rel="permalink">《The JVM Specification》- ch4 The class File Format
 </a>
       
     </h2>
     
-    <p class="archive__item-excerpt" itemprop="description">Mapbox Vector Tiles是一种现代化的存储和传输方式，你可以在shapefile，GeoJSON或TopoJSON文件中找到相同类型的feature数据，mvt使用了渲染友好的方式加以整理并且压缩成pfb的格式方便网络传输和解析。
+    <p class="archive__item-excerpt" itemprop="description">there is nothing but a map for class file format
 
 </p>
   </article>
@@ -560,14 +560,35 @@ MTU - HEAD <span class="o">=</span> MSS【最大分段大小】
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-05-20-opengl-guid-ch3.html" rel="permalink">OpenGL Programming Guid - Chapter III DRAW
+        <a href="/2018-06-25-koa-passport-code.html" rel="permalink">koa-passport code inside
 </a>
       
     </h2>
     
-    <p class="archive__item-excerpt" itemprop="description">
-  变蓝的红宝书–«OpenGL4.5编程指南V9»–第三章 绘制方式。多了一个buffer管理器VAO，创建一堆buffer后绑定到当前vertexArray后drawArray的时候可以一键设置回正确的渲染状态。
+    <p class="archive__item-excerpt" itemprop="description">//project router index.js:entrance of the passport lib
+router.post('/auth/login', async (ctx) =&gt; {
+    //[1]prepare the function 
+    return passport.auth...</p>
+  </article>
+</div>
+        
+          
 
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-06-18-opengl-feedback.html" rel="permalink">《OpenGl编程指南》- ch5.4 transform feedback
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">What ? Where ? Why ? and how?
 
 </p>
   </article>
@@ -584,39 +605,14 @@ MTU - HEAD <span class="o">=</span> MSS【最大分段大小】
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-05-18-opengl-guid-ch2.html" rel="permalink">OpenGL Programming Guid - Chapter II SHADER
+        <a href="/2018-06-16-opengl-xcode-init.html" rel="permalink">《OpenGl Programming Guide》- first program in Xcode
 </a>
       
     </h2>
     
-    <p class="archive__item-excerpt" itemprop="description">
-  变蓝的红宝书–«OpenGL编程指南»
-
+    <p class="archive__item-excerpt" itemprop="description">1. HomeBrew 安装依赖库：
 
 </p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-05-11-weekly-leetcode-3.html" rel="permalink">weeklyCoding-Leetcode 3.LongestSubstring
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-  Leetcode 3. Longest Substring Without Repeating Characters
-DescriptionHintsSubmissionsDiscussSolution
-Given a string, find the length of the longest subst...</p>
   </article>
 </div>
         
