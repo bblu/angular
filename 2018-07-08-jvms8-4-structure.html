@@ -231,7 +231,85 @@
       <section class="page__content" itemprop="text">
         <p>there is nothing but a map for class file format</p>
 
-<p><img src="../assets/in-post/2018-07-08-jvms8-4-structure.svg" alt="class file format" /></p>
+<p><img src="../assets/in-post/2018-07-08-jvms8-4-structure.png" alt="class file format" /></p>
+
+<h4 id="an-example">an example</h4>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// write your code here</span>
+        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h4 id="to-class-file">to class file</h4>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>macbook:src bblu<span class="nv">$ </span>javac Main.java 
+macbook:src bblu<span class="nv">$ </span>ls
+Main.class      Main.java       cn
+macbook:src bblu<span class="nv">$ </span>javap -v Main.class 
+Classfile /Users/bblu/IdeaProjects/Test/src/Main.class
+  Last modified Jul 3, 2018; size 273 bytes
+  MD5 checksum a3ecac22d2e8975b9bf21afa4ff0502b
+  Compiled from <span class="s2">"Main.java"</span>
+public class Main
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   <span class="c">#1 = Methodref          #3.#12         // java/lang/Object."&lt;init&gt;":()V</span>
+   <span class="c">#2 = Class              #13            // Main</span>
+   <span class="c">#3 = Class              #14            // java/lang/Object</span>
+   <span class="c">#4 = Utf8               &lt;init&gt;</span>
+   <span class="c">#5 = Utf8               ()V</span>
+   <span class="c">#6 = Utf8               Code</span>
+   <span class="c">#7 = Utf8               LineNumberTable</span>
+   <span class="c">#8 = Utf8               main</span>
+   <span class="c">#9 = Utf8               ([Ljava/lang/String;)V</span>
+  <span class="c">#10 = Utf8               SourceFile</span>
+  <span class="c">#11 = Utf8               Main.java</span>
+  <span class="c">#12 = NameAndType        #4:#5          // "&lt;init&gt;":()V</span>
+  <span class="c">#13 = Utf8               Main</span>
+  <span class="c">#14 = Utf8               java/lang/Object</span>
+<span class="o">{</span>
+  public Main<span class="o">()</span>;
+    descriptor: <span class="o">()</span>V
+    flags: ACC_PUBLIC
+    Code:
+      <span class="nv">stack</span><span class="o">=</span>1, <span class="nv">locals</span><span class="o">=</span>1, <span class="nv">args_size</span><span class="o">=</span>1
+         0: aload_0
+         1: invokespecial <span class="c">#1                  // Method java/lang/Object."&lt;init&gt;":()V</span>
+         4: <span class="k">return
+      </span>LineNumberTable:
+        line 1: 0
+
+  public static void main<span class="o">(</span>java.lang.String[]<span class="o">)</span>;
+    descriptor: <span class="o">([</span>Ljava/lang/String;<span class="o">)</span>V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      <span class="nv">stack</span><span class="o">=</span>2, <span class="nv">locals</span><span class="o">=</span>4, <span class="nv">args_size</span><span class="o">=</span>1
+         0: iconst_1
+         1: istore_1
+         2: iconst_2
+         3: istore_2
+         4: iload_1
+         5: iload_2
+         6: iadd
+         7: istore_3
+         8: <span class="k">return
+      </span>LineNumberTable:
+        line 5: 0
+        line 6: 2
+        line 7: 4
+        line 8: 8
+<span class="o">}</span>
+SourceFile: <span class="s2">"Main.java"</span>
+
+</code></pre>
+</div>
 
         
       </section>
@@ -321,7 +399,8 @@
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/2018-07-22-restfull-api-design.html" class="pagination--pager" title="Pitfalls of REST-full Api designing
+">Next</a>
     
   </nav>
 
@@ -358,35 +437,12 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-06-25-koa-passport-code.html" rel="permalink">koa-passport code inside
+        <a href="/2018-11-04-inside-vue-init.html" rel="permalink">VUE - initialization and DynamicData
 </a>
       
     </h2>
     
-    <p class="archive__item-excerpt" itemprop="description">//project router index.js:entrance of the passport lib
-router.post('/auth/login', async (ctx) =&gt; {
-    //[1]prepare the function 
-    return passport.auth...</p>
-  </article>
-</div>
-        
-          
-
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018-06-18-opengl-feedback.html" rel="permalink">《OpenGl编程指南》- ch5.4 transform feedback
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">What ? Where ? Why ? and how?
+    <p class="archive__item-excerpt" itemprop="description">inside code for vue initialization
 
 </p>
   </article>
@@ -403,12 +459,12 @@ router.post('/auth/login', async (ctx) =&gt; {
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-06-16-opengl-xcode-init.html" rel="permalink">《OpenGl Programming Guide》- first program in Xcode
+        <a href="/2018-10-31-xcode-error-certificate.html" rel="permalink">xcode - ios development certificate revoked
 </a>
       
     </h2>
     
-    <p class="archive__item-excerpt" itemprop="description">1. HomeBrew 安装依赖库：
+    <p class="archive__item-excerpt" itemprop="description">xcod调试程序的时候iPhone无法验证开发者应用，虽然点击了很多次切换流量尝试在设置里验证也没有效果。
 
 </p>
   </article>
@@ -425,12 +481,37 @@ router.post('/auth/login', async (ctx) =&gt; {
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-06-11-ES6-ch17-generator.html" rel="permalink">ES6 - ch17 Generator 函数的异步应用
+        <a href="/2018-08-26-weekly-leetcode-11.html" rel="permalink">Weekly code - Container With Most Water[leetcode11]
 </a>
       
     </h2>
     
-    <p class="archive__item-excerpt" itemprop="description">受限于Javascript的“单线程”执行环境，如果没有异步编程， 程序会卡死无法使用。
+    <p class="archive__item-excerpt" itemprop="description">Given n non-negative integers a1, a2, …, an , where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of ...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018-08-05-js-es6-module.html" rel="permalink">Moudle of JavaScript ES6
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">浏览器延迟加载的两种方式（默认情况下同步加载js脚本）
+
+  defer 渲染完执行 
+  async 下载完执行 
+  但是浏览器加载ES6模块是异步加载的 &lt;script type=‘module’ src=’foo.js’/&gt; 等同于打开defer属性
+
 
 </p>
   </article>

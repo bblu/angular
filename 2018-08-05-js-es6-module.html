@@ -19,7 +19,7 @@
 
 
 
-<title>从2-3-4树到红黑树 - bblu’s blog</title>
+<title>Moudle of JavaScript ES6 - bblu’s blog</title>
 
 
 
@@ -29,15 +29,15 @@
 
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="bblu's blog">
-<meta property="og:title" content="从2-3-4树到红黑树">
+<meta property="og:title" content="Moudle of JavaScript ES6">
 
 
-  <link rel="canonical" href="http://bblu.github.io/2018-05-30-what-is-rbtree.html">
-  <meta property="og:url" content="http://bblu.github.io/2018-05-30-what-is-rbtree.html">
+  <link rel="canonical" href="http://bblu.github.io/2018-08-05-js-es6-module.html">
+  <meta property="og:url" content="http://bblu.github.io/2018-08-05-js-es6-module.html">
 
 
 
-  <meta property="og:description" content="Red–black tree是一种自平衡二叉查找树，是计算机科学常用到的一种数据结构，典型的用途是实现Associative Array，就是定义一堆key去关联value（如果说关联数组又叫Map或者Dictionary是不是顿时感觉亲切了许多呢）## 1.概念准备">
+  <meta property="og:description" content="浏览器延迟加载的两种方式（默认情况下同步加载js脚本）  defer 渲染完执行   async 下载完执行   但是浏览器加载ES6模块是异步加载的 &lt;script type=‘module’ src=’foo.js’/&gt; 等同于打开defer属性">
 
 
 
@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2018-05-30T22:00:00+08:00">
+  <meta property="article:published_time" content="2018-08-05T14:30:00+08:00">
 
 
 
@@ -214,80 +214,59 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="从2-3-4树到红黑树">
-    <meta itemprop="description" content="Red–black tree是一种自平衡二叉查找树，是计算机科学常用到的一种数据结构，典型的用途是实现Associative Array，就是定义一堆key去关联value（如果说关联数组又叫Map或者Dictionary是不是顿时感觉亲切了许多呢）## 1.概念准备">
-    <meta itemprop="datePublished" content="May 30, 2018">
+    <meta itemprop="headline" content="Moudle of JavaScript ES6">
+    <meta itemprop="description" content="浏览器延迟加载的两种方式（默认情况下同步加载js脚本）  defer 渲染完执行   async 下载完执行   但是浏览器加载ES6模块是异步加载的 &lt;script type=‘module’ src=’foo.js’/&gt; 等同于打开defer属性">
+    <meta itemprop="datePublished" content="August 05, 2018">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 class="page__title" itemprop="headline">从2-3-4树到红黑树
+          <h1 class="page__title" itemprop="headline">Moudle of JavaScript ES6
 </h1>
           
         </header>
       
 
       <section class="page__content" itemprop="text">
-        <p>Red–black tree是一种<strong><em>自平衡二叉查找树</em></strong>，是计算机科学常用到的一种数据结构，典型的用途是实现Associative Array，就是定义一堆key去关联value（如果说关联数组又叫Map或者Dictionary是不是顿时感觉亲切了许多呢）
-## 1.概念准备</p>
-
-<h3 id="bst">1.1.BST</h3>
-<p>二叉查找树（Binary Search Tree）是一棵二叉树，它的左子节点的值比父节点的值要小，右节点的值要比父节点的值大。它的高度决定了它的查找效率。</p>
-
-<h3 id="avl-tree">1.2.AVL Tree</h3>
-<p>AVL树是最先发明的<strong>自平衡二叉查找树</strong>。在AVL树中任何节点的两个子树的高度最大差别为1，所以它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下的时间复杂度都是O(log n)所以Red–black tree也有同样的性能。</p>
-
-<p>增加和删除可能需要通过一次或多次树旋转来重新平衡这个树。节点的平衡因子是它的左子树的高度减去它的右子树的高度，带有平衡因子1、0或-1的节点被认为是平衡的。带有平衡因子-2或2的节点被认为是不平衡的，并需要重新平衡这个树。平衡因子可以直接存储在每个节点中，或从可能存储在节点中的子树高度计算出来。</p>
-
-<h3 id="tree">1.3.2-3-4 Tree</h3>
-<p>二叉查找树。每个节点只可以有一个key，而2-3-4树就是将节点的key的数量增加，可以有多个key，并且2-3-4树可以保持完美平衡（Perfect balance）。</p>
-
-<p>234是指子节点数量，3节点有两个key把所有的child分成了三拨，4节点有3个key把子节点分成4拨。</p>
-
-<h2 id="section">2.从2-3-4树到红黑树</h2>
-
-<p>红黑树是2-3-4树的一种等效树。换句话说，对于每个2-3-4树，都存在至少一个数据元素是同样次序的红黑树。在2-3-4树上的插入和删除操作也等同于在红黑树中颜色翻转和旋转。</p>
-
-<p><strong>红黑树在原有的二叉查找树基础上增加了如下几个要求</strong></p>
-
+        <h3 id="js">浏览器延迟加载的两种方式（默认情况下同步加载js脚本）</h3>
 <ul>
-  <li>1.Every node is either red or black.</li>
-  <li>2.The root is black.</li>
-  <li>3.Every leaf (NIL) is black.</li>
-  <li>4.If a node is red, then both its children are black.</li>
-  <li>5.For each node, all simple paths from the node to descendant leaves contain the same number of black nodes.</li>
+  <li>defer 渲染完执行 <script src="path/to/mymodule.js" defer=""></script></li>
+  <li>async 下载完执行 <script src="path/to/mymodule.js" async=""></script></li>
+  <li>但是浏览器加载ES6模块是异步加载的 &lt;script type=‘module’ src=’foo.js’/&gt; 等同于打开defer属性</li>
 </ul>
 
-<p><strong>简单说红黑树满足三条</strong>
-1. 首尾节点全黑：根节点和每个叶子节点（NIL）是黑色。[1.2.3]
-2. 红节点子全黑：如果一个节点是红色的，则它的子节点必须是黑色的。[4]
-3. 黑节点数相同：从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。[5]
-```</p>
+<h3 id="commonjs--es6">CommonJS 和 ES6模块对比</h3>
+<p>CommonJS的一个模块就是一个js文件第一次被require后就会执行整个脚本，然后在内存中生成一个对象。
+CommonJS模块输出的是一个值的复制，输出后模块内部变化和输出的值无关，ES6模块输出的是值的动态引用不缓存。
+CommonJS模块是运行时加载，ES6模块是编译时输出接口。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>        B80
-       /    \
-    R40     R120
-    /  \       \
-B20     B60     B140 
-/ \     / \     / \   R10 Nil R50 Nil R10 R30   / \      /\     / \ / \ Nil Nil  Nil Nil Nil Nil Nil ``` ### 2.1.红黑树的旋转操作 对4进行左旋，意味着将4变成一个原位置节点的左节点。 ```
-    8                               8     
-   / \                             / \
-  4   12    =leftrotate(4)=&gt;      6   12
-/  \                             / \    2    6                           4   7
-   / \                         / \
-  5   7                       2   5 ``` 对比234树的操作把节点4升级成3NodeTree，上图旋转前的情况是选择把4提升为父节点，左旋转是换成了把6提成成父节点,这样理解的话右旋就是相反的操作。节点4左旋就是通过旋转操作把4变成6的左节点，。
+<ul>
+  <li>ES6中不输出任何对象的写法是 export{},只是为了向Node声明自己是一个ES6模块，否则就是CommonJS模块了。</li>
+  <li>在ES6模块中，默认情况下模块都是在严格模式下运行。</li>
+  <li>在模块中你可以使用import和export关键字。</li>
+</ul>
+
+<h3 id="importrequire">import加载模块的查找顺序和require一致</h3>
+<p>如果import一个CommonJS模块，Node会自动将module.exports属性当作模块的默认输出。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="s1">'./foo'</span>
+<span class="c1">//1st   ./foo.js</span>
+<span class="c1">//2nd   ./foo/packange.json</span>
+<span class="c1">//3rd   ./foo/index.js</span>
+
+<span class="kr">import</span> <span class="s1">'bar'</span>
+<span class="c1">//1st   ./node_modules/bar.js</span>
+<span class="c1">//2nd   ./node_modules/bar/packange.json</span>
+<span class="c1">//3rd   ./node_modules/bar/index.js</span>
+<span class="c1">//4th   goto parent folder...</span>
 </code></pre>
 </div>
+<p>### requireES6模块，ES6所有输出接口都会成为输入对象的属性</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>            8
-           / \
-         4|6  12
-        / | \
-       2  5  7  
-</code></pre>
-</div>
+<h3 id="node">Node加载模块</h3>
 
+<p>they’re clear as what they look down below.</p>
 
         
       </section>
@@ -312,11 +291,11 @@ B20     B60     B140
     
       
       
-      <a href="/tags/#algorithm" class="page__taxonomy-item" rel="tag">algorithm</a><span class="sep">, </span>
+      <a href="/tags/#es6" class="page__taxonomy-item" rel="tag">ES6</a><span class="sep">, </span>
     
       
       
-      <a href="/tags/#tree" class="page__taxonomy-item" rel="tag">tree</a>
+      <a href="/tags/#js" class="page__taxonomy-item" rel="tag">js</a>
     
     </span>
   </p>
@@ -348,7 +327,7 @@ B20     B60     B140
 
 
         
-          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-05-30T22:00:00+08:00">May 30, 2018</time></p>
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-08-05T14:30:00+08:00">August 05, 2018</time></p>
         
       </footer>
 
@@ -359,13 +338,13 @@ B20     B60     B140
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=/2018-05-30-what-is-rbtree.html" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=/2018-08-05-js-es6-module.html" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=/2018-05-30-what-is-rbtree.html" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/2018-08-05-js-es6-module.html" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=/2018-05-30-what-is-rbtree.html" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+  <a href="https://plus.google.com/share?url=/2018-08-05-js-es6-module.html" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=/2018-05-30-what-is-rbtree.html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=/2018-08-05-js-es6-module.html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
       
@@ -373,11 +352,11 @@ B20     B60     B140
 
   <nav class="pagination">
     
-      <a href="/2018-05-27-howto-mvt-tile.html" class="pagination--pager" title="从零开始构建矢量块服务[译]
+      <a href="/2018-08-04-nation-check-xiamen.html" class="pagination--pager" title="国土调查的地图分辨率
 ">Previous</a>
     
     
-      <a href="/2018-06-08-code-of-mongoose.html" class="pagination--pager" title="step into connect code in mongoose
+      <a href="/2018-08-26-weekly-leetcode-11.html" class="pagination--pager" title="Weekly code - Container With Most Water[leetcode11]
 ">Next</a>
     
   </nav>
@@ -479,17 +458,12 @@ B20     B60     B140
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/2018-08-05-js-es6-module.html" rel="permalink">Moudle of JavaScript ES6
+        <a href="/2018-08-04-nation-check-xiamen.html" rel="permalink">国土调查的地图分辨率
 </a>
       
     </h2>
     
-    <p class="archive__item-excerpt" itemprop="description">浏览器延迟加载的两种方式（默认情况下同步加载js脚本）
-
-  defer 渲染完执行 
-  async 下载完执行 
-  但是浏览器加载ES6模块是异步加载的 &lt;script type=‘module’ src=’foo.js’/&gt; 等同于打开defer属性
-
+    <p class="archive__item-excerpt" itemprop="description">这周厦门这边正好有三调的培训，公司组织参加了，其中有几个地图分辨率和误差允许值的知识点。为了方便理解和记忆给综合了一下。
 
 </p>
   </article>
